@@ -3,6 +3,13 @@ import { createGlobalStyle } from "styled-components";
 const GlobalStyle = createGlobalStyle`
     * {
         text-decoration: none;
+        box-sizing: border-box;
+        font-family: 'Lato', sans-serif;
+        /* 
+        font-family: 'Oswald', sans-serif;
+        font-family: 'Passion One', cursive;
+         */
+        
     }
     html, body, div, span, applet, object, iframe,
     h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -21,7 +28,7 @@ const GlobalStyle = createGlobalStyle`
         padding: 0;
         border: 0;
         font-size: 100%;
-        font: inherit;
+        font-weight: normal;
         vertical-align: baseline;
     }
     article, aside, details, figcaption, figure,
