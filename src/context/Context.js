@@ -10,7 +10,7 @@ export const AuthProvider = (props) => {
         {
             user_name:'',
             token:'',
-            
+
         }
     )
 
@@ -22,3 +22,12 @@ export const AuthProvider = (props) => {
 }
 
 export const useAuth = () => React.useContext(AuthContext)
+
+// Para usar o context importar useAuth deste arquivo e fazer o destruct
+/*
+    Exemplo:
+
+    import {useAuth} from './context/Context'
+
+    const {user_name, token} = useAuth()
+*/
