@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 
-export const SingInPage = styled.main`
+export const AuthPages = styled.main`
 
     display: flex;
 
