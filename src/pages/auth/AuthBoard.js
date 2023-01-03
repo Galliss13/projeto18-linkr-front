@@ -17,7 +17,7 @@ const Board = styled.section`
     color: white;
     width: 65%;
     height: 100vh;
-    padding: 300px 0 0 6%;
+    padding: 300px 20px 0 6%;
     h1{
         font-family: 'Passion One', cursive;
         font-weight: 700;
