@@ -1,8 +1,15 @@
+import { useAuth } from "../../context/Context"
+import AuthBoard from "./AuthBoard"
+import { SingInPage } from "./style"
 
 
 
 export default function SignIn() {
+
+    
     return (
-        <h1>Sign-In</h1>
+        <SingInPage>
+            <AuthBoard/>
+        </SingInPage>
     )
 }
