@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { useAuth } from "../../context/Context"
 import AuthBoard from "./AuthBoard"
 import { AuthPages } from "./style"
 
@@ -8,6 +7,7 @@ import { AuthPages } from "./style"
 
 export default function SignIn() {
 
+    const [isDisable, setIsDisable] = useState(false)
     const [form, setForm] = useState({
         email: '',
         password: ''
@@ -22,6 +22,12 @@ export default function SignIn() {
 
     function handleSubmit(e) {
         e.preventDefault()
+        if (!form.email || !form.password) {
+            alert('Preencha todos os campos!')
+            return
+        }
+
+        setIsDisable(true)
 
         console.log(form)
     }
@@ -30,12 +36,14 @@ export default function SignIn() {
         <AuthPages>
             <AuthBoard />
             <aside>
-                <form onSubmit={handleSubmit}>
-                    <input name="email" placeholder="e-mail" type='email' id='email' onChange={handleForm} />
-                    <input name='password' placeholder='password' type='password' id='password' onChange={handleForm} />
-                    <button type="submit" >Log In</button>
+                <form onSubmit={handleSubmit} >
+                    <fieldset disabled={isDisable}>
+                        <input name="email" placeholder="e-mail" type='email' id='email' onChange={handleForm} />
+                        <input name='password' placeholder='password' type='password' id='password' onChange={handleForm} />
+                        <button type="submit" >Log In</button>
+                    </fieldset>
                 </form>
-                <span onClick={()=> navigate('/singUp')}>First time? Create an account!</span>
+                <span onClick={() => navigate('/singUp')}>First time? Create an account!</span>
             </aside>
         </AuthPages>
     )
