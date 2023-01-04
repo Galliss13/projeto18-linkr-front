@@ -10,5 +10,5 @@ const Container = styled.img`
     width: 50px;
     height: 50px;
     background-color: #000000;
-    border-radius: 30px
+    border-radius: 30px;
 `
