@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import UserImage from "../elements/UserImage";
 
 export default function TopBar() {
   return (
@@ -49,11 +50,4 @@ const DropdownList = styled.div`
         color: #ffffff;
         font-size: 43px;
     }
-`;
-
-const UserImage = styled.img`
-    width: 53px;
-    height: 53px;
-    background-color: #000000;
-    border-radius: 30px;
 `;
