@@ -11,7 +11,7 @@ export default function Singup() {
         email: '',
         password: '',
         userName: '',
-        pictureUrl: ''
+        imageUrl: ''
     })
     const navigate = useNavigate()
 
@@ -23,7 +23,7 @@ export default function Singup() {
 
     function handleSubmit(e) {
         e.preventDefault()
-        if (!form.email || !form.password || !form.userName || !form.pictureUrl) {
+        if (!form.email || !form.password || !form.userName || !form.imageUrl) {
             alert('Preencha todos os campos!')
             return
         }
@@ -40,7 +40,7 @@ export default function Singup() {
                         <input name="email" placeholder="e-mail" type='email' id='email' onChange={handleForm} />
                         <input name='password' placeholder='password' type='password' id='password' onChange={handleForm} />
                         <input name="userName" placeholder="username" type="text" id="userName" onChange={handleForm} />
-                        <input name="pictureUrl" placeholder="picture url" type="url" id="pictureUrl" onChange={handleForm} />
+                        <input name="imageUrl" placeholder="picture url" type="url" id="imageUrl" onChange={handleForm} />
                         <button type="submit" >Sign Up</button>
                     </fieldset>
                 </form>
