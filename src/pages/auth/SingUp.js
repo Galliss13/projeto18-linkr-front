@@ -1,16 +1,17 @@
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import AuthBoard from "./AuthBoard"
-import { AuthPages } from "./style"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import AuthBoard from "./AuthBoard";
+import { AuthPages } from "./style";
 
 
-
-export default function SignIn() {
+export default function Singup() {
 
     const [isDisable, setIsDisable] = useState(false)
     const [form, setForm] = useState({
         email: '',
-        password: ''
+        password: '',
+        userName: '',
+        pictureUrl: ''
     })
     const navigate = useNavigate()
 
@@ -22,13 +23,11 @@ export default function SignIn() {
 
     function handleSubmit(e) {
         e.preventDefault()
-        if (!form.email || !form.password) {
+        if (!form.email || !form.password || !form.userName || !form.pictureUrl) {
             alert('Preencha todos os campos!')
             return
         }
-
         setIsDisable(true)
-
         console.log(form)
     }
 
@@ -36,15 +35,19 @@ export default function SignIn() {
         <AuthPages>
             <AuthBoard />
             <aside>
-                <form onSubmit={handleSubmit} >
+                <form onSubmit={handleSubmit}>
                     <fieldset disabled={isDisable}>
                         <input name="email" placeholder="e-mail" type='email' id='email' onChange={handleForm} />
                         <input name='password' placeholder='password' type='password' id='password' onChange={handleForm} />
-                        <button type="submit" >Log In</button>
+                        <input name="userName" placeholder="username" type="text" id="userName" onChange={handleForm} />
+                        <input name="pictureUrl" placeholder="picture url" type="url" id="pictureUrl" onChange={handleForm} />
+                        <button type="submit" >Sign Up</button>
                     </fieldset>
                 </form>
-                <span onClick={() => navigate('/singUp')}>First time? Create an account!</span>
+                <span onClick={() => navigate('/')}>Switch back to log in</span>
             </aside>
         </AuthPages>
-    )
+    );
+
+
 }
