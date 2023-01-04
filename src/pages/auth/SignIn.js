@@ -1,5 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { useAuth } from "../../context/Context"
+import { postSingInSingUp } from "../../service/Service"
 import AuthBoard from "./AuthBoard"
 import { AuthPages } from "./style"
 
@@ -13,6 +15,7 @@ export default function SignIn() {
         password: ''
     })
     const navigate = useNavigate()
+    const { user, setUser } = useAuth()
 
 
     function handleForm(e) {
@@ -21,15 +24,32 @@ export default function SignIn() {
     }
 
     function handleSubmit(e) {
+
         e.preventDefault()
-        if (!form.email || !form.password) {
-            alert('Preencha todos os campos!')
-            return
-        }
 
         setIsDisable(true)
 
-        console.log(form)
+        if (!form.email || !form.password) {
+            alert('Preencha todos os campos!')
+            setIsDisable(false)
+            return
+        }
+
+        if (form.password.length < 6) {
+            setIsDisable(false)
+            return alert('Senha precisa ter 6 ou mais digitos!')
+        }
+        postSingInSingUp('/', form)
+            .then(e => {
+
+                setUser(e.data)
+                navigate('/timeline')
+
+            })
+            .catch(e => {
+                alert(e.response.data)
+                setIsDisable(false)
+            })
     }
 
     return (

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { postSingInSingUp } from "../../service/Service";
 import AuthBoard from "./AuthBoard";
 import { AuthPages } from "./style";
 
@@ -10,7 +11,7 @@ export default function Singup() {
     const [form, setForm] = useState({
         email: '',
         password: '',
-        userName: '',
+        name: '',
         imageUrl: ''
     })
     const navigate = useNavigate()
@@ -22,13 +23,28 @@ export default function Singup() {
     }
 
     function handleSubmit(e) {
+
         e.preventDefault()
-        if (!form.email || !form.password || !form.userName || !form.imageUrl) {
+
+        setIsDisable(true)
+
+        if (!form.email || !form.password || !form.name || !form.imageUrl) {
             alert('Preencha todos os campos!')
             return
         }
-        setIsDisable(true)
-        console.log(form)
+        if (form.password.length < 6) {
+            setIsDisable(false)
+            return alert('Senha precisa ter 6 ou mais digitos!')
+        }
+        postSingInSingUp('/sing-up', form)
+            .then(e => {
+
+                navigate('/')
+            })
+            .catch(e => {
+                alert(e.response.data)
+                setIsDisable(false)
+            })
     }
 
     return (
@@ -39,7 +55,7 @@ export default function Singup() {
                     <fieldset disabled={isDisable}>
                         <input name="email" placeholder="e-mail" type='email' id='email' onChange={handleForm} />
                         <input name='password' placeholder='password' type='password' id='password' onChange={handleForm} />
-                        <input name="userName" placeholder="username" type="text" id="userName" onChange={handleForm} />
+                        <input name="name" placeholder="name" type="text" id="name" onChange={handleForm} />
                         <input name="imageUrl" placeholder="picture url" type="url" id="imageUrl" onChange={handleForm} />
                         <button type="submit" >Sign Up</button>
                     </fieldset>
