@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { postSingInSingUp } from "../../service/Service";
+import { useAuth } from "../../context/Context";
+import { getPersistLogin, postSingInSingUp } from "../../service/Service";
 import AuthBoard from "./AuthBoard";
 import { AuthPages } from "./style";
 
@@ -8,6 +9,7 @@ import { AuthPages } from "./style";
 export default function Singup() {
 
     const [isDisable, setIsDisable] = useState(false)
+    const {user, setUser} = useAuth()
     const [form, setForm] = useState({
         email: '',
         password: '',
@@ -15,6 +17,19 @@ export default function Singup() {
         imageUrl: ''
     })
     const navigate = useNavigate()
+
+    useEffect(() => {
+
+        if (localStorage.token && !user.user) {
+
+            getPersistLogin('/persist-login', localStorage.token).then(e => {
+
+                setUser(e.data)
+                navigate('/timeline')
+            })
+        }
+        // eslint-disable-next-line
+    }, [])
 
 
     function handleForm(e) {
