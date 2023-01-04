@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/Context";
+import { getPersistLogin, postSingInSingUp } from "../../service/Service";
 import AuthBoard from "./AuthBoard";
 import { AuthPages } from "./style";
 
@@ -7,13 +9,27 @@ import { AuthPages } from "./style";
 export default function Singup() {
 
     const [isDisable, setIsDisable] = useState(false)
+    const {user, setUser} = useAuth()
     const [form, setForm] = useState({
         email: '',
         password: '',
-        userName: '',
-        pictureUrl: ''
+        name: '',
+        imageUrl: ''
     })
     const navigate = useNavigate()
+
+    useEffect(() => {
+
+        if (localStorage.token && !user.user) {
+
+            getPersistLogin('/persist-login', localStorage.token).then(e => {
+
+                setUser(e.data)
+                navigate('/timeline')
+            })
+        }
+        // eslint-disable-next-line
+    }, [])
 
 
     function handleForm(e) {
@@ -22,13 +38,28 @@ export default function Singup() {
     }
 
     function handleSubmit(e) {
+
         e.preventDefault()
-        if (!form.email || !form.password || !form.userName || !form.pictureUrl) {
+
+        setIsDisable(true)
+
+        if (!form.email || !form.password || !form.name || !form.imageUrl) {
             alert('Preencha todos os campos!')
             return
         }
-        setIsDisable(true)
-        console.log(form)
+        if (form.password.length < 6) {
+            setIsDisable(false)
+            return alert('Senha precisa ter 6 ou mais digitos!')
+        }
+        postSingInSingUp('/sign-up', form)
+            .then(e => {
+
+                navigate('/')
+            })
+            .catch(e => {
+                alert(e.response.data)
+                setIsDisable(false)
+            })
     }
 
     return (
@@ -39,8 +70,8 @@ export default function Singup() {
                     <fieldset disabled={isDisable}>
                         <input name="email" placeholder="e-mail" type='email' id='email' onChange={handleForm} />
                         <input name='password' placeholder='password' type='password' id='password' onChange={handleForm} />
-                        <input name="userName" placeholder="username" type="text" id="userName" onChange={handleForm} />
-                        <input name="pictureUrl" placeholder="picture url" type="url" id="pictureUrl" onChange={handleForm} />
+                        <input name="name" placeholder="name" type="text" id="name" onChange={handleForm} />
+                        <input name="imageUrl" placeholder="picture url" type="url" id="imageUrl" onChange={handleForm} />
                         <button type="submit" >Sign Up</button>
                     </fieldset>
                 </form>
