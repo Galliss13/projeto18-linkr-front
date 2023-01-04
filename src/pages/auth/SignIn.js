@@ -15,7 +15,7 @@ export default function SignIn() {
         password: ''
     })
     const navigate = useNavigate()
-    const { user, setUser } = useAuth()
+    const { setUser } = useAuth()
 
 
     function handleForm(e) {
@@ -39,7 +39,7 @@ export default function SignIn() {
             setIsDisable(false)
             return alert('Senha precisa ter 6 ou mais digitos!')
         }
-        postSingInSingUp('/', form)
+        postSingInSingUp('/sign-in', form)
             .then(e => {
 
                 setUser(e.data)

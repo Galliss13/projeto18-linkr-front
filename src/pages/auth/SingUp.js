@@ -36,7 +36,7 @@ export default function Singup() {
             setIsDisable(false)
             return alert('Senha precisa ter 6 ou mais digitos!')
         }
-        postSingInSingUp('/sing-up', form)
+        postSingInSingUp('/sign-up', form)
             .then(e => {
 
                 navigate('/')
