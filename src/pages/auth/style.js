@@ -4,6 +4,7 @@ import styled from "styled-components";
 export const AuthPages = styled.main`
 
     display: flex;
+    
 
     aside{
             width: 650px;
@@ -74,6 +75,23 @@ export const AuthPages = styled.main`
 
     }
     
+    @media (max-width: 800px) {
+        flex-direction: column;
+        padding: 0 0 30px 0;
 
-
+        aside{
+            width: 100%;
+            margin-top: 50px;
+            form{
+                fieldset{
+                    input{
+                        width: 87%;
+                    }
+                    button{
+                        width: 87%;
+                    }
+                }
+            }
+        }
+    }
 `;
