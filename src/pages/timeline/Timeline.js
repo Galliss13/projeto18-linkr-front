@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import Post from "../../components/timeline/Post";
 import PostBar from "../../components/timeline/PostBar";
-import TopBar from "../../components/timeline/TopBar";
+import TopBar from "../../components/TopBar/TopBar";
+
 
 export default function Timeline() {
   return (
@@ -30,6 +31,7 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   background-color: #333333;
+  padding-top: 72px;
 `;
 
 const Main = styled.div`
