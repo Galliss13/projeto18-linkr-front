@@ -5,8 +5,8 @@ import { postPost } from "../../service/Service.js";
 import UserImage from "../elements/UserImage";
 
 export default function PostBar() {
-  const [link, setLink] = useState(null);
-  const [text, setText] = useState(null);
+  const [link, setLink] = useState('');
+  const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
   const { token } = useAuth();
 
