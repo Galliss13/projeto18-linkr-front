@@ -2,14 +2,44 @@
 import UserImage from "../elements/UserImage";
 import { SlArrowDown } from 'react-icons/sl'
 import { IconContext } from "react-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Header, Layoff, LogoutButton } from "./style";
+import { useAuth } from "../../context/Context";
+import { getPersistLogin } from "../../service/Service";
+import { useNavigate } from "react-router-dom";
 
 export default function TopBar() {
 
   const [select, setSelect] = useState(false)
+  const {user, setUser} = useAuth()
+  const navigate = useNavigate()
 
 
+  useEffect(() => {
+
+    if (localStorage.token && user.user ==='') {
+
+        getPersistLogin('/persist-login', localStorage.token).then(e => {
+
+            setUser(e.data)
+            navigate('/timeline')
+        })
+    }
+    // eslint-disable-next-line
+}, [])
+
+  function logout(){
+
+    const confirm = window.confirm('Deseja sair?')
+
+    if(confirm){
+      setUser({})
+      localStorage.clear()
+      navigate('/')
+    }
+   
+  }
+  console.log(user)
 
   return (
     <Header select={select}>
@@ -26,13 +56,13 @@ export default function TopBar() {
             </IconContext.Provider>
 
           </section>
-          
+
           <UserImage />
 
         </div>
       </article>
 
-      <LogoutButton onClick={() => console.log('clica')} select={select} >Logout</LogoutButton>
+      <LogoutButton onClick={() => logout()} select={select} >Logout</LogoutButton>
 
       <Layoff select={select} onClick={()=>setSelect(!select)}/>
 

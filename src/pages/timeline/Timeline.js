@@ -31,6 +31,7 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   background-color: #333333;
+  padding-top: 72px;
 `;
 
 const Main = styled.div`
