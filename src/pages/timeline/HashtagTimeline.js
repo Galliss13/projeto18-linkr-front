@@ -4,6 +4,7 @@ import Post from "../../components/timeline/Post";
 import TopBar from "../../components/TopBar/TopBar.js";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import Trending from "../../components/timeline/Trending";
 
 export default function HashtagTimeline() {
   const [posts, setPosts] = useState([]);
@@ -29,7 +30,7 @@ export default function HashtagTimeline() {
           <PostContainer>{posts.map(Post)}</PostContainer>
         </TimelineContainer>
       </Main>
-      {/* Trending (fazer componente separado) */}
+      <Trending />
       {/* Header */}
       {/* HashtagsContainer */}
     </Container>
