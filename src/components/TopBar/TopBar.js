@@ -39,7 +39,6 @@ export default function TopBar() {
     }
    
   }
-  console.log(user)
 
   return (
     <Header select={select}>
