@@ -18,7 +18,7 @@ export default function Post() {
                         {hashtagValue}
                     </StyledHashtag>
                     )}>
-                        Teste de exemplo de hashtag #exemplo #dois #3
+                        Teste de exemplo de hashtag #exemplo #dois
                     </ReactHashtag>
                 </PostDescription>
                 <UrlLink></UrlLink>
