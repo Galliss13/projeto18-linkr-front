@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Post from "../../components/timeline/Post";
 import PostBar from "../../components/timeline/PostBar";
-import TopBar from "../../components/timeline/TopBar";
+import TopBar from "../../components/TopBar/TopBar.js";
 import axios from "axios";
 
 export default function Timeline() {
