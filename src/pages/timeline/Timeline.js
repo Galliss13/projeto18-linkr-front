@@ -4,13 +4,15 @@ import Post from "../../components/timeline/Post";
 import PostBar from "../../components/timeline/PostBar";
 import TopBar from "../../components/TopBar/TopBar.js";
 import axios from "axios";
+import Trending from "../../components/timeline/Trending";
+import { urlAxios } from "../../service/Service";
 
 export default function Timeline() {
     /* Criar estados e chamadas de contexto */
     const [posts, setPosts] = useState([])
     /* Criar useEffect para fazer requisição dos posts */
     useEffect(() => {
-      const URL = "http://localhost:5000/timeline"
+      const URL = urlAxios + "timeline"
       const request = axios.get(URL)
       request.then((ans) => {
         setPosts(ans.data)
@@ -30,7 +32,7 @@ export default function Timeline() {
           </PostContainer>
         </TimelineContainer>
       </Main>
-      {/* Trending (fazer componente separado) */}
+      <Trending />
       {/* Header */}
       {/* HashtagsContainer */}
     </Container>

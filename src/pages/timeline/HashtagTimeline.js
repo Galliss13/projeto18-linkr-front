@@ -4,15 +4,17 @@ import Post from "../../components/timeline/Post";
 import TopBar from "../../components/TopBar/TopBar.js";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import Trending from "../../components/timeline/Trending";
+import { useAuth } from "../../context/Context.js";
+import { getPersistLogin } from "../../service/Service";
 
 export default function HashtagTimeline() {
   const [posts, setPosts] = useState([]);
   const { hashtag } = useParams();
-  
+  const { token } = useAuth();
+
   useEffect(() => {
-    const URL = `http://localhost:5000/posts/${hashtag}`;
-    const request = axios.get(URL);
-    request
+    getPersistLogin(`${hashtag}`, token)
       .then((ans) => {
         setPosts(ans.data);
       })
@@ -29,7 +31,7 @@ export default function HashtagTimeline() {
           <PostContainer>{posts.map(Post)}</PostContainer>
         </TimelineContainer>
       </Main>
-      {/* Trending (fazer componente separado) */}
+      <Trending />
       {/* Header */}
       {/* HashtagsContainer */}
     </Container>
