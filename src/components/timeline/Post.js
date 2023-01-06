@@ -1,7 +1,10 @@
+import ReactHashtag from "react-hashtag"
 import styled from "styled-components"
 import UserImage from "../elements/UserImage"
 
 export default function Post() {
+
+
     return (
         <Container>
             <ImageContainer>
@@ -9,7 +12,15 @@ export default function Post() {
             </ImageContainer>
             <PostContainer>
                 <UserName>User</UserName>
-                <PostDescription>Description</PostDescription>
+                <PostDescription>
+                    <ReactHashtag renderHashtag={(hashtagValue) => (
+                    <StyledHashtag href={`hashtags/${hashtagValue.split('#')[1]}`}>
+                        {hashtagValue}
+                    </StyledHashtag>
+                    )}>
+                        Teste de exemplo de hashtag #exemplo #dois #3
+                    </ReactHashtag>
+                </PostDescription>
                 <UrlLink></UrlLink>
             </PostContainer>
         </Container>
@@ -35,6 +46,12 @@ const PostContainer = styled.div``
 
 const UserName = styled.h1``
 
-const PostDescription = styled.h2``
+const PostDescription = styled.h2`
+color: white;
+`
 
 const UrlLink = styled.div``
+
+const StyledHashtag = styled.a`
+    color: tomato;
+`;
