@@ -2,7 +2,6 @@ import styled from "styled-components";
 import UserImage from "../elements/UserImage";
 
 export default function TopBar() {
-  /* Chamar context para imagem do usuário */
   return (
     <Container>
       <Logo>
@@ -13,7 +12,6 @@ export default function TopBar() {
             <h1>⌄</h1>
         </DropdownList>
         <UserImage />
-        {/* usar imagem do usuário e  configurar o CSS de acordo */}
       </UserContainer>
     </Container>
   );

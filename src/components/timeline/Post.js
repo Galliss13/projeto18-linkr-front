@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import UserImage from "../elements/UserImage";
 import LinkCard from "./LinkCard";
+import ReactHashtag from "react-hashtag";
 
 export default function Post(props) {
   console.log(props)
@@ -12,7 +13,15 @@ export default function Post(props) {
       </ImageContainer>
       <PostContainer>
         <UserName>{name}</UserName>
-        <PostDescription>{text}</PostDescription>
+        <PostDescription>
+            <ReactHashtag renderHashtag={(hashtagValue) => (
+                    <StyledHashtag href={`hashtags/${hashtagValue.split('#')[1]}`}>
+                        {hashtagValue}
+                    </StyledHashtag>
+            )}>
+                {text}
+            </ReactHashtag>
+        </PostDescription>
         <LinkCard
           link={link}
           title={title}
@@ -60,4 +69,9 @@ const PostDescription = styled.h2`
   font-weight: 400;
   line-height: 130%;
   color: #b7b7b7;
+`;
+
+const StyledHashtag = styled.a`
+    font-weight: 700;
+    color: #b7b7b7;
 `;

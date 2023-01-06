@@ -22,14 +22,32 @@ const Board = styled.section`
         font-family: 'Passion One', cursive;
         font-weight: 700;
         font-size: 106px;
-        line-height: 117px;
         letter-spacing: 0.05em;
-    }
+   }
     h2{
         font-family: 'Oswald', sans-serif;
         font-weight: 700;
         font-size: 43px;
         line-height: 64px;
+    }
+
+    @media (max-width: 800px) {
+        width: 100%;
+        height: 300px;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        
+        h1{
+            font-size: 5em;
+            
+        }
+        h2{
+            font-size: 2em;
+            line-height: 40px;
+        }
     }
 
 `;
