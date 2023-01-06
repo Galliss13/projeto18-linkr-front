@@ -1,10 +1,24 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Post from "../../components/timeline/Post";
 import PostBar from "../../components/timeline/PostBar";
-import TopBar from "../../components/TopBar/TopBar";
-
+import TopBar from "../../components/TopBar/TopBar.js";
+import axios from "axios";
 
 export default function Timeline() {
+    /* Criar estados e chamadas de contexto */
+    const [posts, setPosts] = useState([])
+    /* Criar useEffect para fazer requisição dos posts */
+    useEffect(() => {
+      const URL = "http://localhost:5000/timeline"
+      const request = axios.get(URL)
+      request.then((ans) => {
+        console.log(ans.data)
+        setPosts(ans.data)
+      }).catch((err) => {
+        console.log(err)
+      })
+    }, [])
   return (
     <Container>
       <TopBar />
@@ -12,11 +26,8 @@ export default function Timeline() {
         <HeaderContainer>timeline</HeaderContainer>
         <TimelineContainer>
           <PostBar />
-          {/* PostContainer */}
           <PostContainer>
-            {/* Do posts map */}
-            <Post />
-            <Post />
+            {posts.map(Post)}
           </PostContainer>
         </TimelineContainer>
       </Main>
@@ -36,7 +47,7 @@ const Container = styled.div`
 
 const Main = styled.div`
   height: 100%;
-  margin: 53px 241px 0;
+  margin: 53px 241px 29px;
 `;
 
 const HeaderContainer = styled.h1`

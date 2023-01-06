@@ -1,27 +1,21 @@
 import React, { useState } from "react";
 
-
-export const AuthContext = React.createContext({})
-
+export const AuthContext = React.createContext({});
 
 export const AuthProvider = (props) => {
+  const [user, setUser] = useState({
+    user: "",
+    token: ""
+  });
 
-    const [user, setUser] = useState(
-        {
-            user:'',
-            token:'',
+  return (
+    <AuthContext.Provider value={{ user, setUser }}>
+      {props.children}
+    </AuthContext.Provider>
+  );
+};
 
-        }
-    )
-
-    return (
-        <AuthContext.Provider value={{ user, setUser }}>
-            {props.children}
-        </AuthContext.Provider>
-    );
-}
-
-export const useAuth = () => React.useContext(AuthContext)
+export const useAuth = () => React.useContext(AuthContext);
 
 // Para usar o context importar useAuth deste arquivo e fazer o destruct
 /*
