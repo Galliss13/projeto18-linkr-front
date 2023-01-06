@@ -22,7 +22,6 @@ export default function TopBar() {
         getPersistLogin('/persist-login', localStorage.token).then(e => {
 
             setUser(e.data)
-            navigate('/timeline')
         })
     }
     // eslint-disable-next-line
@@ -44,7 +43,7 @@ export default function TopBar() {
     <Header select={select}>
 
       <article>
-        <h1>linkr</h1>
+        <h1 onClick={() => navigate('/timeline')}>linkr</h1>
 
         <div onClick={() => setSelect(!select)}>
 

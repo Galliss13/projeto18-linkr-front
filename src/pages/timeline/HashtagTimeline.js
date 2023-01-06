@@ -1,33 +1,32 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Post from "../../components/timeline/Post";
-import PostBar from "../../components/timeline/PostBar";
 import TopBar from "../../components/TopBar/TopBar.js";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
-export default function Timeline() {
-    /* Criar estados e chamadas de contexto */
-    const [posts, setPosts] = useState([])
-    /* Criar useEffect para fazer requisição dos posts */
-    useEffect(() => {
-      const URL = "http://localhost:5000/timeline"
-      const request = axios.get(URL)
-      request.then((ans) => {
-        setPosts(ans.data)
-      }).catch((err) => {
-        console.log(err)
+export default function HashtagTimeline() {
+  const [posts, setPosts] = useState([]);
+  const { hashtag } = useParams();
+  
+  useEffect(() => {
+    const URL = `http://localhost:5000/posts/${hashtag}`;
+    const request = axios.get(URL);
+    request
+      .then((ans) => {
+        setPosts(ans.data);
       })
-    }, [])
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   return (
     <Container>
       <TopBar />
       <Main>
-        <HeaderContainer>timeline</HeaderContainer>
+        <HeaderContainer>#{hashtag}</HeaderContainer>
         <TimelineContainer>
-          <PostBar />
-          <PostContainer>
-            {posts.map(Post)}
-          </PostContainer>
+          <PostContainer>{posts.map(Post)}</PostContainer>
         </TimelineContainer>
       </Main>
       {/* Trending (fazer componente separado) */}
@@ -60,5 +59,5 @@ const HeaderContainer = styled.h1`
 const TimelineContainer = styled.div``;
 
 const PostContainer = styled.div`
-    margin-top: 29px;
+  margin-top: 29px;
 `;

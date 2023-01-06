@@ -4,7 +4,6 @@ import LinkCard from "./LinkCard";
 import ReactHashtag from "react-hashtag";
 
 export default function Post(props) {
-  console.log(props)
   const { imageUrl, name, text, link, title, description, image } = props;
   return (
     <Container>
