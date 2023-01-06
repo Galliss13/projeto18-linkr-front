@@ -10,7 +10,7 @@ export default function HashtagTimeline() {
   const { hashtag } = useParams();
   
   useEffect(() => {
-    const URL = `http://localhost:5000/posts/${hashtag}`;
+    const URL = `https://projeto18-linkr-back-1ssc.onrender.com/posts/${hashtag}`;
     const request = axios.get(URL);
     request
       .then((ans) => {

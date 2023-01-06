@@ -21,7 +21,7 @@ export default function SignIn() {
 
         if (localStorage.token && !user.user) {
 
-            getPersistLogin('/persist-login', localStorage.token).then(e => {
+            getPersistLogin('persist-login', localStorage.token).then(e => {
 
                 setUser(e.data)
                 navigate('/timeline')
@@ -54,7 +54,7 @@ export default function SignIn() {
             return alert('Senha precisa ter 6 ou mais digitos!')
         }
 
-        postSingInSingUp('/sign-in', form)
+        postSingInSingUp('sign-in', form)
             .then(e => {
 
                 setUser(e.data)

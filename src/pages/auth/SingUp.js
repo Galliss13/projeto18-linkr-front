@@ -22,7 +22,7 @@ export default function Singup() {
 
         if (localStorage.token && !user.user) {
 
-            getPersistLogin('/persist-login', localStorage.token).then(e => {
+            getPersistLogin('persist-login', localStorage.token).then(e => {
 
                 setUser(e.data)
                 navigate('/timeline')
@@ -51,7 +51,7 @@ export default function Singup() {
             setIsDisable(false)
             return alert('Senha precisa ter 6 ou mais digitos!')
         }
-        postSingInSingUp('/sign-up', form)
+        postSingInSingUp('sign-up', form)
             .then(e => {
 
                 navigate('/')
