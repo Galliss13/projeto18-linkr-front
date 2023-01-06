@@ -5,14 +5,16 @@ import TopBar from "../../components/TopBar/TopBar.js";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import Trending from "../../components/timeline/Trending";
+import { useAuth } from "../../context/Context.js";
 
 export default function HashtagTimeline() {
   const [posts, setPosts] = useState([]);
   const { hashtag } = useParams();
+  const { token } = useAuth();
   
   useEffect(() => {
     const URL = `http://localhost:5000/posts/${hashtag}`;
-    const request = axios.get(URL);
+    const request = axios.get(URL, token);
     request
       .then((ans) => {
         setPosts(ans.data);
