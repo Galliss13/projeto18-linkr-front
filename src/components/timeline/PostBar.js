@@ -14,7 +14,7 @@ export default function PostBar() {
     e.preventDefault();
     setLoading(true);
     if (!link) alert("Preencha o link!");
-    
+
     const submitObject = { link, text };
 
     postPost("/post", submitObject, token)
