@@ -2,9 +2,33 @@ import styled from "styled-components";
 import UserImage from "../elements/UserImage";
 import LinkCard from "./LinkCard";
 import ReactHashtag from "react-hashtag";
+import PostDeleteModal from "./PostDeleteModal";
+
+import { useAuth } from "../../context/Context";
+import { urlAxios, editPost, deletePost } from "../../service/Service";
+import { useEffect, useState } from "react";
+import DelEditIcons from "./PostDelEditIcons";
 
 export default function Post(props) {
-  const { imageUrl, name, text, link, title, description, image } = props;
+  const { id, imageUrl, name, text, link, title, description, image } = props;
+  const {user} = useAuth()
+  const [openDeleteModal, setOpenDeleteModal] = useState(false)
+  const URL = urlAxios + `post/${id}`
+  const editObject = { link, text }
+
+  function verifyUserPost (userName, postOwnerName) {
+    if(userName === postOwnerName) {
+      return true
+    }
+    return false
+  }
+
+  function handleToggle () {
+    setOpenDeleteModal(!openDeleteModal)
+  }
+
+  const isUserPost = verifyUserPost(user.user, name)
+
   return (
     <Container>
       <ImageContainer>
@@ -12,6 +36,12 @@ export default function Post(props) {
       </ImageContainer>
       <PostContainer>
         <UserName>{name}</UserName>
+
+        {isUserPost && <DelEditIcons handleToggle={handleToggle}/>}
+
+        
+        {openDeleteModal && <PostDeleteModal handleToggle={handleToggle}/>}
+
         <PostDescription>
             <ReactHashtag renderHashtag={(hashtagValue) => (
                     <StyledHashtag href={`hashtags/${hashtagValue.split('#')[1]}`}>
@@ -48,6 +78,7 @@ const ImageContainer = styled.div`
 `;
 
 const PostContainer = styled.div`
+position: relative;
   width: 100%;
   box-sizing: border-box;
 `;
