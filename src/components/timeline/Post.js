@@ -13,7 +13,6 @@ export default function Post(props) {
   const { id, imageUrl, name, text, link, title, description, image } = props;
   const {user} = useAuth()
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
-  const URL = urlAxios + `post/${id}`
   const editObject = { link, text }
 
   function verifyUserPost (userName, postOwnerName) {
@@ -23,11 +22,12 @@ export default function Post(props) {
     return false
   }
 
-  function handleToggle () {
+  const isUserPost = verifyUserPost(user.user, name)
+
+  function handleToggleDel () {
     setOpenDeleteModal(!openDeleteModal)
   }
 
-  const isUserPost = verifyUserPost(user.user, name)
 
   return (
     <Container>
@@ -37,10 +37,9 @@ export default function Post(props) {
       <PostContainer>
         <UserName>{name}</UserName>
 
-        {isUserPost && <DelEditIcons handleToggle={handleToggle}/>}
+        {isUserPost && <DelEditIcons postId={id} editObject={editObject} handleToggleDel={handleToggleDel}/>}
 
-        
-        {openDeleteModal && <PostDeleteModal handleToggle={handleToggle}/>}
+        {openDeleteModal && <PostDeleteModal postId={id} handleToggleDel={handleToggleDel}/>}
 
         <PostDescription>
             <ReactHashtag renderHashtag={(hashtagValue) => (

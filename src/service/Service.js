@@ -34,8 +34,8 @@ export function editPost(path, editObject, token) {
   return promise;
 }
 
-export function deletePost(path, postId, token) {
-  const promise = axios.delete(`${urlAxios + path}`, postId, {
+export function deletePost(path, token) {
+  const promise = axios.delete(`${urlAxios + path}`, {
     headers: {
       Authorization: "Bearer " + token,
     },
