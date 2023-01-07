@@ -7,7 +7,6 @@ export const Header = styled.header`
   top: 0;
   z-index: 5;
   
-  
   article{
     position: absolute;
     height: 72px;
@@ -38,7 +37,41 @@ export const Header = styled.header`
       }
     }
   }
+`;
 
+export const SearchBarTop = styled.form`
+
+
+  display: ${props => (props.screen ==='>800')?'flex':'none'};
+  width: 500px;
+  height: 45px;
+
+  input{
+    width: 90%;
+    border: none;
+    font-size: 19px;
+    border-radius: 10px 0 0 10px;
+    padding-left: 15px;
+  }
+  button{
+    width: 10%;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 0 10px 10px 0;
+
+  }
+  button:hover{
+    color: blue;
+  }
+
+  @media (max-width: 800px){
+    display: ${props => (props.screen ==='>800')?'none':'flex'};
+    margin: 30px auto;
+    width: 80vw;
+
+  }
 
 `;
 

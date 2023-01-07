@@ -7,43 +7,48 @@ import { Header, Layoff, LogoutButton } from "./style";
 import { useAuth } from "../../context/Context";
 import { getPersistLogin } from "../../service/Service";
 import { useNavigate } from "react-router-dom";
+import SearchBar from "./SearchBar";
 
 export default function TopBar() {
 
   const [select, setSelect] = useState(false)
-  const {user, setUser} = useAuth()
+  const { user, setUser } = useAuth()
   const navigate = useNavigate()
 
 
   useEffect(() => {
 
-    if (localStorage.token && user.user ==='') {
+    if (localStorage.token && user.user === '') {
 
-        getPersistLogin('/persist-login', localStorage.token).then(e => {
+      getPersistLogin('/persist-login', localStorage.token).then(e => {
 
-            setUser(e.data)
-        })
+        setUser(e.data)
+      })
     }
     // eslint-disable-next-line
-}, [])
+  }, [])
 
-  function logout(){
+  function logout() {
 
     const confirm = window.confirm('Deseja sair?')
 
-    if(confirm){
+    if (confirm) {
       setUser({})
       localStorage.clear()
       navigate('/')
     }
-   
+
   }
+
+
 
   return (
     <Header select={select}>
 
       <article>
         <h1 onClick={() => navigate('/timeline')}>linkr</h1>
+
+        <SearchBar screen={'>800'} />
 
         <div onClick={() => setSelect(!select)}>
 
@@ -62,7 +67,7 @@ export default function TopBar() {
 
       <LogoutButton onClick={() => logout()} select={select} >Logout</LogoutButton>
 
-      <Layoff select={select} onClick={()=>setSelect(!select)}/>
+      <Layoff select={select} onClick={() => setSelect(!select)} />
 
     </Header>
   );
