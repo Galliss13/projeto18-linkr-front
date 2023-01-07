@@ -2,13 +2,15 @@ import styled from "styled-components";
 import UserImage from "../elements/UserImage";
 import LinkCard from "./LinkCard";
 import ReactHashtag from "react-hashtag";
+import LikesCard from "./LikesCard";
 
 export default function Post(props) {
-  const { imageUrl, name, text, link, title, description, image } = props;
+  const { imageUrl, name, text, link, title, description, image, id } = props;
   return (
     <Container>
       <ImageContainer>
         <UserImage imageUrl={imageUrl} />
+        <LikesCard id={id}/>
       </ImageContainer>
       <PostContainer>
         <UserName>{name}</UserName>
@@ -45,6 +47,8 @@ const Container = styled.div`
 
 const ImageContainer = styled.div`
   margin-right: 18px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const PostContainer = styled.div`
