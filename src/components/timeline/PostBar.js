@@ -17,7 +17,7 @@ export default function PostBar() {
 
     const submitObject = { link, text };
 
-    postPost("/post", submitObject, token)
+    postPost("post", submitObject, token)
       .then((res) => {
         setLoading(false);
         setLink('');
