@@ -1,35 +1,33 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Post from "../../components/timeline/Post";
-import PostBar from "../../components/timeline/PostBar";
 import TopBar from "../../components/TopBar/TopBar.js";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 import Trending from "../../components/timeline/Trending";
-import { urlAxios } from "../../service/Service";
+import { useAuth } from "../../context/Context.js";
+import { getPersistLogin } from "../../service/Service";
 
-export default function Timeline() {
-    /* Criar estados e chamadas de contexto */
-    const [posts, setPosts] = useState([])
-    /* Criar useEffect para fazer requisição dos posts */
-    useEffect(() => {
-      const URL = urlAxios + "timeline"
-      const request = axios.get(URL)
-      request.then((ans) => {
-        setPosts(ans.data)
-      }).catch((err) => {
-        console.log(err)
+export default function HashtagTimeline() {
+  const [posts, setPosts] = useState([]);
+  const { hashtag } = useParams();
+  const { token } = useAuth();
+
+  useEffect(() => {
+    getPersistLogin(`${hashtag}`, token)
+      .then((ans) => {
+        setPosts(ans.data);
       })
       .catch((err) => {
-        console.log(err.response.data);
+        console.log(err);
       });
   }, []);
   return (
     <Container>
       <TopBar />
       <Main>
-        <HeaderContainer>timeline</HeaderContainer>
+        <HeaderContainer>#{hashtag}</HeaderContainer>
         <TimelineContainer>
-          <PostBar />
           <PostContainer>{posts.map(Post)}</PostContainer>
         </TimelineContainer>
       </Main>
