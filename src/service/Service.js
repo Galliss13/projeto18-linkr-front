@@ -25,9 +25,28 @@ export function postPost(path, submitObject, token) {
   return promise;
 }
 
+
+export function editPost(path, editObject, token) {
+  const promise = axios.put(`${urlAxios + path}`, editObject, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+  return promise;
+}
+
+export function deletePost(path, token) {
+  const promise = axios.delete(`${urlAxios + path}`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+  return promise;
+
 export function getSearchUsers(path, params){
   const promise = axios.get(`${urlAxios+path}/${params}`)
   return promise
+
 }
 
 /*  */
