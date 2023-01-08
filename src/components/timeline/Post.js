@@ -3,52 +3,79 @@ import UserImage from "../elements/UserImage";
 import LinkCard from "./LinkCard";
 import ReactHashtag from "react-hashtag";
 import PostDeleteModal from "./PostDeleteModal";
+import DelEditIcons from "./PostDelEditIcons";
+import TextEditBox from "./TextEditBox";
+
 
 import { useAuth } from "../../context/Context";
-import { urlAxios, editPost, deletePost } from "../../service/Service";
-import { useEffect, useState } from "react";
-import DelEditIcons from "./PostDelEditIcons";
+import { useState } from "react";
 
 export default function Post(props) {
   const { id, imageUrl, name, text, link, title, description, image } = props;
-  const {user} = useAuth()
-  const [openDeleteModal, setOpenDeleteModal] = useState(false)
-  const editObject = { link, text }
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openTextEditBox, setOpenTextEditBox] = useState(false);
+  const { user } = useAuth();
+  const editObject = { link, text };
 
-  function verifyUserPost (userName, postOwnerName) {
-    if(userName === postOwnerName) {
-      return true
+  function verifyUserPost(userName, postOwnerName) {
+    if (userName === postOwnerName) {
+      return true;
     }
-    return false
+    return false;
   }
+  const isUserPost = verifyUserPost(user.user, name);
 
-  const isUserPost = verifyUserPost(user.user, name)
-
-  function handleToggleDel () {
-    setOpenDeleteModal(!openDeleteModal)
+  function handleToggleDel() {
+    setOpenDeleteModal(!openDeleteModal);
   }
-
+  function handleToggleEdit() {
+    setOpenTextEditBox(!openTextEditBox);
+  }
 
   return (
     <Container>
+
       <ImageContainer>
         <UserImage imageUrl={imageUrl} />
       </ImageContainer>
+
       <PostContainer>
+
         <UserName>{name}</UserName>
 
-        {isUserPost && <DelEditIcons postId={id} editObject={editObject} handleToggleDel={handleToggleDel}/>}
+        {isUserPost && (
+          <DelEditIcons
+            postId={id}
+            editObject={editObject}
+            handleToggleEdit={handleToggleEdit}
+            handleToggleDel={handleToggleDel}
+          />
+        )}
 
-        {openDeleteModal && <PostDeleteModal postId={id} handleToggleDel={handleToggleDel}/>}
+        {openDeleteModal && (
+          <PostDeleteModal 
+            postId={id} 
+            handleToggleDel={handleToggleDel} 
+          />
+        )}
 
+        {openTextEditBox && (
+          <TextEditBox 
+            postId={id}
+            handleToggleEdit={handleToggleEdit}
+            previousText={text}
+          />
+        )}
         <PostDescription>
-            <ReactHashtag renderHashtag={(hashtagValue) => (
-                    <StyledHashtag href={`hashtags/${hashtagValue.split('#')[1]}`}>
-                        {hashtagValue}
-                    </StyledHashtag>
-            )}>
-                {text}
-            </ReactHashtag>
+          <ReactHashtag
+            renderHashtag={(hashtagValue) => (
+              <StyledHashtag href={`hashtags/${hashtagValue.split("#")[1]}`}>
+                {hashtagValue}
+              </StyledHashtag>
+            )}
+          >
+            {text}
+          </ReactHashtag>
         </PostDescription>
         <LinkCard
           link={link}
@@ -77,7 +104,7 @@ const ImageContainer = styled.div`
 `;
 
 const PostContainer = styled.div`
-position: relative;
+  position: relative;
   width: 100%;
   box-sizing: border-box;
 `;
@@ -101,6 +128,6 @@ const PostDescription = styled.h2`
 `;
 
 const StyledHashtag = styled.a`
-    font-weight: 700;
-    color: #b7b7b7;
+  font-weight: 700;
+  color: #b7b7b7;
 `;
