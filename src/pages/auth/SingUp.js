@@ -44,6 +44,7 @@ export default function Singup() {
         setIsDisable(true)
 
         if (!form.email || !form.password || !form.name || !form.imageUrl) {
+            setIsDisable(false)
             alert('Preencha todos os campos!')
             return
         }
