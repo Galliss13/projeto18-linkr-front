@@ -9,32 +9,36 @@ import { urlAxios } from "../../service/Service";
 import SearchBar from "../../components/TopBar/SearchBar";
 
 export default function Timeline() {
-    /* Criar estados e chamadas de contexto */
-    const [posts, setPosts] = useState([])
-    /* Criar useEffect para fazer requisição dos posts */
-    useEffect(() => {
-      const URL = urlAxios + "timeline"
-      const request = axios.get(URL)
-      request.then((ans) => {
-        setPosts(ans.data)
-      }).catch((err) => {
-        console.log(err)
-      })
-    }, [])
+  /* Criar estados e chamadas de contexto */
+  const [posts, setPosts] = useState([])
+  /* Criar useEffect para fazer requisição dos posts */
+  useEffect(() => {
+    const URL = urlAxios + "timeline"
+    const request = axios.get(URL)
+    request.then((ans) => {
+      setPosts(ans.data)
+    }).catch((err) => {
+      console.log(err)
+    })
+  }, [])
   return (
     <Container>
       <TopBar />
-      <SearchBar screen={'<800'}/>
-      <Main>
-        <HeaderContainer>timeline</HeaderContainer>
-        <TimelineContainer>
-          <PostBar />
-          <PostContainer>
-            {posts.map((post) => <Post key={post.id} post={post}/>)}
-          </PostContainer>
-        </TimelineContainer>
-      </Main>
-      <Trending />
+      <SearchBar screen={'<800'} />
+      <main>
+        <Main>
+          <HeaderContainer>timeline</HeaderContainer>
+          <TimelineContainer>
+            <PostBar />
+            <PostContainer>
+              {posts.map((post) => <Post key={post.id} post={post} />)}
+            </PostContainer>
+          </TimelineContainer>
+        </Main>
+        <nav></nav>
+        <Trending />
+      </main>
+
       {/* Header */}
       {/* HashtagsContainer */}
     </Container>
@@ -46,11 +50,25 @@ const Container = styled.div`
   height: 100%;
   background-color: #333333;
   padding-top: 72px;
+  main{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+
+  }
+
+  @media (max-width: 1100px) {
+    
+    main{
+      nav{
+        display: none;
+      }
+    }
+  }
 `;
 
 const Main = styled.div`
   height: 100%;
-  margin: 53px 241px 29px;
 `;
 
 const HeaderContainer = styled.h1`
