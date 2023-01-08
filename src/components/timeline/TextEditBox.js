@@ -38,7 +38,12 @@ export default function TextEditBox(props) {
 
     return (
         <Form onSubmit={handleSubmit}>
-            <input disabled={isDisable} type="" name="" value={previousText} onChange={handleForm}></input>
+            <input 
+            disabled={isDisable} 
+            type="text" 
+            name="text" 
+            value={previousText} 
+            onChange={handleForm}></input>
         </Form>
     )
 };

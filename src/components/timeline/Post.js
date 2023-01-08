@@ -1,11 +1,10 @@
 import styled from "styled-components";
 import UserImage from "../elements/UserImage";
 import LinkCard from "./LinkCard";
-import ReactHashtag from "react-hashtag";
 import PostDeleteModal from "./PostDeleteModal";
 import DelEditIcons from "./PostDelEditIcons";
 import TextEditBox from "./TextEditBox";
-
+import PostDescription from "./PostDescription";
 
 import { useAuth } from "../../context/Context";
 import { useState } from "react";
@@ -34,13 +33,11 @@ export default function Post(props) {
 
   return (
     <Container>
-
       <ImageContainer>
         <UserImage imageUrl={imageUrl} />
       </ImageContainer>
 
       <PostContainer>
-
         <UserName>{name}</UserName>
 
         {isUserPost && (
@@ -53,30 +50,19 @@ export default function Post(props) {
         )}
 
         {openDeleteModal && (
-          <PostDeleteModal 
-            postId={id} 
-            handleToggleDel={handleToggleDel} 
-          />
+          <PostDeleteModal postId={id} handleToggleDel={handleToggleDel} />
         )}
 
         {openTextEditBox && (
-          <TextEditBox 
+          <TextEditBox
             postId={id}
             handleToggleEdit={handleToggleEdit}
             previousText={text}
           />
         )}
-        <PostDescription>
-          <ReactHashtag
-            renderHashtag={(hashtagValue) => (
-              <StyledHashtag href={`hashtags/${hashtagValue.split("#")[1]}`}>
-                {hashtagValue}
-              </StyledHashtag>
-            )}
-          >
-            {text}
-          </ReactHashtag>
-        </PostDescription>
+
+        {!openTextEditBox && <PostDescription />}
+
         <LinkCard
           link={link}
           title={title}
@@ -124,10 +110,5 @@ const PostDescription = styled.h2`
   font-family: Lato, sans-serif;
   font-weight: 400;
   line-height: 130%;
-  color: #b7b7b7;
-`;
-
-const StyledHashtag = styled.a`
-  font-weight: 700;
   color: #b7b7b7;
 `;
