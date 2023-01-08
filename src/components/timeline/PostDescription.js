@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import ReactHashtag from "react-hashtag";
 
-export default function PostDescription() {
+export default function PostDescription(props) {
+  const { text } = props;
   return (
     <Container>
       <ReactHashtag

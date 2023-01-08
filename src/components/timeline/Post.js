@@ -61,7 +61,7 @@ export default function Post(props) {
           />
         )}
 
-        {!openTextEditBox && <PostDescription />}
+        {!openTextEditBox && <PostDescription text={text} />}
 
         <LinkCard
           link={link}
@@ -102,13 +102,4 @@ const UserName = styled.h1`
   font-family: Lato, sans-serif;
   font-weight: 400;
   color: #ffffff;
-`;
-
-const PostDescription = styled.h2`
-  margin-bottom: 15px;
-  font-size: 17px;
-  font-family: Lato, sans-serif;
-  font-weight: 400;
-  line-height: 130%;
-  color: #b7b7b7;
 `;
