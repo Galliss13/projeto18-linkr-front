@@ -10,7 +10,7 @@ import { useAuth } from "../../context/Context";
 import { useState } from "react";
 
 export default function Post(props) {
-  const { id, imageUrl, name, text, link, title, description, image } = props;
+  const { id, imageUrl, name, text, link, title, description, image } = props.post;
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openTextEditBox, setOpenTextEditBox] = useState(false);
   const { user } = useAuth();
