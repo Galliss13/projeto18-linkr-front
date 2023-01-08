@@ -1,6 +1,8 @@
 import axios from "axios";
 
-export const urlAxios = "https://projeto18-linkr-back-1ssc.onrender.com/";
+// export const urlAxios = "https://projeto18-linkr-back-1ssc.onrender.com/";
+
+export const urlAxios = "http://localhost:5000/";
 
 export function postSingInSingUp(path, body) {
   const promise = axios.post(`${urlAxios + path}`, body);
