@@ -4,7 +4,6 @@ import { useState } from "react";
 import { DebounceInput } from "react-debounce-input";
 import { getSearchUsers } from "../../service/Service";
 
-
 export default function SearchBar({ screen, user }) {
 
     const [search, setSearch] = useState('')

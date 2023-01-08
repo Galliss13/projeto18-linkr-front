@@ -7,7 +7,8 @@ import { getPersistLogin } from "../../service/Service.js";
 
 export default function Trending() {
   const [trendingHashtags, setTrendingHashtags] = useState();
-  const { token } = useAuth();
+  const { user } = useAuth();
+  const { token } = user;
 
   useEffect(() => {
     getPersistLogin("trending", token)

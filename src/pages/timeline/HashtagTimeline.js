@@ -11,7 +11,8 @@ import { getPersistLogin } from "../../service/Service";
 export default function HashtagTimeline() {
   const [posts, setPosts] = useState([]);
   const { hashtag } = useParams();
-  const { token } = useAuth();
+  const { user } = useAuth();
+  const { token } = user;
 
   useEffect(() => {
     getPersistLogin(`${hashtag}`, token)
