@@ -40,17 +40,20 @@ export default function Timeline() {
     <Container>
       <TopBar />
       <SearchBar screen={"<800"} />
-      <Main>
-        <HeaderContainer>{header}</HeaderContainer>
-        <TimelineContainer>
-          {!id && <PostBar />}
-          <PostContainer>
-            {posts.map((post) => (
-              <Post key={post.id} post={post} />
-            ))}
-          </PostContainer>
-        </TimelineContainer>
-      </Main>
+      <main>
+        <Main>
+          <HeaderContainer>{header}</HeaderContainer>
+          <TimelineContainer>
+            {!id && <PostBar />}
+            <PostContainer>
+              {posts.map((post) => (
+                <Post key={post.id} post={post} />
+              ))}
+            </PostContainer>
+          </TimelineContainer>
+        </Main>
+        <nav></nav>
+      </main>
       <Trending />
       {/* Header */}
       {/* HashtagsContainer */}
