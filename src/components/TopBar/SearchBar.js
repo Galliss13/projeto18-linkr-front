@@ -7,10 +7,7 @@ export default function SearchBar({screen}){
 
     const [search, setSearch] = useState('')
 
-    console.log(screen)
-
     function handleSearch(e) {
-        console.log(e)
         setSearch(e.target.value)
       }
 

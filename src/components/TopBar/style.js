@@ -69,7 +69,7 @@ export const SearchBarTop = styled.form`
   @media (max-width: 800px){
     display: ${props => (props.screen ==='>800')?'none':'flex'};
     margin: 30px auto;
-    width: 80vw;
+    width: 90vw;
 
   }
 

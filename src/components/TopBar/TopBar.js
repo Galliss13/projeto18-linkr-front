@@ -15,15 +15,14 @@ export default function TopBar() {
   const { user, setUser } = useAuth()
   const navigate = useNavigate()
 
-
   useEffect(() => {
 
     if (localStorage.token && user.user === '') {
-
-      getPersistLogin('/persist-login', localStorage.token).then(e => {
+      console.log('Aqui')
+      getPersistLogin('persist-login', localStorage.token).then(e => {
 
         setUser(e.data)
-      })
+      }).catch(e=>console.log(e.response.data))
     }
     // eslint-disable-next-line
   }, [])
@@ -60,7 +59,7 @@ export default function TopBar() {
 
           </section>
 
-          <UserImage />
+          <UserImage imageUrl={user.imageUrl} />
 
         </div>
       </article>
