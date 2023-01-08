@@ -63,11 +63,25 @@ const Container = styled.div`
   height: 100%;
   background-color: #333333;
   padding-top: 72px;
+  main{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+
+  }
+
+  @media (max-width: 1100px) {
+    
+    main{
+      nav{
+        display: none;
+      }
+    }
+  }
 `;
 
 const Main = styled.div`
   height: 100%;
-  margin: 53px 241px 29px;
 `;
 
 const HeaderContainer = styled.h1`

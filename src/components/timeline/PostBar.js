@@ -36,7 +36,7 @@ export default function PostBar() {
   return (
     <Container>
       <ImageContainer>
-        <UserImage />
+        <UserImage imageUrl={user.imageUrl} />
       </ImageContainer>
       <PostContainer>
         <Header>What are you going to share today?</Header>
