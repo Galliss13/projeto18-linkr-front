@@ -3,31 +3,38 @@ import { AiOutlineSearch } from 'react-icons/ai'
 import { useState } from "react";
 import { DebounceInput } from "react-debounce-input";
 import { getSearchUsers } from "../../service/Service";
+import UserOption from "./UserOption";
 
 
 export default function SearchBar({ screen, user }) {
 
     const [search, setSearch] = useState('')
     const [usersGot, setUsersGot] = useState([])
-    console.log(user)
 
     function handleSearch(e) {
+        
         setSearch(e.target.value)
 
-        getSearchUsers('search-users', search).then( e =>{
+        if(e.target.value.length<3){
+            setUsersGot([])
+            return
+        }
+
+        getSearchUsers('search-users', e.target.value).then( e =>{
+            
             setUsersGot(e.data)
+
         }).catch( e => console.log(e))
     }
-
     return (
 
         <SearchBarTop screen={screen} onSubmit={(e) => e.preventDefault()}>
             <footer>
-                <DebounceInput placeholder='Encontrar pessoas' minLength={3} debounceTimeout={300} onChange={handleSearch} list="users" />
+                <DebounceInput placeholder='Encontrar pessoas' value={search} minLength={2} debounceTimeout={300} onChange={handleSearch} list="users" />
                 <button type='submit'>{<AiOutlineSearch />} </button>
             </footer>
             <ul>
-                
+                {usersGot.map( (e) => <UserOption key={e.id} data={e}/>)}
             </ul>
         </SearchBarTop>
     );
