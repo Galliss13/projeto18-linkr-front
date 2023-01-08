@@ -3,14 +3,25 @@ import UserImage from "../elements/UserImage";
 import LinkCard from "./LinkCard";
 import ReactHashtag from "react-hashtag";
 import LikesCard from "./LikesCard";
+import { urlAxios } from "../../service/Service";
+import axios from "axios";
 
 export default function Post(props) {
-  const { imageUrl, name, text, link, title, description, image, id } = props;
+  const { imageUrl, name, text, link, title, description, image, id, userId } = props;
+  // function redirectToProfile() {
+  //   const URL = urlAxios + `user/${userId}`
+  //   const request = axios.get(URL)
+  //   request.then((ans) => {
+
+  //   }).catch((err) => {
+  //     console.log(err)
+  //   })
+  // }
   return (
     <Container key={id}>
       <ImageContainer>
         <UserImage imageUrl={imageUrl} />
-        <LikesCard id={id}/>
+        <LikesCard id={id} />
       </ImageContainer>
       <PostContainer>
         <UserName>{name}</UserName>

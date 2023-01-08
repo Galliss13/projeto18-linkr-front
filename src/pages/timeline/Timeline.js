@@ -6,11 +6,14 @@ import TopBar from "../../components/TopBar/TopBar.js";
 import axios from "axios";
 import Trending from "../../components/timeline/Trending";
 import { urlAxios } from "../../service/Service";
+import { useParams } from "react-router-dom";
 
 export default function Timeline() {
     /* Criar estados e chamadas de contexto */
     const [posts, setPosts] = useState([])
     /* Criar useEffect para fazer requisição dos posts */
+    const {userId} = useParams
+    console.log(userId)
     useEffect(() => {
       const URL = urlAxios + "timeline"
       const request = axios.get(URL)
