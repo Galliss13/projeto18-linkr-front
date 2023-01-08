@@ -25,4 +25,9 @@ export function postPost(path, submitObject, token) {
   return promise;
 }
 
+export function getSearchUsers(path, params){
+  const promise = axios.get(`${urlAxios+path}/${params}`)
+  return promise
+}
+
 /*  */

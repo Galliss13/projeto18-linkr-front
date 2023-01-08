@@ -18,7 +18,7 @@ export default function TopBar() {
   useEffect(() => {
 
     if (localStorage.token && user.user === '') {
-      console.log('Aqui')
+      
       getPersistLogin('persist-login', localStorage.token).then(e => {
 
         setUser(e.data)
@@ -47,7 +47,7 @@ export default function TopBar() {
       <article>
         <h1 onClick={() => navigate('/timeline')}>linkr</h1>
 
-        <SearchBar screen={'>800'} />
+        <SearchBar screen={'>800'} user={user} />
 
         <div onClick={() => setSelect(!select)}>
 

@@ -43,33 +43,47 @@ export const SearchBarTop = styled.form`
 
 
   display: ${props => (props.screen ==='>800')?'flex':'none'};
-  width: 500px;
-  height: 45px;
+ 
+  footer{
+    width: 500px;
+    height: 45px;
+    input{
+      width: 90%;
+      height: 45px;
+      border: none;
+      font-size: 19px;
+      border-radius: 10px 0 0 10px;
+      padding-left: 15px;
+    }
+    input:focus{
+      outline: none;
+    }
+    button{
+      width: 10%;
+      height: 45px;
+      border: none;
+      background-color: white;
+      cursor: pointer;
+      font-size: 20px;
+      border-radius: 0 10px 10px 0;
 
-  input{
-    width: 90%;
-    border: none;
-    font-size: 19px;
-    border-radius: 10px 0 0 10px;
-    padding-left: 15px;
+    }
+    button:hover{
+      color: blue;
+    }
   }
-  button{
-    width: 10%;
-    border: none;
-    background-color: white;
-    cursor: pointer;
-    font-size: 20px;
-    border-radius: 0 10px 10px 0;
-
-  }
-  button:hover{
-    color: blue;
-  }
+  
 
   @media (max-width: 800px){
     display: ${props => (props.screen ==='>800')?'none':'flex'};
-    margin: 30px auto;
-    width: 90vw;
+    
+    footer{
+      width: 90vw;
+      height: 45px;
+      margin: 30px auto;
+      display: flex;
+      align-items: center;
+    }
 
   }
 
