@@ -15,7 +15,6 @@ export function getPersistLogin(path, token) {
       Authorization: "Bearer " + token,
     },
   });
-  console.log(promise)
   return promise;
 }
 

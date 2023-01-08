@@ -7,35 +7,47 @@ import axios from "axios";
 import Trending from "../../components/timeline/Trending";
 import { urlAxios } from "../../service/Service";
 import SearchBar from "../../components/TopBar/SearchBar";
+import { useParams } from "react-router-dom";
 
 export default function Timeline() {
-    /* Criar estados e chamadas de contexto */
-    const [posts, setPosts] = useState([])
-    /* Criar useEffect para fazer requisição dos posts */
-    const {userId} = useParams
-    console.log(userId)
-    useEffect(() => {
-      const URL = urlAxios + "timeline"
-      const request = axios.get(URL)
-      request.then((ans) => {
-        setPosts(ans.data)
-      }).catch((err) => {
-        console.log(err)
+  /* Criar estados e chamadas de contexto */
+  const [posts, setPosts] = useState([]);
+  const [header, setHeader] = useState("");
+  /* Criar useEffect para fazer requisição dos posts */
+  const { id } = useParams();
+  useEffect(() => {
+    let URL = urlAxios;
+    if (id) {
+      URL = URL + `user/${id}`;
+    } else {
+      URL = URL + "timeline";
+    }
+    const request = axios.get(URL);
+    request
+      .then((ans) => {
+        setPosts(ans.data);
+        if (id) {
+          setHeader(ans.data[0].name);
+        } else {
+          setHeader("timeline")
+        }
       })
       .catch((err) => {
         console.log(err.response.data);
       });
-  }, []);
+  }, [id]);
   return (
     <Container>
       <TopBar />
-      <SearchBar screen={'<800'}/>
+      <SearchBar screen={"<800"} />
       <Main>
-        <HeaderContainer>timeline</HeaderContainer>
+        <HeaderContainer>{header}</HeaderContainer>
         <TimelineContainer>
           <PostBar />
           <PostContainer>
-            {posts.map((post) => <Post key={post.id} post={post}/>)}
+            {posts.map((post) => (
+              <Post key={post.id} post={post} />
+            ))}
           </PostContainer>
         </TimelineContainer>
       </Main>
