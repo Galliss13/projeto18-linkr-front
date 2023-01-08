@@ -43,6 +43,7 @@ export const SearchBarTop = styled.form`
 
 
   display: ${props => (props.screen ==='>800')?'flex':'none'};
+  flex-direction: column;
  
   footer{
     width: 500px;
@@ -72,6 +73,12 @@ export const SearchBarTop = styled.form`
       color: blue;
     }
   }
+
+  ul{
+    position: absolute;
+    width: 480px;
+    margin: 45px 0 0 10px;
+  }
   
 
   @media (max-width: 800px){
@@ -83,6 +90,13 @@ export const SearchBarTop = styled.form`
       margin: 30px auto;
       display: flex;
       align-items: center;
+    }
+    ul{
+      
+      width: 88vw;
+      margin: 76px auto 0 auto;
+      left: 0;
+      right: 0;
     }
 
   }
@@ -122,5 +136,26 @@ export const LogoutButton = styled.button`
 
   &&:hover{
     text-decoration-line: underline;
+  }
+`;
+
+export const UserOptionCss = styled.li`
+
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  gap: 10px;
+  width: 100%;
+  height: 60px;
+  background-color: #e7e7e7;
+  p{
+    font-weight: 400;
+    font-size: 19px;
+    color: #515151;
+  }
+  img{
+    border-radius: 100%;
+    width: 50px;
+    height: 50px;
   }
 `;
