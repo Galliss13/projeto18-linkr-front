@@ -8,7 +8,8 @@ export default function PostDeleteModal(props) {
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const { token } = user;
-
+  console.log(token);
+  
   function delPost() {
     setLoading(true);
     deletePost(`post/${postId}`, token)
@@ -51,10 +52,10 @@ export default function PostDeleteModal(props) {
 
 const ContainerBackground = styled.div`
   width: 100%;
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: white;
 `;
 
 const Container = styled.div`

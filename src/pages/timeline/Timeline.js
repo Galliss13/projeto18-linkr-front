@@ -30,7 +30,9 @@ export default function Timeline() {
         <TimelineContainer>
           <PostBar />
           <PostContainer>
-            {posts.map((post) => <Post key={post.id} post={post}/>)}
+            {posts.map((post) => <Post 
+            key={post.id} 
+            post={post}/>)}
           </PostContainer>
         </TimelineContainer>
       </Main>

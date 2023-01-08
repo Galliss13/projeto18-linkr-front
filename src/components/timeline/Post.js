@@ -24,7 +24,6 @@ export default function Post(props) {
     return false;
   }
   const isUserPost = verifyUserPost(user.name, name);
-  console.log(name)
 
   function handleToggleDel() {
     setOpenDeleteModal(!openDeleteModal);
@@ -45,16 +44,19 @@ export default function Post(props) {
 
         {isUserPost && (
           <DelEditIcons
-            postId={id}
-            editObject={editObject}
-            handleToggleEdit={handleToggleEdit}
-            handleToggleDel={handleToggleDel}
+          postId={id}
+          editObject={editObject}
+          handleToggleEdit={handleToggleEdit}
+          handleToggleDel={handleToggleDel}
           />
-        )}
+          )}
 
-        {openDeleteModal && (
-          <PostDeleteModal postId={id} handleToggleDel={handleToggleDel} />
-        )}
+          {openDeleteModal && (
+            <PostDeleteModal 
+            postId={id} 
+            handleToggleDel={handleToggleDel} 
+            />
+          )}
 
         {openTextEditBox && (
           <TextEditBox
