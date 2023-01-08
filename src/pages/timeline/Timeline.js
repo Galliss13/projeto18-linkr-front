@@ -27,9 +27,9 @@ export default function Timeline() {
       .then((ans) => {
         setPosts(ans.data);
         if (id) {
-          setHeader(ans.data[0].name);
+          setHeader(ans.data[0].name + "'s posts");
         } else {
-          setHeader("timeline")
+          setHeader("timeline");
         }
       })
       .catch((err) => {
@@ -43,7 +43,7 @@ export default function Timeline() {
       <Main>
         <HeaderContainer>{header}</HeaderContainer>
         <TimelineContainer>
-          <PostBar />
+          {!id && <PostBar />}
           <PostContainer>
             {posts.map((post) => (
               <Post key={post.id} post={post} />
