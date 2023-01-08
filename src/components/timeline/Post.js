@@ -23,7 +23,8 @@ export default function Post(props) {
     }
     return false;
   }
-  const isUserPost = verifyUserPost(user.user, name);
+  const isUserPost = verifyUserPost(user.name, name);
+  console.log(name)
 
   function handleToggleDel() {
     setOpenDeleteModal(!openDeleteModal);

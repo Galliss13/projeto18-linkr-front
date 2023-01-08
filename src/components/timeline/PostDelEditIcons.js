@@ -10,12 +10,12 @@ export default function DelEditIcons (props) {
     return (
         <Container>
             <section>
-                <IconContext.Provider value={{ size: '25px', cursor: 'pointer',  color:'#fff' }}>
+                <IconContext.Provider value={{ size: '20px', cursor: 'pointer',  color:'#fff' }}>
                 <h2>  <TfiPencil /> </h2>
                 </IconContext.Provider>
             </section>
             <section onClick={() => handleToggleDel()}>
-                <IconContext.Provider value={{ size: '25px', cursor: 'pointer', color:'#fff' }}>
+                <IconContext.Provider value={{ size: '20px', cursor: 'pointer', color:'#fff' }}>
                 <h2>  <TfiTrash /> </h2>
                 </IconContext.Provider>
             </section>
@@ -25,6 +25,12 @@ export default function DelEditIcons (props) {
 
 const Container = styled.div`
     display: flex;
+    justify-content: space-between;
+    width: 30px;
     position: absolute;
-    right: 10px;
+    right: 30px;
+    top: 5px;
+    section {
+        margin: 5px;
+    }
 `
