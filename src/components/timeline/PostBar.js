@@ -5,10 +5,11 @@ import { postPost } from "../../service/Service.js";
 import UserImage from "../elements/UserImage";
 
 export default function PostBar() {
-  const [link, setLink] = useState('');
-  const [text, setText] = useState('');
+  const [link, setLink] = useState("");
+  const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
-  const { token } = useAuth();
+  const { user } = useAuth();
+  const { token } = user;
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -20,14 +21,14 @@ export default function PostBar() {
     postPost("post", submitObject, token)
       .then((res) => {
         setLoading(false);
-        setLink('');
-        setText('');
+        setLink("");
+        setText("");
         alert("Link published successfully!");
       })
       .catch((err) => {
         setLoading(false);
-        setLink('');
-        setText('');
+        setLink("");
+        setText("");
         alert("Something went wrong, please try again");
       });
   }

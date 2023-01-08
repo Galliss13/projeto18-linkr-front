@@ -6,7 +6,7 @@ import TopBar from "../../components/TopBar/TopBar.js";
 import axios from "axios";
 import Trending from "../../components/timeline/Trending";
 import { urlAxios } from "../../service/Service";
-import { useParams } from "react-router-dom";
+import SearchBar from "../../components/TopBar/SearchBar";
 
 export default function Timeline() {
     /* Criar estados e chamadas de contexto */
@@ -29,11 +29,14 @@ export default function Timeline() {
   return (
     <Container>
       <TopBar />
+      <SearchBar screen={'<800'}/>
       <Main>
         <HeaderContainer>timeline</HeaderContainer>
         <TimelineContainer>
           <PostBar />
-          <PostContainer>{posts.map(Post)}</PostContainer>
+          <PostContainer>
+            {posts.map((post) => <Post key={post.id} post={post}/>)}
+          </PostContainer>
         </TimelineContainer>
       </Main>
       <Trending />

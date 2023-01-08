@@ -1,36 +1,36 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import { useAuth } from "../../context/Context.js";
 import { getPersistLogin } from "../../service/Service";
 
-export default function LikesCard({id}) {
-    const [likes, setLikes] = useState();
-    const [isLiked, setIsLiked] = useState(false);
-    const { token } = useAuth();
+export default function LikesCard({ id }) {
+  const [likes, setLikes] = useState();
+  const [isLiked, setIsLiked] = useState(false);
+  const { user } = useAuth();
+  const { token } = user;
 
-    useEffect(() => {
-        getPersistLogin(`likes/${id}`, token)
-        .then((ans) => {
-            setLikes(ans.data);
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-    }, [])
+  useEffect(() => {
+    getPersistLogin(`likes/${id}`, token)
+      .then((ans) => {
+        setLikes(ans.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
-    //fazer outro useEffect com rota de userLikesPost pra verificar valor inicial de isLiked
+  //fazer outro useEffect com rota de userLikesPost pra verificar valor inicial de isLiked
 
-    function handleClick() {
-        if (isLiked) {
-            //delete like
-        }
-        else {
-            // post like
-        }
+  function handleClick() {
+    if (isLiked) {
+      //delete like
+    } else {
+      // post like
     }
+  }
 
-    return (
-        <div>
-            <h1>likes</h1>
-        </div>
-    )
-};
+  return (
+    <div>
+      <h1>likes</h1>
+    </div>
+  );
+}
