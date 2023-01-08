@@ -8,7 +8,6 @@ export default function SearchBar({ screen, user }) {
 
     const [search, setSearch] = useState('')
     const [usersGot, setUsersGot] = useState([])
-    console.log(user)
 
     function handleSearch(e) {
         setSearch(e.target.value)

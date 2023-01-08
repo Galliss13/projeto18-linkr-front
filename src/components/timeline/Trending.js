@@ -25,6 +25,7 @@ export default function Trending() {
       {trendingHashtags?.map((h) => {
         return (
           <ReactHashtag
+            key={h.id}
             renderHashtag={(hashtagValue) => (
               <StyledHashtag href={`../hashtags/${hashtagValue.split("#")[1]}`}>
                 {hashtagValue}
