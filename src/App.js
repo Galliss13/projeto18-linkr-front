@@ -15,6 +15,7 @@ export default function App() {
           <Route path="/singUp" element={<Singup/>} />
           <Route path="/timeline" element={<Timeline />} />
           <Route path="/hashtags/:hashtag" element={<HashtagTimeline />} />
+          <Route path="/user/:id" element={<Timeline />} />
         </Routes>
     </BrowserRouter>
   )

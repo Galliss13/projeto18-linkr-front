@@ -7,38 +7,51 @@ import axios from "axios";
 import Trending from "../../components/timeline/Trending";
 import { urlAxios } from "../../service/Service";
 import SearchBar from "../../components/TopBar/SearchBar";
+import { useParams } from "react-router-dom";
 
 export default function Timeline() {
   /* Criar estados e chamadas de contexto */
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState([]);
+  const [header, setHeader] = useState("");
   /* Criar useEffect para fazer requisição dos posts */
+  const { id } = useParams();
   useEffect(() => {
-    const URL = urlAxios + "timeline"
-    const request = axios.get(URL)
-    request.then((ans) => {
-      setPosts(ans.data)
-    }).catch((err) => {
-      console.log(err)
-    })
-  }, [])
+    let URL = urlAxios;
+    if (id) {
+      URL = URL + `user/${id}`;
+    } else {
+      URL = URL + "timeline";
+    }
+    const request = axios.get(URL);
+    request
+      .then((ans) => {
+        setPosts(ans.data);
+        if (id) {
+          setHeader(ans.data[0].name + "'s posts");
+        } else {
+          setHeader("timeline");
+        }
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  }, [id]);
   return (
     <Container>
       <TopBar />
-      <SearchBar screen={'<800'} />
-      <main>
-        <Main>
-          <HeaderContainer>timeline</HeaderContainer>
-          <TimelineContainer>
-            <PostBar />
-            <PostContainer>
-              {posts.map((post) => <Post key={post.id} post={post} />)}
-            </PostContainer>
-          </TimelineContainer>
-        </Main>
-        <nav></nav>
-        <Trending />
-      </main>
-
+      <SearchBar screen={"<800"} />
+      <Main>
+        <HeaderContainer>{header}</HeaderContainer>
+        <TimelineContainer>
+          {!id && <PostBar />}
+          <PostContainer>
+            {posts.map((post) => (
+              <Post key={post.id} post={post} />
+            ))}
+          </PostContainer>
+        </TimelineContainer>
+      </Main>
+      <Trending />
       {/* Header */}
       {/* HashtagsContainer */}
     </Container>
@@ -82,5 +95,5 @@ const HeaderContainer = styled.h1`
 const TimelineContainer = styled.div``;
 
 const PostContainer = styled.div`
-    margin-top: 29px;
+  margin-top: 29px;
 `;
