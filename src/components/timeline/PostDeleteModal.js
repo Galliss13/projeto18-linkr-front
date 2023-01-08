@@ -1,20 +1,25 @@
 import styled from "styled-components";
 import { useAuth } from "../../context/Context";
 import { deletePost } from "../../service/Service";
+import { useState } from "react";
 
 export default function PostDeleteModal(props) {
   const { handleToggleDel, postId } = props;
+  const [loading, setLoading] = useState(false);
   const { token } = useAuth();
 
-  function delPost () {
-    deletePost(`post/${postId}`, token).then((res) => {
-        handleToggleDel()
-    }).catch((err) => {
-        handleToggleDel()
-        alert('Could not delete post')
-    })
-
-    
+  function delPost() {
+    setLoading(true)
+    deletePost(`post/${postId}`, token)
+      .then((res) => {
+        handleToggleDel();
+        setLoading(false)
+      })
+      .catch((err) => {
+        handleToggleDel();
+        setLoading(false)
+        alert("Could not delete post");
+      });
   }
 
   return (
@@ -33,8 +38,9 @@ export default function PostDeleteModal(props) {
             color="#1877F2"
             backgroudcolor="#FFF"
             onClick={() => delPost()}
+            disabled={loading ? true : false}
           >
-            Yes, delete it
+            {loading ? "Deleting..." : "Yes, delete it"}
           </button>
         </Buttons>
       </Container>
