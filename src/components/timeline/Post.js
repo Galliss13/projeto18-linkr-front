@@ -5,6 +5,7 @@ import PostDeleteModal from "./PostDeleteModal";
 import DelEditIcons from "./PostDelEditIcons";
 import TextEditBox from "./TextEditBox";
 import PostDescription from "./PostDescription";
+import LikesCard from './LikesCard'
 
 import { useAuth } from "../../context/Context";
 import { useState } from "react";
@@ -35,6 +36,7 @@ export default function Post(props) {
     <Container>
       <ImageContainer>
         <UserImage imageUrl={imageUrl} />
+        <LikesCard id={id}/>
       </ImageContainer>
 
       <PostContainer>
@@ -87,6 +89,8 @@ const Container = styled.div`
 
 const ImageContainer = styled.div`
   margin-right: 18px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const PostContainer = styled.div`
