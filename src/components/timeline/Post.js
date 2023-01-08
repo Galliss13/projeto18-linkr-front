@@ -5,17 +5,20 @@ import PostDeleteModal from "./PostDeleteModal";
 import DelEditIcons from "./PostDelEditIcons";
 import TextEditBox from "./TextEditBox";
 import PostDescription from "./PostDescription";
-import LikesCard from './LikesCard'
+import LikesCard from "./LikesCard";
 
 import { useAuth } from "../../context/Context";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Post(props) {
-  const { id, imageUrl, name, text, link, title, description, image } = props.post;
+  const { id, imageUrl, name, text, link, title, description, image, userId } =
+    props.post;
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openTextEditBox, setOpenTextEditBox] = useState(false);
   const { user } = useAuth();
   const editObject = { link, text };
+  const navigate = useNavigate()
 
   function verifyUserPost(userName, postOwnerName) {
     if (userName === postOwnerName) {
@@ -31,6 +34,9 @@ export default function Post(props) {
   function handleToggleEdit() {
     setOpenTextEditBox(!openTextEditBox);
   }
+  function handleUserRedirect(){
+    navigate(`/user/${userId}`);
+  }
 
   return (
     <Container key={id}>
@@ -40,7 +46,7 @@ export default function Post(props) {
       </ImageContainer>
 
       <PostContainer>
-        <UserName>{name}</UserName>
+        <UserName onClick={handleUserRedirect}>{name}</UserName>
 
         {isUserPost && (
           <DelEditIcons
@@ -99,11 +105,12 @@ const PostContainer = styled.div`
   box-sizing: border-box;
 `;
 
-const UserName = styled.h1`
+const UserName = styled.div`
   height: 30px;
   margin-top: 5px;
   font-size: 19px;
   font-family: Lato, sans-serif;
   font-weight: 400;
   color: #ffffff;
+  cursor: pointer;
 `;
