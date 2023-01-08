@@ -6,18 +6,19 @@ import { useState } from "react";
 export default function PostDeleteModal(props) {
   const { handleToggleDel, postId } = props;
   const [loading, setLoading] = useState(false);
-  const { token } = useAuth();
+  const { user } = useAuth();
+  const { token } = user;
 
   function delPost() {
-    setLoading(true)
+    setLoading(true);
     deletePost(`post/${postId}`, token)
       .then((res) => {
         handleToggleDel();
-        setLoading(false)
+        setLoading(false);
       })
       .catch((err) => {
         handleToggleDel();
-        setLoading(false)
+        setLoading(false);
         alert("Could not delete post");
       });
   }
