@@ -45,7 +45,7 @@ export default function Timeline() {
       .catch((err) => {
         console.log(err.response.data);
       });
-  }, [id, token, reload]);
+  }, [id, token, reload, refresh]);
   return (
     <Container>
       <TopBar />

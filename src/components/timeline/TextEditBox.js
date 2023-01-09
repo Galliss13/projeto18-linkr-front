@@ -5,7 +5,7 @@ import { useState } from "react";
 
 export default function TextEditBox(props) {
   const { postId, handleToggleEdit, previousText } = props;
-  const { user } = useAuth();
+  const { user, refresh, setRefresh } = useAuth();
   const { token } = user;
 
   const [form, setForm] = useState({ text: previousText });
@@ -31,6 +31,7 @@ export default function TextEditBox(props) {
       .then((res) => {
         setIsDisable(false);
         handleToggleEdit();
+        setRefresh(!refresh)
       })
       .catch((err) => {
         console.log(err.response)
