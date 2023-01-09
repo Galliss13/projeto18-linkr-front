@@ -15,9 +15,8 @@ export default function Timeline() {
   const [posts, setPosts] = useState([]);
   const [header, setHeader] = useState("");
   const {user, refresh, setRefresh} = useAuth()
-  const {token} = user
   const [reload, setReload] = useState(true);
-
+  const {token} = user
   /* Criar useEffect para fazer requisição dos posts */
   const { id } = useParams();
   
@@ -45,7 +44,7 @@ export default function Timeline() {
       .catch((err) => {
         console.log(err.response.data);
       });
-  }, [id, token, reload, refresh]);
+  }, [id, token, refresh, reload]);
   return (
     <Container>
       <TopBar />
