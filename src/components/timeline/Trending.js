@@ -49,15 +49,19 @@ const TrendingHeader = styled.h1`
   font-size: 27px;
 `;
 const TrendingContainer = styled.div`
-  width: 25%;
+  width: 300px;
   height: auto;
   background-color: #171717;
   color: #ffffff;
   position: fixed;
-  right: 241px;
+  right: 5vw;
   top: 210px;
   padding: 20px;
   border-radius: 16px;
+
+  @media (max-width: 1100px) {
+    display: none;
+  }
 `;
 
 const StyledHashtag = styled.a`
