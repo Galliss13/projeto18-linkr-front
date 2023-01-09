@@ -7,10 +7,12 @@ import axios from "axios";
 import Trending from "../../components/timeline/Trending";
 import { urlAxios } from "../../service/Service";
 import SearchBar from "../../components/TopBar/SearchBar";
+import { useAuth } from "../../context/Context";
 
 export default function Timeline() {
     /* Criar estados e chamadas de contexto */
     const [posts, setPosts] = useState([])
+    const {refresh, setRefresh} = useAuth()
     /* Criar useEffect para fazer requisição dos posts */
     useEffect(() => {
       const URL = urlAxios + "timeline"
@@ -20,7 +22,7 @@ export default function Timeline() {
       }).catch((err) => {
         console.log(err)
       })
-    }, [])
+    }, [refresh])
   return (
     <Container>
       <TopBar />

@@ -8,7 +8,7 @@ export default function PostBar() {
   const [link, setLink] = useState("");
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
-  const { user } = useAuth();
+  const { user, refresh, setRefresh } = useAuth();
   const { token } = user;
 
   function handleSubmit(e) {
@@ -23,6 +23,7 @@ export default function PostBar() {
         setLoading(false);
         setLink("");
         setText("");
+        setRefresh(!refresh)
         alert("Link published successfully!");
       })
       .catch((err) => {

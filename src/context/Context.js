@@ -8,8 +8,9 @@ export const AuthProvider = (props) => {
     token: ""
   });
 
+  const [refresh, setRefresh] = useState(false)
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, setUser, refresh, setRefresh }}>
       {props.children}
     </AuthContext.Provider>
   );
