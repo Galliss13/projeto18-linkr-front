@@ -15,7 +15,7 @@ export default function HashtagTimeline() {
   const { token } = user;
 
   useEffect(() => {
-    getPersistLogin(`${hashtag}`, token)
+    getPersistLogin(`posts/${hashtag}`, token)
       .then((ans) => {
         setPosts(ans.data);
       })
