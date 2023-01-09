@@ -1,36 +1,107 @@
 import { useEffect, useState } from "react";
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
+import styled from "styled-components";
 import { useAuth } from "../../context/Context.js";
-import { getPersistLogin } from "../../service/Service";
+import { HeartFilled, HeartOutline } from "../../context/ReactIcons.js";
+import { deletePost, getPersistLogin, postPost } from "../../service/Service";
 
-export default function LikesCard({ id }) {
-  const [likes, setLikes] = useState();
+export default function LikesCard({ id, likes }) {
+  const [postLikes, setPostLikes] = useState(likes);
   const [isLiked, setIsLiked] = useState(false);
+  const [isLiking, setIsLiking] = useState(false);
   const { user } = useAuth();
   const { token } = user;
 
   useEffect(() => {
-    getPersistLogin(`likes/${id}`, token)
+    userLikesPost(id, token);
+  }, []);
+
+  function userLikesPost(postId, token) {
+    getPersistLogin(`like/${postId}`, token)
       .then((ans) => {
-        setLikes(ans.data);
+        console.log(ans.data);
+        setIsLiked(ans.data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }
 
-  //fazer outro useEffect com rota de userLikesPost pra verificar valor inicial de isLiked
+  function getPostLikes(postId, token) {
+    getPersistLogin(`likes/${postId}`, token)
+      .then((ans) => {
+        setPostLikes(ans.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
-  function handleClick() {
+  function handleClick(id) {
+    if (isLiking) return;
+    setIsLiking(true);
     if (isLiked) {
-      //delete like
+      deletePost(`like/${id}`, token)
+        .then((ans) => {
+          userLikesPost(id, token);
+          getPostLikes(id, token);
+          setIsLiking(false);
+        })
+        .catch((err) => {
+          alert("something went wrong!");
+          console.log(err);
+          setIsLiking(false);
+        });
     } else {
-      // post like
+      postPost(`like/${id}`, {}, token)
+        .then((ans) => {
+          userLikesPost(id, token);
+          getPostLikes(id, token);
+          setIsLiking(false);
+        })
+        .catch((err) => {
+          alert("something went wrong!");
+          console.log(err);
+          setIsLiking(false);
+        });
     }
   }
 
   return (
-    <div>
-      <h1>likes</h1>
-    </div>
+    <LikesContainer>
+      <a onClick={() => handleClick(id)}>
+        {isLiked ? <HeartFilled /> : <HeartOutline />}
+      </a>
+      <p id={`my-anchor-element ${id}`} data-tooltip-place="top">
+        {postLikes} likes
+      </p>
+      <Tooltip
+        anchorId={`my-anchor-element ${id}`}
+        content="curtido por Zezé, Romario e outras 98 pessoas"
+        place="bottom"
+        style={{ color: "#fff" }}
+      />
+    </LikesContainer>
   );
 }
+
+const LikesContainer = styled.div`
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    margin-top: 3px;
+    color: #ffffff;
+    font-size: 12px;
+    text-align: center;
+    width: 100%;
+  }
+  a:hover {
+    cursor: pointer;
+  }
+`;

@@ -16,6 +16,8 @@ export default function Timeline() {
   const [header, setHeader] = useState("");
   const {user, refresh, setRefresh} = useAuth()
   const {token} = user
+  const [reload, setReload] = useState(true);
+
   /* Criar useEffect para fazer requisição dos posts */
   const { id } = useParams();
   
@@ -43,10 +45,7 @@ export default function Timeline() {
       .catch((err) => {
         console.log(err.response.data);
       });
-  }, [id, token, refresh]);
-
-
-  
+  }, [id, token, reload]);
   return (
     <Container>
       <TopBar />
@@ -55,7 +54,7 @@ export default function Timeline() {
         <Main>
           <HeaderContainer>{header}</HeaderContainer>
           <TimelineContainer>
-            {!id && <PostBar />}
+            {!id && <PostBar reload={reload} setReload={setReload} />}
             <PostContainer>
               {posts.map((post) => (
                 <Post key={post.id} post={post} />
@@ -77,17 +76,15 @@ const Container = styled.div`
   height: 100%;
   background-color: #333333;
   padding-top: 72px;
-  main{
+  main {
     display: flex;
     justify-content: space-around;
     margin-top: 30px;
-
   }
 
   @media (max-width: 1100px) {
-    
-    main{
-      nav{
+    main {
+      nav {
         display: none;
       }
     }

@@ -12,7 +12,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Post(props) {
-  const { id, imageUrl, name, text, link, title, description, image, userId } =
+  const { id, imageUrl, name, text, link, title, description, image, userId, likes } =
     props.post;
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openTextEditBox, setOpenTextEditBox] = useState(false);
@@ -42,7 +42,7 @@ export default function Post(props) {
     <Container key={id}>
       <ImageContainer>
         <UserImage imageUrl={imageUrl} />
-        <LikesCard id={id} />
+        <LikesCard id={id} likes={likes}/>
       </ImageContainer>
 
       <PostContainer>
