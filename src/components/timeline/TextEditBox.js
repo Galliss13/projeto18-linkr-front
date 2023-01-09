@@ -8,12 +8,13 @@ export default function TextEditBox(props) {
   const { user } = useAuth();
   const { token } = user;
 
+  console.log(previousText);
   const [form, setForm] = useState({ text: previousText });
   const [isDisable, setIsDisable] = useState(false);
 
   function handleForm(e) {
-    const { text, value } = e.target;
-    setForm({ ...form, [text]: value });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
   }
 
   function handleSubmit(e) {
@@ -41,7 +42,7 @@ export default function TextEditBox(props) {
         disabled={isDisable}
         type="text"
         name="text"
-        value={previousText}
+        value={form.text}
         onChange={handleForm}
       ></input>
     </Form>
@@ -50,6 +51,7 @@ export default function TextEditBox(props) {
 
 const Form = styled.form`
   input {
+    width: 100%;
     margin-bottom: 15px;
     font-size: 17px;
     font-family: Lato, sans-serif;
