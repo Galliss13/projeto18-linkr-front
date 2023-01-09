@@ -18,7 +18,7 @@ export default function Trending() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [token]);
   return (
     <TrendingContainer>
       <TrendingHeader>Trending</TrendingHeader>

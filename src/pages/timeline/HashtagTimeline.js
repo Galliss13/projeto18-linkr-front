@@ -22,14 +22,18 @@ export default function HashtagTimeline() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [token]);
   return (
     <Container>
       <TopBar />
       <Main>
         <HeaderContainer>#{hashtag}</HeaderContainer>
         <TimelineContainer>
-          <PostContainer>{posts.map(Post)}</PostContainer>
+          <PostContainer>
+            {posts.map((post) => (
+              <Post key={post.id} post={post} />
+            ))}
+          </PostContainer>
         </TimelineContainer>
       </Main>
       <Trending />
