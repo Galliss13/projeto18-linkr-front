@@ -15,6 +15,7 @@ export default function Timeline() {
   /* Criar estados e chamadas de contexto */
   const [posts, setPosts] = useState([]);
   const [header, setHeader] = useState("");
+  const [error, setError] = useState();
   /* Criar useEffect para fazer requisição dos posts */
   const { id } = useParams();
   const { user, isLoading, setIsLoading } = useAuth();
@@ -29,15 +30,22 @@ export default function Timeline() {
     }
     getPersistLogin(path, token)
       .then((ans) => {
-        setIsLoading(false);
+        console.log(ans.data)
         setPosts(ans.data);
+        setIsLoading(false);
         if (id) {
+          console.log(ans)
+          console.log(ans.data[0].name)
           setHeader(ans.data[0].name + "'s posts");
         } else {
           setHeader("timeline");
         }
       })
       .catch((err) => {
+        setIsLoading(false)
+        if (err.response.status === 404) {
+          setError("User " + err.response.data)
+        }
         console.log(err.response.data);
       });
   }, [id, token]);
@@ -47,6 +55,9 @@ export default function Timeline() {
       <SearchBar screen={"<800"} />
       <main>
         <Main>
+          {error && (
+            <HeaderContainer>{error}</HeaderContainer>
+          )}
           {isLoading && (
             <ThreeDots
               height="80"
@@ -74,7 +85,10 @@ export default function Timeline() {
                 visible={true}
               />
             )}
-            {!isLoading && (
+            {!isLoading && typeof posts === "string" && (
+                <EmptyPosts>{posts}</EmptyPosts>
+            )}
+            {!isLoading && typeof posts !== "string" && (
               <PostContainer>
                 {posts.map((post) => (
                   <Post key={post.id} post={post} />
@@ -131,3 +145,10 @@ const TimelineContainer = styled.div`
 const PostContainer = styled.div`
   margin-top: 29px;
 `;
+
+const EmptyPosts = styled.h1`
+ font-family: Lato, sans-serif;
+ font-size: 17px;
+ color: #ffffff;
+`
+
