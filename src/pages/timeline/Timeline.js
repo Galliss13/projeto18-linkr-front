@@ -9,6 +9,7 @@ import { getPersistLogin, urlAxios } from "../../service/Service";
 import SearchBar from "../../components/TopBar/SearchBar";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../context/Context";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function Timeline() {
   /* Criar estados e chamadas de contexto */
@@ -16,9 +17,10 @@ export default function Timeline() {
   const [header, setHeader] = useState("");
   /* Criar useEffect para fazer requisição dos posts */
   const { id } = useParams();
-  const { user } = useAuth();
+  const { user, isLoading, setIsLoading } = useAuth();
   const { token } = user;
   useEffect(() => {
+    setIsLoading(true);
     let path = urlAxios;
     if (id) {
       path = `user/${id}`;
@@ -27,6 +29,7 @@ export default function Timeline() {
     }
     getPersistLogin(path, token)
       .then((ans) => {
+        setIsLoading(false);
         setPosts(ans.data);
         if (id) {
           setHeader(ans.data[0].name + "'s posts");
@@ -44,14 +47,40 @@ export default function Timeline() {
       <SearchBar screen={"<800"} />
       <main>
         <Main>
-          <HeaderContainer>{header}</HeaderContainer>
+          {isLoading && (
+            <ThreeDots
+              height="80"
+              width="80"
+              radius="9"
+              color="#ffffff"
+              ariaLabel="three-dots-loading"
+              wrapperStyle={{}}
+              wrapperClassName=""
+              visible={true}
+            />
+          )}
+          {!isLoading && <HeaderContainer>{header}</HeaderContainer>}
           <TimelineContainer>
             {!id && <PostBar />}
-            <PostContainer>
-              {posts.map((post) => (
-                <Post key={post.id} post={post} />
-              ))}
-            </PostContainer>
+            {isLoading && (
+              <ThreeDots
+                height="80"
+                width="80"
+                radius="9"
+                color="#ffffff"
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true}
+              />
+            )}
+            {!isLoading && (
+              <PostContainer>
+                {posts.map((post) => (
+                  <Post key={post.id} post={post} />
+                ))}
+              </PostContainer>
+            )}
           </TimelineContainer>
         </Main>
         <nav></nav>
@@ -95,7 +124,9 @@ const HeaderContainer = styled.h1`
   color: #ffffff;
 `;
 
-const TimelineContainer = styled.div``;
+const TimelineContainer = styled.div`
+  margin-bottom: 29px;
+`;
 
 const PostContainer = styled.div`
   margin-top: 29px;
