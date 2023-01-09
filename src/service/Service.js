@@ -27,8 +27,8 @@ export function postPost(path, submitObject, token) {
   return promise;
 }
 
-export function editPost(path, editObject, token) {
-  const promise = axios.put(`${urlAxios + path}`, editObject, {
+export function editPost(path, body, token) {
+  const promise = axios.put(`${urlAxios + path}`, body, {
     headers: {
       Authorization: "Bearer " + token,
     },

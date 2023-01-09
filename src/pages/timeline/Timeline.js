@@ -8,13 +8,16 @@ import Trending from "../../components/timeline/Trending";
 import { urlAxios } from "../../service/Service";
 import SearchBar from "../../components/TopBar/SearchBar";
 import { useParams } from "react-router-dom";
+import { useAuth } from "../../context/Context";
 
 export default function Timeline() {
   /* Criar estados e chamadas de contexto */
   const [posts, setPosts] = useState([]);
   const [header, setHeader] = useState("");
+  const {refresh, setRefresh} = useAuth()
   /* Criar useEffect para fazer requisição dos posts */
   const { id } = useParams();
+  
   useEffect(() => {
     let URL = urlAxios;
     if (id) {
@@ -35,7 +38,8 @@ export default function Timeline() {
       .catch((err) => {
         console.log(err.response.data);
       });
-  }, [id]);
+  }, [id, refresh]);
+
   return (
     <Container>
       <TopBar />
