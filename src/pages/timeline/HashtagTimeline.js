@@ -7,16 +7,19 @@ import { useParams } from "react-router-dom";
 import Trending from "../../components/timeline/Trending";
 import { useAuth } from "../../context/Context.js";
 import { getPersistLogin } from "../../service/Service";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function HashtagTimeline() {
   const [posts, setPosts] = useState([]);
   const { hashtag } = useParams();
-  const { user } = useAuth();
+  const { user, isLoading, setIsLoading } = useAuth();
   const { token } = user;
 
   useEffect(() => {
+    setIsLoading(true);
     getPersistLogin(`posts/${hashtag}`, token)
       .then((ans) => {
+        setIsLoading(false);
         setPosts(ans.data);
       })
       .catch((err) => {
@@ -29,11 +32,25 @@ export default function HashtagTimeline() {
       <Main>
         <HeaderContainer>#{hashtag}</HeaderContainer>
         <TimelineContainer>
-          <PostContainer>
-            {posts.map((post) => (
-              <Post key={post.id} post={post} />
-            ))}
-          </PostContainer>
+          {isLoading && (
+            <ThreeDots
+              height="80"
+              width="80"
+              radius="9"
+              color="#ffffff"
+              ariaLabel="three-dots-loading"
+              wrapperStyle={{}}
+              wrapperClassName=""
+              visible={true}
+            />
+          )}
+          {!isLoading && (
+            <PostContainer>
+              {posts.map((post) => (
+                <Post key={post.id} post={post} />
+              ))}
+            </PostContainer>
+          )}
         </TimelineContainer>
       </Main>
       <Trending />

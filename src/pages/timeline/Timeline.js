@@ -5,40 +5,51 @@ import PostBar from "../../components/timeline/PostBar";
 import TopBar from "../../components/TopBar/TopBar.js";
 import axios from "axios";
 import Trending from "../../components/timeline/Trending";
-import { urlAxios } from "../../service/Service";
+import { getPersistLogin, urlAxios } from "../../service/Service";
 import SearchBar from "../../components/TopBar/SearchBar";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../context/Context";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function Timeline() {
   /* Criar estados e chamadas de contexto */
   const [posts, setPosts] = useState([]);
   const [header, setHeader] = useState("");
+  const [error, setError] = useState();
   const {refresh, setRefresh} = useAuth()
   /* Criar useEffect para fazer requisição dos posts */
   const { id } = useParams();
-  
+  const { user, isLoading, setIsLoading } = useAuth();
+  const { token } = user;
   useEffect(() => {
-    let URL = urlAxios;
+    setIsLoading(true);
+    let path = urlAxios;
     if (id) {
-      URL = URL + `user/${id}`;
+      path = `user/${id}`;
     } else {
-      URL = URL + "timeline";
+      path = "timeline";
     }
-    const request = axios.get(URL);
-    request
+    getPersistLogin(path, token)
       .then((ans) => {
+        console.log(ans.data)
         setPosts(ans.data);
+        setIsLoading(false);
         if (id) {
+          console.log(ans)
+          console.log(ans.data[0].name)
           setHeader(ans.data[0].name + "'s posts");
         } else {
           setHeader("timeline");
         }
       })
       .catch((err) => {
+        setIsLoading(false)
+        if (err.response.status === 404) {
+          setError("User " + err.response.data)
+        }
         console.log(err.response.data);
       });
-  }, [id, refresh]);
+  }, [id, token, refresh]);
 
   return (
     <Container>
@@ -46,14 +57,46 @@ export default function Timeline() {
       <SearchBar screen={"<800"} />
       <main>
         <Main>
-          <HeaderContainer>{header}</HeaderContainer>
+          {error && (
+            <HeaderContainer>{error}</HeaderContainer>
+          )}
+          {isLoading && (
+            <ThreeDots
+              height="80"
+              width="80"
+              radius="9"
+              color="#ffffff"
+              ariaLabel="three-dots-loading"
+              wrapperStyle={{}}
+              wrapperClassName=""
+              visible={true}
+            />
+          )}
+          {!isLoading && <HeaderContainer>{header}</HeaderContainer>}
           <TimelineContainer>
             {!id && <PostBar />}
-            <PostContainer>
-              {posts.map((post) => (
-                <Post key={post.id} post={post} />
-              ))}
-            </PostContainer>
+            {isLoading && (
+              <ThreeDots
+                height="80"
+                width="80"
+                radius="9"
+                color="#ffffff"
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true}
+              />
+            )}
+            {!isLoading && typeof posts === "string" && (
+                <EmptyPosts>{posts}</EmptyPosts>
+            )}
+            {!isLoading && typeof posts !== "string" && (
+              <PostContainer>
+                {posts.map((post) => (
+                  <Post key={post.id} post={post} />
+                ))}
+              </PostContainer>
+            )}
           </TimelineContainer>
         </Main>
         <nav></nav>
@@ -70,17 +113,15 @@ const Container = styled.div`
   height: 100%;
   background-color: #333333;
   padding-top: 72px;
-  main{
+  main {
     display: flex;
     justify-content: space-around;
     margin-top: 30px;
-
   }
 
   @media (max-width: 1100px) {
-    
-    main{
-      nav{
+    main {
+      nav {
         display: none;
       }
     }
@@ -99,8 +140,17 @@ const HeaderContainer = styled.h1`
   color: #ffffff;
 `;
 
-const TimelineContainer = styled.div``;
+const TimelineContainer = styled.div`
+  margin-bottom: 29px;
+`;
 
 const PostContainer = styled.div`
   margin-top: 29px;
 `;
+
+const EmptyPosts = styled.h1`
+ font-family: Lato, sans-serif;
+ font-size: 17px;
+ color: #ffffff;
+`
+
