@@ -8,7 +8,7 @@ export default function PostDescription(props) {
       <ReactHashtag
         renderHashtag={(hashtagValue) => (
           <StyledHashtag 
-            href={`hashtags/${hashtagValue.split("#")[1]}`}>
+            href={`../hashtags/${hashtagValue.split("#")[1]}`}>
               {hashtagValue}
           </StyledHashtag>
         )}

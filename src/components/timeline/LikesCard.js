@@ -10,6 +10,7 @@ export default function LikesCard({ id, likes }) {
   const [postLikes, setPostLikes] = useState(likes);
   const [isLiked, setIsLiked] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
+  const [tooltipContent, setTooltipContent] = useState("Liked by");
   const { user } = useAuth();
   const { token } = user;
 
@@ -78,7 +79,7 @@ export default function LikesCard({ id, likes }) {
       </p>
       <Tooltip
         anchorId={`my-anchor-element ${id}`}
-        content="curtido por Zezé, Romario e outras 98 pessoas"
+        content={tooltipContent}
         place="bottom"
         style={{ color: "#fff" }}
       />
