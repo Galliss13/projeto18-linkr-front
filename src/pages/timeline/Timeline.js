@@ -5,9 +5,10 @@ import PostBar from "../../components/timeline/PostBar";
 import TopBar from "../../components/TopBar/TopBar.js";
 import axios from "axios";
 import Trending from "../../components/timeline/Trending";
-import { urlAxios } from "../../service/Service";
+import { getPersistLogin, urlAxios } from "../../service/Service";
 import SearchBar from "../../components/TopBar/SearchBar";
 import { useParams } from "react-router-dom";
+import { useAuth } from "../../context/Context";
 
 export default function Timeline() {
   /* Criar estados e chamadas de contexto */
@@ -15,15 +16,16 @@ export default function Timeline() {
   const [header, setHeader] = useState("");
   /* Criar useEffect para fazer requisição dos posts */
   const { id } = useParams();
+  const { user } = useAuth();
+  const { token } = user;
   useEffect(() => {
-    let URL = urlAxios;
+    let path = urlAxios;
     if (id) {
-      URL = URL + `user/${id}`;
+      path = `user/${id}`;
     } else {
-      URL = URL + "timeline";
+      path = "timeline";
     }
-    const request = axios.get(URL);
-    request
+    getPersistLogin(path, token)
       .then((ans) => {
         setPosts(ans.data);
         if (id) {
@@ -35,7 +37,7 @@ export default function Timeline() {
       .catch((err) => {
         console.log(err.response.data);
       });
-  }, [id]);
+  }, [id, token]);
   return (
     <Container>
       <TopBar />
@@ -66,17 +68,15 @@ const Container = styled.div`
   height: 100%;
   background-color: #333333;
   padding-top: 72px;
-  main{
+  main {
     display: flex;
     justify-content: space-around;
     margin-top: 30px;
-
   }
 
   @media (max-width: 1100px) {
-    
-    main{
-      nav{
+    main {
+      nav {
         display: none;
       }
     }
