@@ -21,6 +21,7 @@ export const Header = styled.header`
 
     h1{
     font-family: "Passion One", cursive;
+    cursor: pointer;
     font-size: 49px;
     color: #ffffff;
     }
@@ -148,6 +149,7 @@ export const UserOptionCss = styled.li`
   width: 100%;
   height: 60px;
   background-color: #e7e7e7;
+  cursor: pointer;
   p{
     font-weight: 400;
     font-size: 19px;
@@ -157,5 +159,10 @@ export const UserOptionCss = styled.li`
     border-radius: 100%;
     width: 50px;
     height: 50px;
+  }
+  &&:hover{
+    p{
+      text-decoration-line: underline;
+    }
   }
 `;
