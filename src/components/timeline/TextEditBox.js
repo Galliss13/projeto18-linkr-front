@@ -5,7 +5,7 @@ import { useState } from "react";
 
 export default function TextEditBox(props) {
   const { postId, handleToggleEdit, previousText } = props;
-  const { user } = useAuth();
+  const { user, refresh, setRefresh } = useAuth();
   const { token } = user;
 
   const [form, setForm] = useState({ text: previousText });
@@ -25,16 +25,19 @@ export default function TextEditBox(props) {
       return alert("You have to comment something!");
     }
 
-    console.log(token, postId);
+    console.log(postId, form, postId);
   
-
     editPost(`post/${postId}`, form, token)
       .then((res) => {
         setIsDisable(false);
         handleToggleEdit();
+        setRefresh(!refresh)
       })
       .catch((err) => {
-        alert(err.response.data);
+        console.log(err.response)
+        alert('could not make changes');
+        setIsDisable(false);
+        handleToggleEdit();
       });
   }
 

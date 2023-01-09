@@ -15,11 +15,11 @@ export default function Timeline() {
   /* Criar estados e chamadas de contexto */
   const [posts, setPosts] = useState([]);
   const [header, setHeader] = useState("");
+  const [reload, setReload] = useState(true);
   const [error, setError] = useState();
-  const {refresh, setRefresh} = useAuth()
   /* Criar useEffect para fazer requisição dos posts */
   const { id } = useParams();
-  const { user, isLoading, setIsLoading } = useAuth();
+  const { user, refresh, isLoading, setIsLoading } = useAuth();
   const { token } = user;
   useEffect(() => {
     setIsLoading(true);
@@ -49,7 +49,7 @@ export default function Timeline() {
         }
         console.log(err.response.data);
       });
-  }, [id, token, refresh]);
+  }, [id, token, reload, refresh]);
 
   return (
     <Container>
