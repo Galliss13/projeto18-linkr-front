@@ -25,16 +25,18 @@ export default function TextEditBox(props) {
       return alert("You have to comment something!");
     }
 
-    console.log(token, postId);
+    console.log(postId, form, postId);
   
-
     editPost(`post/${postId}`, form, token)
       .then((res) => {
         setIsDisable(false);
         handleToggleEdit();
       })
       .catch((err) => {
+        console.log(err.response)
         alert(err.response.data);
+        setIsDisable(false);
+        handleToggleEdit();
       });
   }
 

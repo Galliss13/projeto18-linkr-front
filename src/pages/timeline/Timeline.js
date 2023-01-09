@@ -14,7 +14,8 @@ export default function Timeline() {
   /* Criar estados e chamadas de contexto */
   const [posts, setPosts] = useState([]);
   const [header, setHeader] = useState("");
-  const {refresh, setRefresh} = useAuth()
+  const {user, refresh, setRefresh} = useAuth()
+  const {token} = user
   /* Criar useEffect para fazer requisição dos posts */
   const { id } = useParams();
   
@@ -25,7 +26,11 @@ export default function Timeline() {
     } else {
       URL = URL + "timeline";
     }
-    const request = axios.get(URL);
+    const request = axios.get(URL, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
     request
       .then((ans) => {
         setPosts(ans.data);
@@ -38,8 +43,10 @@ export default function Timeline() {
       .catch((err) => {
         console.log(err.response.data);
       });
-  }, [id, refresh]);
+  }, [id, token, refresh]);
 
+
+  
   return (
     <Container>
       <TopBar />
