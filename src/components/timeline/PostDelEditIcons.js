@@ -1,15 +1,14 @@
 import styled from "styled-components";
 import { TfiPencil, TfiTrash } from "react-icons/tfi";
 import { IconContext } from "react-icons";
-import { urlAxios, editPost, deletePost } from "../../service/Service";
 import { useRef } from "react";
 
 
 export default function DelEditIcons (props) {
-    const {handleToggleDel} = props
+    const {handleToggleDel, handleToggleEdit} = props
     return (
         <Container>
-            <section>
+            <section onClick={() => handleToggleEdit()}>
                 <IconContext.Provider value={{ size: '20px', cursor: 'pointer',  color:'#fff' }}>
                 <h2>  <TfiPencil /> </h2>
                 </IconContext.Provider>

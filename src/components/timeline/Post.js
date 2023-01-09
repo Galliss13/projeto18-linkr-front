@@ -50,16 +50,19 @@ export default function Post(props) {
 
         {isUserPost && (
           <DelEditIcons
-            postId={id}
-            editObject={editObject}
-            handleToggleEdit={handleToggleEdit}
-            handleToggleDel={handleToggleDel}
+          postId={id}
+          editObject={editObject}
+          handleToggleEdit={handleToggleEdit}
+          handleToggleDel={handleToggleDel}
           />
-        )}
+          )}
 
-        {openDeleteModal && (
-          <PostDeleteModal postId={id} handleToggleDel={handleToggleDel} />
-        )}
+          {openDeleteModal && (
+            <PostDeleteModal 
+            postId={id} 
+            handleToggleDel={handleToggleDel} 
+            />
+          )}
 
         {openTextEditBox && (
           <TextEditBox

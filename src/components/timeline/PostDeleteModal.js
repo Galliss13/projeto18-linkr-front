@@ -6,15 +6,16 @@ import { useState } from "react";
 export default function PostDeleteModal(props) {
   const { handleToggleDel, postId } = props;
   const [loading, setLoading] = useState(false);
-  const { user } = useAuth();
+  const { user, refresh, setRefresh } = useAuth();
   const { token } = user;
-
+  
   function delPost() {
     setLoading(true);
     deletePost(`post/${postId}`, token)
       .then((res) => {
         handleToggleDel();
         setLoading(false);
+        setRefresh(!refresh)
       })
       .catch((err) => {
         handleToggleDel();
@@ -51,10 +52,10 @@ export default function PostDeleteModal(props) {
 
 const ContainerBackground = styled.div`
   width: 100%;
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: white;
 `;
 
 const Container = styled.div`

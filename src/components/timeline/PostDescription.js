@@ -20,6 +20,8 @@ export default function PostDescription(props) {
 }
 
 const Container = styled.h2`
+  display: flex;
+  flex-wrap: wrap;
   margin-bottom: 15px;
   font-size: 17px;
   font-family: Lato, sans-serif;
