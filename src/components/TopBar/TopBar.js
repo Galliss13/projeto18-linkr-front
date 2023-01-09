@@ -1,4 +1,3 @@
-
 import UserImage from "../elements/UserImage";
 import { SlArrowDown } from 'react-icons/sl'
 import { IconContext } from "react-icons";
@@ -36,10 +35,7 @@ export default function TopBar() {
       localStorage.clear()
       navigate('/')
     }
-
   }
-
-
 
   return (
     <Header select={select}>
@@ -47,7 +43,7 @@ export default function TopBar() {
       <article>
         <h1 onClick={() => navigate('/timeline')}>linkr</h1>
 
-        <SearchBar screen={'>800'} user={user} />
+        <SearchBar screen={'>800'} />
 
         <div onClick={() => setSelect(!select)}>
 
