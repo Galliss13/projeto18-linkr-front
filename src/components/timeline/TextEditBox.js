@@ -35,7 +35,7 @@ export default function TextEditBox(props) {
       })
       .catch((err) => {
         console.log(err.response)
-        alert(err.response.data);
+        alert('could not make changes');
         setIsDisable(false);
         handleToggleEdit();
       });
