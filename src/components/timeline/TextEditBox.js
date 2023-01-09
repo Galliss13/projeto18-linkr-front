@@ -8,23 +8,25 @@ export default function TextEditBox(props) {
   const { user } = useAuth();
   const { token } = user;
 
-  console.log(previousText);
   const [form, setForm] = useState({ text: previousText });
   const [isDisable, setIsDisable] = useState(false);
-
+  
   function handleForm(e) {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   }
-
+  
   function handleSubmit(e) {
     e.preventDefault();
     setIsDisable(true);
-
+    
     if (!form.text) {
       setIsDisable(false);
       return alert("You have to comment something!");
     }
+
+    console.log(token, postId);
+  
 
     editPost(`post/${postId}`, form, token)
       .then((res) => {
@@ -32,7 +34,7 @@ export default function TextEditBox(props) {
         handleToggleEdit();
       })
       .catch((err) => {
-        alert(e.response.data);
+        alert(err.response.data);
       });
   }
 
