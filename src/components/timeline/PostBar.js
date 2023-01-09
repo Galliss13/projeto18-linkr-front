@@ -4,7 +4,7 @@ import { useAuth } from "../../context/Context.js";
 import { postPost } from "../../service/Service.js";
 import UserImage from "../elements/UserImage";
 
-export default function PostBar() {
+export default function PostBar({ reload, setReload }) {
   const [link, setLink] = useState("");
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
@@ -23,6 +23,7 @@ export default function PostBar() {
         setLoading(false);
         setLink("");
         setText("");
+        setReload(!reload);
         alert("Link published successfully!");
       })
       .catch((err) => {

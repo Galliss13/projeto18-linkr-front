@@ -8,11 +8,15 @@ import Trending from "../../components/timeline/Trending";
 import { urlAxios } from "../../service/Service";
 import SearchBar from "../../components/TopBar/SearchBar";
 import { useParams } from "react-router-dom";
+import { useAuth } from "../../context/Context";
 
 export default function Timeline() {
   /* Criar estados e chamadas de contexto */
   const [posts, setPosts] = useState([]);
   const [header, setHeader] = useState("");
+  const [reload, setReload] = useState(true);
+  const { user } = useAuth();
+  const { token } = user;
   /* Criar useEffect para fazer requisição dos posts */
   const { id } = useParams();
   useEffect(() => {
@@ -22,7 +26,11 @@ export default function Timeline() {
     } else {
       URL = URL + "timeline";
     }
-    const request = axios.get(URL);
+    const request = axios.get(URL, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
     request
       .then((ans) => {
         setPosts(ans.data);
@@ -35,7 +43,7 @@ export default function Timeline() {
       .catch((err) => {
         console.log(err.response.data);
       });
-  }, [id]);
+  }, [id, token, reload]);
   return (
     <Container>
       <TopBar />
@@ -44,7 +52,7 @@ export default function Timeline() {
         <Main>
           <HeaderContainer>{header}</HeaderContainer>
           <TimelineContainer>
-            {!id && <PostBar />}
+            {!id && <PostBar reload={reload} setReload={setReload} />}
             <PostContainer>
               {posts.map((post) => (
                 <Post key={post.id} post={post} />
@@ -66,17 +74,15 @@ const Container = styled.div`
   height: 100%;
   background-color: #333333;
   padding-top: 72px;
-  main{
+  main {
     display: flex;
     justify-content: space-around;
     margin-top: 30px;
-
   }
 
   @media (max-width: 1100px) {
-    
-    main{
-      nav{
+    main {
+      nav {
         display: none;
       }
     }
