@@ -6,16 +6,19 @@ import DelEditIcons from "./PostDelEditIcons";
 import TextEditBox from "./TextEditBox";
 import PostDescription from "./PostDescription";
 import LikesCard from "./LikesCard";
+import CommentBox from "./CommentBox";
 
 import { useAuth } from "../../context/Context";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaRegCommentDots } from "react-icons/fa"
 
 export default function Post(props) {
   const { id, imageUrl, name, text, link, title, description, image, userId, likes } =
     props.post;
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openTextEditBox, setOpenTextEditBox] = useState(false);
+  const [openCommentBox, setOpenCommentBox] = useState(false)
   const { user } = useAuth();
   const editObject = { link, text };
   const navigate = useNavigate()
@@ -34,6 +37,9 @@ export default function Post(props) {
   function handleToggleEdit() {
     setOpenTextEditBox(!openTextEditBox);
   }
+  function handleToggleComment() {
+    setOpenCommentBox(!openCommentBox)
+  }
   function handleUserRedirect(){
     navigate(`/user/${userId}`);
   }
@@ -43,6 +49,7 @@ export default function Post(props) {
       <ImageContainer>
         <UserImage imageUrl={imageUrl} />
         <LikesCard id={id} likes={likes}/>
+        <FaRegCommentDots onClick={handleToggleComment} />
       </ImageContainer>
 
       <PostContainer>
@@ -80,6 +87,9 @@ export default function Post(props) {
           description={description}
           image={image}
         />
+
+        {openCommentBox && <CommentBox id={id} />}
+
       </PostContainer>
     </Container>
   );

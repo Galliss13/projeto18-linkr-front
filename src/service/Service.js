@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const urlAxios = "https://projeto18-linkr-back-1ssc.onrender.com/";
+/* urlAxios = "https://projeto18-linkr-back-1ssc.onrender.com/ */
 
 export function postSingInSingUp(path, body) {
   const promise = axios.post(`${urlAxios + path}`, body);
@@ -47,6 +48,11 @@ export function getSearchUsers(path, params){
   const promise = axios.get(`${urlAxios+path}/${params}`)
   return promise
 
+}
+
+export function getComments(path, postId) {
+  const promise = axios.get(`${urlAxios + path}/${postId}`)
+  return promise
 }
 
 /*  */
