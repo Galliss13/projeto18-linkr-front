@@ -51,7 +51,7 @@ export default function Timeline() {
         console.log(err.response.data);
       });
   }, [id, token, reload, refresh]);
-
+  
   return (
     <Container>
       {/* Header */}
