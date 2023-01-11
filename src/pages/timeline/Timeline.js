@@ -10,6 +10,7 @@ import SearchBar from "../../components/TopBar/SearchBar";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../context/Context";
 import { ThreeDots } from "react-loader-spinner";
+import FollowButton from "../../components/FollowButton/FollowButton";
 
 export default function Timeline() {
   /* Criar estados e chamadas de contexto */
@@ -31,7 +32,7 @@ export default function Timeline() {
     }
     getPersistLogin(path, token)
       .then((ans) => {
-        console.log(ans.data)
+        
         setPosts(ans.data);
         setIsLoading(false);
         if (id) {
@@ -53,8 +54,11 @@ export default function Timeline() {
 
   return (
     <Container>
+      {/* Header */}
       <TopBar />
+      {/* SearchBar shows when width from page is less then 800px */}
       <SearchBar screen={"<800"} />
+      { (id && id != user.userId) && <FollowButton/>}
       <main>
         <Main>
           {error && (

@@ -30,7 +30,7 @@ export default function SearchBar({ screen }) {
 
         <SearchBarTop screen={screen} onSubmit={(e) => e.preventDefault()}>
             <footer>
-                <DebounceInput placeholder='Encontrar pessoas' value={search} minLength={2} debounceTimeout={300} onChange={handleSearch} list="users" />
+                <DebounceInput placeholder='Search people' value={search} minLength={2} debounceTimeout={300} onChange={handleSearch} list="users" />
                 <button type='submit'>{<AiOutlineSearch />} </button>
             </footer>
             <ul>
