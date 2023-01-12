@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Comment from "./Comment";
+import UserImage from "../elements/UserImage";
 
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/Context";
@@ -11,7 +12,7 @@ import { RotatingLines } from "react-loader-spinner";
 export default function CommentBox(props) {
   const { user } = useAuth();
   const { token } = user;
-  const { id } = props;
+  const { id, imageUrl } = props;
   const [comments, setComents] = useState("");
   const [text, setText] = useState("");
   const [commentsAreLoading, setCommentsAreLoading] = useState(false);
@@ -52,7 +53,7 @@ export default function CommentBox(props) {
 
   return (
     <Container>
-      {!commentsAreLoading && (
+      {!commentsAreLoading && typeof comments !== "string" && (
         <CommentsContainer>
           {comments.map((c) => (
             <Comment
@@ -64,7 +65,7 @@ export default function CommentBox(props) {
         </CommentsContainer>
       )}
       <CommentBar>
-        <image src={user.user.imageUrl} />
+        <UserImage imageUrl={imageUrl} />
 
         <FormComment onSubmit={handleSubmit}>
           <input
@@ -93,8 +94,7 @@ export default function CommentBox(props) {
             }}
           >
             <h2>
-              {" "}
-              <FaRegPaperPlane />{" "}
+              <FaRegPaperPlane />
             </h2>
           </IconContext.Provider>
         )}
@@ -106,9 +106,10 @@ export default function CommentBox(props) {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
+  height: 100px;
   margin-top: 20px;
   background-color: #1e1e1e;
   border-radius: 16px;
@@ -124,19 +125,23 @@ const CommentsContainer = styled.div`
 `;
 
 const CommentBar = styled.div`
-  display: flex;
-  height: 83px;
+    width: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 83px;
+`;
 
-  image {
+const Image = styled.image`
     width: 39px;
     height: 39px;
     border-radius: 85px;
-  }
-`;
+    background-color: white;
+`
 
 const FormComment = styled.form`
   input {
-    width: 510px;
+    width: 480px;
     height: 39px;
     background-color: #252525;
     border-radius: 8px;

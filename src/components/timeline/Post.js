@@ -12,17 +12,28 @@ import CommentBox from "./CommentBox";
 import { useAuth } from "../../context/Context";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaRegCommentDots } from "react-icons/fa"
+import { FaRegCommentDots } from "react-icons/fa";
 
 export default function Post(props) {
-  const { id, imageUrl, name, text, link, title, description, image, userId, likes, comments } =
-    props.post;
+  const {
+    id,
+    imageUrl,
+    name,
+    text,
+    link,
+    title,
+    description,
+    image,
+    userId,
+    likes,
+    comments,
+  } = props.post;
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openTextEditBox, setOpenTextEditBox] = useState(false);
-  const [openCommentBox, setOpenCommentBox] = useState(false)
+  const [openCommentBox, setOpenCommentBox] = useState(false);
   const { user } = useAuth();
   const editObject = { link, text };
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   function verifyUserPost(userName, postOwnerName) {
     if (userName === postOwnerName) {
@@ -39,69 +50,83 @@ export default function Post(props) {
     setOpenTextEditBox(!openTextEditBox);
   }
   function handleToggleComment() {
-    setOpenCommentBox(!openCommentBox)
+    setOpenCommentBox(!openCommentBox);
   }
-  function handleUserRedirect(){
+  function handleUserRedirect() {
     navigate(`/user/${userId}`);
   }
 
   return (
-    <Container key={id}>
-      <ImageContainer>
-        <UserImage imageUrl={imageUrl} />
-        <LikesCard id={id} likes={likes}/>
-        <CommentCard id={id} comments={comments} handleToggleComment={handleToggleComment} />
-
-      </ImageContainer>
-
-      <PostContainer>
-        <UserName onClick={handleUserRedirect}>{name}</UserName>
-
-        {isUserPost && (
-          <DelEditIcons
-          postId={id}
-          editObject={editObject}
-          handleToggleEdit={handleToggleEdit}
-          handleToggleDel={handleToggleDel}
+    <Container>
+      <ContentContainer openCommentBox={openCommentBox} key={id}>
+        <ImageContainer>
+          <UserImage imageUrl={imageUrl} />
+          <LikesCard id={id} likes={likes} />
+          <CommentCard
+            id={id}
+            comments={comments}
+            handleToggleComment={handleToggleComment}
           />
-          )}
+        </ImageContainer>
 
-          {openDeleteModal && (
-            <PostDeleteModal 
-            postId={id} 
-            handleToggleDel={handleToggleDel} 
+        <PostContainer>
+          <UserName onClick={handleUserRedirect}>{name}</UserName>
+
+          {isUserPost && (
+            <DelEditIcons
+              postId={id}
+              editObject={editObject}
+              handleToggleEdit={handleToggleEdit}
+              handleToggleDel={handleToggleDel}
             />
           )}
 
-        {openTextEditBox && (
-          <TextEditBox
-            postId={id}
-            handleToggleEdit={handleToggleEdit}
-            previousText={text}
+          {openDeleteModal && (
+            <PostDeleteModal postId={id} handleToggleDel={handleToggleDel} />
+          )}
+
+          {openTextEditBox && (
+            <TextEditBox
+              postId={id}
+              handleToggleEdit={handleToggleEdit}
+              previousText={text}
+            />
+          )}
+
+          {!openTextEditBox && <PostDescription text={text} />}
+
+          <LinkCard
+            link={link}
+            title={title}
+            description={description}
+            image={image}
           />
-        )}
+        </PostContainer>
+      </ContentContainer>
 
-        {!openTextEditBox && <PostDescription text={text} />}
-
-        <LinkCard
-          link={link}
-          title={title}
-          description={description}
-          image={image}
-        />
-
-        {openCommentBox && <CommentBox id={id} />}
-
-      </PostContainer>
+      {openCommentBox && (
+        <CommentContainer>
+          <CommentBox id={id} imageUrl={imageUrl} />
+        </CommentContainer>
+      )}
     </Container>
   );
 }
 
 const Container = styled.div`
   position: relative;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  background-color: #1e1e1e;
+  border-radius: 16px;
+
+  margin-top: 20px;
+`;
+
+const ContentContainer = styled.div`
+  position: relative;
   width: 611px;
-  /* height: 200px; */
-  margin-top: 16px;
   padding: 16px 21px 16px 18px;
   display: flex;
   border-radius: 16px;
@@ -109,6 +134,19 @@ const Container = styled.div`
   background-color: #171717;
 `;
 
+const CommentContainer = styled.div`
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  margin-bottom: 25px;
+  background-color: #1e1e1e;
+  border-radius: 16px;
+
+`;
 
 const ImageContainer = styled.div`
   margin-right: 18px;
