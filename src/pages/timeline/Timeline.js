@@ -10,6 +10,7 @@ import SearchBar from "../../components/TopBar/SearchBar";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../context/Context";
 import { ThreeDots } from "react-loader-spinner";
+import { useInterval } from "usehooks-ts";
 
 export default function Timeline() {
   /* Criar estados e chamadas de contexto */
@@ -21,35 +22,48 @@ export default function Timeline() {
   const { id } = useParams();
   const { user, refresh, isLoading, setIsLoading } = useAuth();
   const { token } = user;
+  const [path, setPath] = useState("");
   useEffect(() => {
     setIsLoading(true);
-    let path = urlAxios;
     if (id) {
-      path = `user/${id}`;
+      setPath(`user/${id}`);
     } else {
-      path = "timeline";
+      setPath("timeline");
     }
+    /* this is a comment */
     getPersistLogin(path, token)
       .then((ans) => {
-        console.log(ans.data)
+        console.log(ans.data);
         setPosts(ans.data);
         setIsLoading(false);
         if (id) {
-          console.log(ans)
-          console.log(ans.data[0].name)
+          console.log(ans);
+          console.log(ans.data[0].name);
           setHeader(ans.data[0].name + "'s posts");
         } else {
           setHeader("timeline");
         }
       })
       .catch((err) => {
-        setIsLoading(false)
+        setIsLoading(false);
         if (err.response.status === 404) {
-          setError("User " + err.response.data)
+          setError("User " + err.response.data);
         }
         console.log(err.response.data);
       });
   }, [id, token, reload, refresh]);
+  useInterval(() => {
+    getPersistLogin(path, token)
+      .then((ans) => {
+        /* se houver novos posts, renderiza o componente do botão */
+        // pegar lista nova de posts
+        // se houver uma lista de posts novos, adicionar no estado de posts
+        // se não, foda-se
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  }, 15000);
 
   return (
     <Container>
@@ -57,9 +71,7 @@ export default function Timeline() {
       <SearchBar screen={"<800"} />
       <main>
         <Main>
-          {error && (
-            <HeaderContainer>{error}</HeaderContainer>
-          )}
+          {error && <HeaderContainer>{error}</HeaderContainer>}
           {isLoading && (
             <ThreeDots
               height="80"
@@ -75,6 +87,8 @@ export default function Timeline() {
           {!isLoading && <HeaderContainer>{header}</HeaderContainer>}
           <TimelineContainer>
             {!id && <PostBar />}
+            {/* se clicar no botão, inserir posts acima da timeline */}
+            {/* reloader component with onClick to add new posts to array  */}
             {isLoading && (
               <ThreeDots
                 height="80"
@@ -88,7 +102,7 @@ export default function Timeline() {
               />
             )}
             {!isLoading && typeof posts === "string" && (
-                <EmptyPosts>{posts}</EmptyPosts>
+              <EmptyPosts>{posts}</EmptyPosts>
             )}
             {!isLoading && typeof posts !== "string" && (
               <PostContainer>
@@ -149,8 +163,7 @@ const PostContainer = styled.div`
 `;
 
 const EmptyPosts = styled.h1`
- font-family: Lato, sans-serif;
- font-size: 17px;
- color: #ffffff;
-`
-
+  font-family: Lato, sans-serif;
+  font-size: 17px;
+  color: #ffffff;
+`;
