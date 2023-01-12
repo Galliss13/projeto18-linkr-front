@@ -3,13 +3,13 @@ import styled from "styled-components";
 import Post from "../../components/timeline/Post";
 import PostBar from "../../components/timeline/PostBar";
 import TopBar from "../../components/TopBar/TopBar.js";
-import axios from "axios";
 import Trending from "../../components/timeline/Trending";
 import { getPersistLogin, urlAxios } from "../../service/Service";
 import SearchBar from "../../components/TopBar/SearchBar";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../context/Context";
 import { ThreeDots } from "react-loader-spinner";
+import FollowButton from "../../components/FollowButton/FollowButton";
 import { useInterval } from "usehooks-ts";
 
 export default function Timeline() {
@@ -33,7 +33,7 @@ export default function Timeline() {
     /* this is a comment */
     getPersistLogin(path, token)
       .then((ans) => {
-        console.log(ans.data);
+        ;
         setPosts(ans.data);
         setIsLoading(false);
         if (id) {
@@ -52,7 +52,7 @@ export default function Timeline() {
         console.log(err.response.data);
       });
   }, [id, token, reload, refresh]);
-  useInterval(() => {
+    useInterval(() => {
     getPersistLogin(path, token)
       .then((ans) => {
         /* se houver novos posts, renderiza o componente do botão */
@@ -67,8 +67,11 @@ export default function Timeline() {
 
   return (
     <Container>
+      {/* Header */}
       <TopBar />
+      {/* SearchBar shows when width from page is less then 800px */}
       <SearchBar screen={"<800"} />
+      { (id && id != user.userId) && <FollowButton/>}
       <main>
         <Main>
           {error && <HeaderContainer>{error}</HeaderContainer>}

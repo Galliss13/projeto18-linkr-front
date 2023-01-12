@@ -1,6 +1,10 @@
 import axios from "axios";
 
-export const urlAxios = "https://projeto18-linkr-back-1ssc.onrender.com/";
+export const urlAxios = "http://localhost:5000/";
+
+/* http://localhost:5000/ */
+
+/* https://projeto18-linkr-back-1ssc.onrender.com/ */
 
 export function postSingInSingUp(path, body) {
   const promise = axios.post(`${urlAxios + path}`, body);
@@ -48,5 +52,26 @@ export function getSearchUsers(path, params){
   return promise
 
 }
+
+export function checkFollow(path, followerId, followedId, token){
+
+  const promise = axios.get(`${urlAxios+path + '/' + followerId + '/' + followedId}`,{
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  })
+  return promise
+}
+
+export function followOrUnfollow(path, followerId, followedId, token){
+
+  const promise = axios.post(`${urlAxios+ path}`, {followerId, followedId}, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  })
+  return promise
+}
+
 
 /*  */
