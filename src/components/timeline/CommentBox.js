@@ -3,16 +3,21 @@ import CommentCard from "./CommentCard";
 
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/Context";
-import { getComments } from "../../service/Service";
+import { getComments, postComment } from "../../service/Service";
 import { IconContext } from "react-icons";
-import {FaRegPaperPlane} from "react-icons/fa"
+import { FaRegPaperPlane } from "react-icons/fa"
+import { RotatingLines } from "react-loader-spinner";
+
 
 export default function CommentBox(props) {
   const { user } = useAuth();
+  const { token } = user
   const { id } = props;
   const [comments, setComents] = useState("");
+  const [text, setText] = useState("")
   const [commentsAreLoading, setCommentsAreLoading] = useState(false);
-  const [newComment, setNewComment] = useState(false)
+  const [IsNewUserCommentLoading, setIsNewUserCommentLoading] = useState(false)
+  const [renderComments, setRenderComments] =  useState(false)
 
   useEffect(() => {
     setCommentsAreLoading(true);
@@ -27,9 +32,24 @@ export default function CommentBox(props) {
         setCommentsAreLoading(false);
         console.log(err.response.data);
       });
-  }, [newComment]);
+  }, [id, renderComments]);
 
 
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    setIsNewUserCommentLoading(true)
+    const commentObject = { text }
+    postComment(`comments`, id, commentObject, token).then(ans => {
+        setIsNewUserCommentLoading(false)
+        setText("")
+        setRenderComments(!renderComments)
+    }).catch(err => {
+        setIsNewUserCommentLoading(false)
+        console.log(err.response.data)
+        alert("Something went wrong, please try again");
+    })
+  }
 
   return (
     <Container>
@@ -47,13 +67,34 @@ export default function CommentBox(props) {
         <CommentBar>
             <UserImage src={user.user.imageUrl}/>
 
-            <WriteCommentForm>
-                <input type="text" name="write" value="write" placeholder="write a comment"></input>
-            </WriteCommentForm>
+            <WriteCommentForm onSubmit={handleSubmit}>
+                <input 
+                onChange={e => setText(e.target.value)} 
+                type="text" 
+                name="text" 
+                value={text}
+                placeholder="write a comment">
 
-            <IconContext.Provider value={{ size: '20px', cursor: 'pointer',  color:'#fff' }}>
+                </input>
+            </WriteCommentForm>
+            
+
+            {IsNewUserCommentLoading ? (
+                <RotatingLines
+                strokeColor="grey"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="96"
+                visible={true}
+              />
+            ) :
+
+            <IconContext.Provider value={{ 
+                size: '20px', 
+                cursor: 'pointer',  
+                color:'#fff' }}>
                 <h2>  <FaRegPaperPlane /> </h2>
-            </IconContext.Provider>
+            </IconContext.Provider>}
 
         </CommentBar>
     </Container>
