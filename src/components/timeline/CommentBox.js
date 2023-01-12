@@ -11,7 +11,7 @@ import { RotatingLines } from "react-loader-spinner";
 
 export default function CommentBox(props) {
   const { user } = useAuth();
-  const { token, imageUrl } = user;
+  const { token, imageUrl, name } = user;
   const { id } = props;
   const [comments, setComents] = useState("");
   const [text, setText] = useState("");
@@ -22,7 +22,7 @@ export default function CommentBox(props) {
   useEffect(() => {
     setCommentsAreLoading(true);
 
-    getComments(`comments/`, id)
+    getComments(`comments`, id)
       .then((ans) => {
         console.log(ans.data);
         setComents(ans.data);
@@ -57,8 +57,8 @@ export default function CommentBox(props) {
         <CommentsContainer>
           {comments.map((c) => (
             <Comment
-              imageUrl={c.imageUrl}
-              userName={c.name}
+              imageUrl={imageUrl}
+              userName={name}
               commentText={c.text}
             />
           ))}
