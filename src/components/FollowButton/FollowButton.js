@@ -7,6 +7,7 @@ import { FollowButtonCss } from "./style";
 
 export default function FollowButton(){
 
+    /* States */
     const [isFollowing, setIsFollowing] = useState(false)
     const [disable, setDisable] = useState(false)
     const {user} = useAuth()
@@ -24,6 +25,7 @@ export default function FollowButton(){
         }).catch( e => console.log(e.response.data))
     }, [user])
 
+    /* In case user already follows it will unfollow */
     function FollowUser(){
 
         setDisable(true)

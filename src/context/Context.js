@@ -25,5 +25,5 @@ export const useAuth = () => React.useContext(AuthContext);
 
     import {useAuth} from './context/Context'
 
-    const {user_name, token} = useAuth()
+    const {user} = useAuth()
 */
