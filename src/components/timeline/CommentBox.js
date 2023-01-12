@@ -11,8 +11,8 @@ import { RotatingLines } from "react-loader-spinner";
 
 export default function CommentBox(props) {
   const { user } = useAuth();
-  const { token } = user;
-  const { id, imageUrl } = props;
+  const { token, imageUrl } = user;
+  const { id } = props;
   const [comments, setComents] = useState("");
   const [text, setText] = useState("");
   const [commentsAreLoading, setCommentsAreLoading] = useState(false);
@@ -131,13 +131,6 @@ const CommentBar = styled.div`
     justify-content: space-around;
     height: 83px;
 `;
-
-const Image = styled.image`
-    width: 39px;
-    height: 39px;
-    border-radius: 85px;
-    background-color: white;
-`
 
 const FormComment = styled.form`
   input {
