@@ -1,7 +1,10 @@
 import axios from "axios";
 
 export const urlAxios = "https://projeto18-linkr-back-1ssc.onrender.com/";
-/* urlAxios = "https://projeto18-linkr-back-1ssc.onrender.com/ */
+
+/* http://localhost:5000/ */
+
+/* https://projeto18-linkr-back-1ssc.onrender.com/ */
 
 export function postSingInSingUp(path, body) {
   const promise = axios.post(`${urlAxios + path}`, body);
@@ -26,7 +29,6 @@ export function postPost(path, submitObject, token) {
   return promise;
 }
 
-
 export function editPost(path, editObject, token) {
   const promise = axios.put(`${urlAxios + path}`, editObject, {
     headers: {
@@ -42,26 +44,49 @@ export function deletePost(path, token) {
       Authorization: "Bearer " + token,
     },
   });
-  return promise};
+  return promise;
+}
 
-export function getSearchUsers(path, params){
-  const promise = axios.get(`${urlAxios+path}/${params}`)
-  return promise
-
+export function getSearchUsers(path, params) {
+  const promise = axios.get(`${urlAxios + path}/${params}`);
+  return promise;
 }
 
 export function getComments(path, postId) {
-  const promise = axios.get(`${urlAxios + path}/${postId}`)
-  return promise
+  const promise = axios.get(`${urlAxios + path}/${postId}`);
+  return promise;
 }
 
 export function postComment(path, postId, commentObject, token) {
   const promise = axios.post(`${urlAxios + path}${postId}/`, commentObject, {
-    headers:{
-      Authorization: "Bearer " + token, 
+    headers: {
+      Authorization: "Bearer " + token,
     },
-  })
-  return promise
+  });
+  return promise;
 }
 
-/*  */
+export function checkFollow(path, followerId, followedId, token) {
+  const promise = axios.get(
+    `${urlAxios + path + "/" + followerId + "/" + followedId}`,
+    {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+  return promise;
+}
+
+export function followOrUnfollow(path, followerId, followedId, token) {
+  const promise = axios.post(
+    `${urlAxios + path}`,
+    { followerId, followedId },
+    {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+  return promise;
+}

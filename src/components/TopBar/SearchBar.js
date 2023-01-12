@@ -1,4 +1,4 @@
-import { LayoffSearch, SearchBarTop } from "./style";
+import { SearchBarTop } from "./style";
 import { AiOutlineSearch } from 'react-icons/ai'
 import { useState } from "react";
 import { DebounceInput } from "react-debounce-input";
@@ -28,12 +28,12 @@ export default function SearchBar({ screen }) {
 
     return (
 
-        <SearchBarTop screen={screen} onSubmit={(e) => e.preventDefault()}>
+        <SearchBarTop  screen={screen} onSubmit={(e) => e.preventDefault()}>
             <footer>
-                <DebounceInput placeholder='Encontrar pessoas' value={search} minLength={2} debounceTimeout={300} onChange={handleSearch} list="users" />
+                <DebounceInput placeholder='Search people' value={search} minLength={2} debounceTimeout={300} onChange={handleSearch} list="users" />
                 <button type='submit'>{<AiOutlineSearch />} </button>
             </footer>
-            <ul>
+            <ul onBlur={()=>setUsersGot([])}>
                 {usersGot.map((e) => <UserOption key={e.id} data={e} setUsersGot={setUsersGot} setSearch={setSearch} />)}
             </ul>
         </SearchBarTop>
