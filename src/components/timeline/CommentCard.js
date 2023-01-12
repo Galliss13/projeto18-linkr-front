@@ -1,20 +1,45 @@
-import styled from "styled-components"
+import styled from "styled-components";
+import { FaRegCommentDots } from "react-icons/fa";
+import { useState } from "react";
+
 
 export default function CommentCard(props) {
-    const {imageUrl, userName, commentText} =  props
-    return (
-        <CommentContainer> 
-            <Image src={imageUrl}/>
-            <Name>{userName}</Name>
-            <Text>{commentText}</Text>
-        </CommentContainer>
-    )
-};
+  const { handleToggleComment, postComments, id } = props;
+  const [postNumberComments, setPostNumberComments] = useState(postComments);
 
-const CommentContainer = styled.div``
 
-const Image = styled.image``
+  return (
+    <CommentsContainer>
+      <a onClick={handleToggleComment}>
+        <FaRegCommentDots
+          size={"20px"}
+          color={"#fff"}
+        />
+      </a>
+      <p id={`my-anchor-element ${id}`} data-tooltip-place="top">
+        {postComments}  comments
+      </p>
 
-const Name = styled.h2``
+    </CommentsContainer>
+  );
+}
 
-const Text = styled.h3``
+const CommentsContainer = styled.div`
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    margin-top: 3px;
+    color: #ffffff;
+    font-size: 12px;
+    text-align: center;
+    width: 100%;
+  }
+  a:hover {
+    cursor: pointer;
+  }
+`
