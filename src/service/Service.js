@@ -55,7 +55,17 @@ export function getSearchUsers(path, params){
 
 export function checkFollow(path, followerId, followedId, token){
 
-  const promise = axios.get(`${path + '/' + followerId + '/' + followedId}`,{
+  const promise = axios.get(`${urlAxios+path + '/' + followerId + '/' + followedId}`,{
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  })
+  return promise
+}
+
+export function followOrUnfollow(path, followerId, followedId, token){
+
+  const promise = axios.post(`${urlAxios+ path}`, {followerId, followedId}, {
     headers: {
       Authorization: "Bearer " + token,
     },
