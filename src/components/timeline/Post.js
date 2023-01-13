@@ -99,6 +99,7 @@ export default function Post(props) {
         />
       )}
       <Container key={id}>
+      <ContentContainer openCommentBox={openCommentBox} key={id}>
         <ImageContainer>
           <UserImage imageUrl={isRepost ? repostInfo?.imageUrl : imageUrl} />
           <LikesCard id={id} likes={likes} />
@@ -155,8 +156,14 @@ export default function Post(props) {
             image={image}
           />
 
-          {openCommentBox && <CommentBox id={id} />}
         </PostContainer>
+        </ContentContainer>
+        
+          {openCommentBox && (
+          <CommentContainer>
+            <CommentBox id={id} imageUrl={imageUrl} />
+          </CommentContainer>
+      )}
       </Container>
     </OutsideContainer>
   );
@@ -172,6 +179,18 @@ const OutsideContainer = styled.div`
 
 const Container = styled.div`
   position: relative;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  background-color: #1e1e1e;
+  border-radius: 16px;
+
+  margin-top: 20px;
+`;
+
+const ContentContainer = styled.div`
+  position: relative;
+  width: 611px;
   max-width: 611px;
   min-width: 80%;
   /* height: 200px; */
@@ -179,6 +198,19 @@ const Container = styled.div`
   display: flex;
   box-sizing: border-box;
   background-color: #171717;
+`;
+
+const CommentContainer = styled.div`
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 25px;
+  background-color: #1e1e1e;
+  border-radius: 16px;
+
 `;
 
 const ImageContainer = styled.div`

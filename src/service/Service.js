@@ -58,7 +58,7 @@ export function getComments(path, postId) {
 }
 
 export function postComment(path, postId, commentObject, token) {
-  const promise = axios.post(`${urlAxios + path}${postId}/`, commentObject, {
+  const promise = axios.post(`${urlAxios + path}/${postId}`, commentObject, {
     headers: {
       Authorization: "Bearer " + token,
     },

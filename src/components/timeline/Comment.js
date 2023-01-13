@@ -1,10 +1,11 @@
 import styled from "styled-components"
+import UserImage from "../elements/UserImage"
 
 export default function Comment(props) {
     const {imageUrl, userName, commentText} =  props
     return (
         <CommentContainer> 
-            <Image src={imageUrl}/>
+            <UserImage imageUrl={imageUrl} />
             <CommentContent>
                 <h2>{userName}</h2>
                 <h3>{commentText}</h3>
@@ -14,12 +15,17 @@ export default function Comment(props) {
 };
 
 const CommentContainer = styled.div`
+    position: relative;
     display: flex;
-    justify-content: center;
     align-items: center;
+    padding-left: 10px;
+    width: 600px;
+    height: 70px;
 `
 
 const CommentContent = styled.div`
+    position: absolute;
+    left: 80px;
     display: flex;
     flex-direction: column;
     font-family: 'Lato';
@@ -35,10 +41,5 @@ const CommentContent = styled.div`
     }
 `
 
-const Image = styled.image`
-    width: 39px;
-    height: 39px;
-    border-radius: 85px;
-`
 
 

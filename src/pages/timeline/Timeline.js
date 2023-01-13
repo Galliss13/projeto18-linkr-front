@@ -146,6 +146,8 @@ const TimelineContainer = styled.div`
 `;
 
 const PostContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   margin-top: 29px;
 `;
 

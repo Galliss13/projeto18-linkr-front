@@ -27,6 +27,7 @@ export default function PostBar({ reload, setReload }) {
         alert("Link published successfully!");
       })
       .catch((err) => {
+        console.log(err);
         setLoading(false);
         setLink("");
         setText("");

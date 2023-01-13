@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Comment from "./Comment";
+import UserImage from "../elements/UserImage";
 
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/Context";
@@ -10,7 +11,7 @@ import { RotatingLines } from "react-loader-spinner";
 
 export default function CommentBox(props) {
   const { user } = useAuth();
-  const { token } = user;
+  const { token, imageUrl, name } = user;
   const { id } = props;
   const [comments, setComents] = useState("");
   const [text, setText] = useState("");
@@ -21,9 +22,8 @@ export default function CommentBox(props) {
   useEffect(() => {
     setCommentsAreLoading(true);
 
-    getComments(`comments/`, id)
+    getComments(`comments`, id)
       .then((ans) => {
-        console.log(ans.data);
         setComents(ans.data);
         setCommentsAreLoading(false);
       })
@@ -52,19 +52,19 @@ export default function CommentBox(props) {
 
   return (
     <Container>
-      {!commentsAreLoading && (
+      {!commentsAreLoading && typeof comments !== "string" && (
         <CommentsContainer>
           {comments.map((c) => (
             <Comment
-              imageUrl={c.imageUrl}
-              userName={c.name}
+              imageUrl={imageUrl}
+              userName={name}
               commentText={c.text}
             />
           ))}
         </CommentsContainer>
       )}
       <CommentBar>
-        <image src={user.user.imageUrl} />
+        <UserImage imageUrl={imageUrl} />
 
         <FormComment onSubmit={handleSubmit}>
           <input
@@ -81,7 +81,7 @@ export default function CommentBox(props) {
             strokeColor="grey"
             strokeWidth="5"
             animationDuration="0.75"
-            width="96"
+            width="36"
             visible={true}
           />
         ) : (
@@ -93,8 +93,10 @@ export default function CommentBox(props) {
             }}
           >
             <h2>
-              {" "}
-              <FaRegPaperPlane />{" "}
+              <FaRegPaperPlane  onClick={(e) => {
+                setIsNewUserCommentLoading(!IsNewUserCommentLoading)
+                handleSubmit(e)
+              }}/>
             </h2>
           </IconContext.Provider>
         )}
@@ -106,37 +108,34 @@ export default function CommentBox(props) {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-top: 20px;
+  height: fit-content;
   background-color: #1e1e1e;
   border-radius: 16px;
 `;
 
 const CommentsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  background-color: #1e1e1e;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
 `;
 
 const CommentBar = styled.div`
-  display: flex;
-  height: 83px;
-
-  image {
-    width: 39px;
-    height: 39px;
-    border-radius: 85px;
-  }
+    width: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 25px;
+    height: 25px;
 `;
 
 const FormComment = styled.form`
   input {
-    width: 510px;
+    width: 480px;
     height: 39px;
     background-color: #252525;
     border-radius: 8px;
