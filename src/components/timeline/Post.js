@@ -105,7 +105,7 @@ export default function Post(props) {
             <LikesCard id={id} likes={likes} />
             <CommentCard
               id={id}
-              comments={comments}
+              postComments={comments}
               handleToggleComment={handleToggleComment}
             />
             <RepostCard
@@ -183,8 +183,6 @@ const Container = styled.div`
   flex-direction: column;
   background-color: #1e1e1e;
   border-radius: 16px;
-
-  margin-top: 20px;
 `;
 
 const ContentContainer = styled.div`
