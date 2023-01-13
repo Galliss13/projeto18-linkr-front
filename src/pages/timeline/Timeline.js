@@ -32,38 +32,35 @@ export default function Timeline() {
     }
     getPersistLogin(path, token)
       .then((ans) => {
-        
         setPosts(ans.data);
         setIsLoading(false);
         if (id) {
-          console.log(ans)
-          console.log(ans.data[0].name)
+          console.log(ans);
+          console.log(ans.data[0].name);
           setHeader(ans.data[0].name + "'s posts");
         } else {
           setHeader("timeline");
         }
       })
       .catch((err) => {
-        setIsLoading(false)
+        setIsLoading(false);
         if (err.response.status === 404) {
-          setError("User " + err.response.data)
+          setError("User " + err.response.data);
         }
         console.log(err.response.data);
       });
   }, [id, token, reload, refresh]);
-  
+
   return (
     <Container>
       {/* Header */}
       <TopBar />
       {/* SearchBar shows when width from page is less then 800px */}
       <SearchBar screen={"<800"} />
-      { (id && id != user.userId) && <FollowButton/>}
+      {id && id != user.userId && <FollowButton />}
       <main>
         <Main>
-          {error && (
-            <HeaderContainer>{error}</HeaderContainer>
-          )}
+          {error && <HeaderContainer>{error}</HeaderContainer>}
           {isLoading && (
             <ThreeDots
               height="80"
@@ -92,12 +89,12 @@ export default function Timeline() {
               />
             )}
             {!isLoading && typeof posts === "string" && (
-                <EmptyPosts>{posts}</EmptyPosts>
+              <EmptyPosts>{posts}</EmptyPosts>
             )}
             {!isLoading && typeof posts !== "string" && (
               <PostContainer>
                 {posts.map((post) => (
-                  <Post key={post.id} post={post} />
+                  <Post key={post.id} post={post} reload={reload} setReload={setReload} />
                 ))}
               </PostContainer>
             )}
@@ -134,6 +131,7 @@ const Container = styled.div`
 
 const Main = styled.div`
   height: 100%;
+  max-width: 90%;
 `;
 
 const HeaderContainer = styled.h1`
@@ -153,8 +151,7 @@ const PostContainer = styled.div`
 `;
 
 const EmptyPosts = styled.h1`
- font-family: Lato, sans-serif;
- font-size: 17px;
- color: #ffffff;
-`
-
+  font-family: Lato, sans-serif;
+  font-size: 17px;
+  color: #ffffff;
+`;

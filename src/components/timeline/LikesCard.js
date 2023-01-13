@@ -21,7 +21,6 @@ export default function LikesCard({ id, likes }) {
   function userLikesPost(postId, token) {
     getPersistLogin(`like/${postId}`, token)
       .then((ans) => {
-        console.log(ans.data);
         setIsLiked(ans.data);
       })
       .catch((err) => {
@@ -88,7 +87,7 @@ export default function LikesCard({ id, likes }) {
 }
 
 const LikesContainer = styled.div`
-  margin-top: 20px;
+  margin-top: 15px;
   width: 100%;
   display: flex;
   flex-direction: column;
