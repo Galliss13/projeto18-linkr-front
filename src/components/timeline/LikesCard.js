@@ -6,7 +6,7 @@ import { useAuth } from "../../context/Context.js";
 import { HeartFilled, HeartOutline } from "../../context/ReactIcons.js";
 import { deletePost, getPersistLogin, postPost } from "../../service/Service";
 
-export default function LikesCard({ id, likes }) {
+export default function LikesCard({ id, likes, isRepost, originalPostId }) {
   const [postLikes, setPostLikes] = useState(likes);
   const [isLiked, setIsLiked] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
@@ -15,7 +15,8 @@ export default function LikesCard({ id, likes }) {
   const { token } = user;
 
   useEffect(() => {
-    userLikesPost(id, token);
+    userLikesPost((isRepost ? originalPostId : id), token);
+    getPostLikes((isRepost ? originalPostId : id), token);
   }, []);
 
   function userLikesPost(postId, token) {
@@ -70,7 +71,7 @@ export default function LikesCard({ id, likes }) {
 
   return (
     <LikesContainer>
-      <a onClick={() => handleClick(id)}>
+      <a onClick={() => isRepost ? handleClick(originalPostId) : handleClick(id)}>
         {isLiked ? <HeartFilled /> : <HeartOutline />}
       </a>
       <p id={`my-anchor-element ${id}`} data-tooltip-place="top">

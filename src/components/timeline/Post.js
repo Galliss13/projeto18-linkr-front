@@ -102,7 +102,7 @@ export default function Post(props) {
         <ContentContainer openCommentBox={openCommentBox} key={id}>
           <ImageContainer>
             <UserImage imageUrl={isRepost ? repostInfo?.imageUrl : imageUrl} />
-            <LikesCard id={id} likes={likes} />
+            <LikesCard id={id} likes={likes} isRepost={isRepost} originalPostId={originalPostId}/>
             <CommentCard
               id={id}
               postComments={comments}

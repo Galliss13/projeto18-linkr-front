@@ -25,7 +25,7 @@ export default function Timeline() {
     setIsLoading(true);
     let path = urlAxios;
     if (id) {
-      path = `user/${id}`;
+      path = `userpost/${id}`;
     } else {
       path = "timeline";
     }
@@ -49,7 +49,7 @@ export default function Timeline() {
         console.log(err.response.data);
       });
   }, [id, token, reload, refresh]);
-
+  
   return (
     <Container>
       {/* Header */}
