@@ -90,15 +90,3 @@ export function followOrUnfollow(path, followerId, followedId, token) {
   );
   return promise;
 }
-
-export function getAllUserFollows(path, userId, token) {
-  const promise = axios.get(
-    `${urlAxios + path + "/" + userId}`, 
-    {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    }
-  );
-  return promise
-}
