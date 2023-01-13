@@ -92,3 +92,12 @@ export function followOrUnfollow(path, followerId, followedId, token) {
   );
   return promise;
 }
+
+export function getNewPosts(path, token, lastPostDate) {
+  const promise = axios.get(`${urlAxios + path}`, lastPostDate, {
+    headers: {
+      Authorization: "Bearer " + token
+    }
+  });
+  return promise;
+}

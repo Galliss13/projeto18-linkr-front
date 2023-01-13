@@ -11,6 +11,7 @@ import { useAuth } from "../../context/Context";
 import { ThreeDots } from "react-loader-spinner";
 import FollowButton from "../../components/FollowButton/FollowButton";
 import { useInterval } from "usehooks-ts";
+import { getNewPosts } from "../../service/Service";
 
 export default function Timeline() {
   /* Criar estados e chamadas de contexto */
@@ -18,6 +19,8 @@ export default function Timeline() {
   const [header, setHeader] = useState("");
   const [reload, setReload] = useState(true);
   const [error, setError] = useState();
+  const [lastPostDate, setLastPostDate] = useState("");
+  const [newPosts, setNewPosts] = useState([]);
   /* Criar useEffect para fazer requisição dos posts */
   const { id } = useParams();
   const { user, refresh, isLoading, setIsLoading } = useAuth();
@@ -33,6 +36,7 @@ export default function Timeline() {
     getPersistLogin(path, token)
       .then((ans) => {
         setPosts(ans.data);
+        setLastPostDate(ans.data[0].createdAt);
         setIsLoading(false);
         if (id) {
           console.log(ans);
@@ -50,7 +54,20 @@ export default function Timeline() {
         console.log(err.response.data);
       });
   }, [id, token, reload, refresh]);
-  
+  useInterval(() => {
+    console.log(lastPostDate);
+    const path = "timeline/newPosts";
+    getNewPosts(path, token, lastPostDate)
+      .then((ans) => {
+        console.log(ans.data);
+        if (ans.data.length > 0) {
+          setNewPosts(ans.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  }, 15000);
   return (
     <Container>
       {/* Header */}
@@ -75,7 +92,7 @@ export default function Timeline() {
           )}
           {!isLoading && <HeaderContainer>{header}</HeaderContainer>}
           <TimelineContainer>
-            {!id && <PostBar reload={reload} setReload={setReload}/>}
+            {!id && <PostBar reload={reload} setReload={setReload} />}
             {isLoading && (
               <ThreeDots
                 height="80"
@@ -94,7 +111,12 @@ export default function Timeline() {
             {!isLoading && typeof posts !== "string" && (
               <PostContainer>
                 {posts.map((post) => (
-                  <Post key={post.id} post={post} reload={reload} setReload={setReload} />
+                  <Post
+                    key={post.id}
+                    post={post}
+                    reload={reload}
+                    setReload={setReload}
+                  />
                 ))}
               </PostContainer>
             )}
