@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const urlAxios = "http://localhost:5000/";
+export const urlAxios = "https://projeto18-linkr-back-1ssc.onrender.com/";
 
 /* http://localhost:5000/ */
 
@@ -47,27 +47,28 @@ export function deletePost(path, token) {
   return promise;
 }
 
-export function getSearchUsers(path, params) {
-  const promise = axios.get(`${urlAxios + path}/${params}`);
+export function getSearchUsers(path, params, followerId) {
+  const promise = axios.get(`${urlAxios + path +'/' + params + '/' + followerId}`);
+  return promise;
+}
+
+export function getComments(path, postId) {
+  const promise = axios.get(`${urlAxios + path}/${postId}`);
+  return promise;
+}
+
+export function postComment(path, postId, commentObject, token) {
+  const promise = axios.post(`${urlAxios + path}${postId}/`, commentObject, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
   return promise;
 }
 
 export function checkFollow(path, followerId, followedId, token) {
   const promise = axios.get(
     `${urlAxios + path + "/" + followerId + "/" + followedId}`,
-    {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    }
-  );
-  return promise;
-}
-
-export function followOrUnfollow(path, followerId, followedId, token) {
-  const promise = axios.post(
-    `${urlAxios + path}`,
-    { followerId, followedId },
     {
       headers: {
         Authorization: "Bearer " + token,
@@ -85,4 +86,16 @@ export function getNewPosts(path, lastPostDate, token) {
   });
   return promise;
 }
-/*  */
+
+export function followOrUnfollow(path, followerId, followedId, token) {
+  const promise = axios.post(
+    `${urlAxios + path}`,
+    { followerId, followedId },
+    {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+  return promise;
+}

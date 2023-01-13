@@ -6,16 +6,20 @@ import DelEditIcons from "./PostDelEditIcons";
 import TextEditBox from "./TextEditBox";
 import PostDescription from "./PostDescription";
 import LikesCard from "./LikesCard";
+import CommentCard from "./CommentCard";
+import CommentBox from "./CommentBox";
 
 import { useAuth } from "../../context/Context";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaRegCommentDots } from "react-icons/fa"
 
 export default function Post(props) {
-  const { id, imageUrl, name, text, link, title, description, image, userId, likes } =
+  const { id, imageUrl, name, text, link, title, description, image, userId, likes, comments } =
     props.post;
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openTextEditBox, setOpenTextEditBox] = useState(false);
+  const [openCommentBox, setOpenCommentBox] = useState(false)
   const { user } = useAuth();
   const editObject = { link, text };
   const navigate = useNavigate()
@@ -34,6 +38,9 @@ export default function Post(props) {
   function handleToggleEdit() {
     setOpenTextEditBox(!openTextEditBox);
   }
+  function handleToggleComment() {
+    setOpenCommentBox(!openCommentBox)
+  }
   function handleUserRedirect(){
     navigate(`/user/${userId}`);
   }
@@ -43,6 +50,8 @@ export default function Post(props) {
       <ImageContainer>
         <UserImage imageUrl={imageUrl} />
         <LikesCard id={id} likes={likes}/>
+        <CommentCard id={id} comments={comments} handleToggleComment={handleToggleComment} />
+
       </ImageContainer>
 
       <PostContainer>
@@ -80,12 +89,16 @@ export default function Post(props) {
           description={description}
           image={image}
         />
+
+        {openCommentBox && <CommentBox id={id} />}
+
       </PostContainer>
     </Container>
   );
 }
 
 const Container = styled.div`
+  position: relative;
   width: 611px;
   /* height: 200px; */
   margin-top: 16px;
@@ -95,6 +108,7 @@ const Container = styled.div`
   box-sizing: border-box;
   background-color: #171717;
 `;
+
 
 const ImageContainer = styled.div`
   margin-right: 18px;
