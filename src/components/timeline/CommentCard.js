@@ -1,12 +1,8 @@
 import styled from "styled-components";
 import { FaRegCommentDots } from "react-icons/fa";
-import { useState } from "react";
-
 
 export default function CommentCard(props) {
-  const { handleToggleComment, postComments, id } = props;
-  const [postNumberComments, setPostNumberComments] = useState(postComments);
-
+  const { handleToggleComment, postComments, id} = props;
 
   return (
     <CommentsContainer>

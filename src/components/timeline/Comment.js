@@ -27,7 +27,7 @@ const CommentContainer = styled.div`
     height: 70px;
     h4 {
         position: absolute;
-        left: 125px;
+        left: 135px;
         top: 18px;
         font-family: 'Lato';
         font-style: normal;
