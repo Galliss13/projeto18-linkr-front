@@ -158,11 +158,18 @@ export default function Post(props) {
           </PostContainer>
         </ContentContainer>
 
-        {openCommentBox && (
+        {openCommentBox && isRepost === true && (
+          <CommentContainer>
+            <CommentBox id={originalPostId} postOwnerName={name}/>
+          </CommentContainer>
+        )}
+
+        {openCommentBox && isRepost === false && (
           <CommentContainer>
             <CommentBox id={id} postOwnerName={name}/>
           </CommentContainer>
         )}
+
       </Container>
     </OutsideContainer>
   );

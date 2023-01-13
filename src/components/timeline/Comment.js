@@ -4,7 +4,6 @@ import UserImage from "../elements/UserImage"
 
 export default function Comment(props) {
     const {imageUrl, userName, commentText, postOwnerName} =  props
-    const {user} = useAuth()
     return (
         <CommentContainer> 
             <UserImage imageUrl={imageUrl} />
