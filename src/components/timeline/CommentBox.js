@@ -24,7 +24,6 @@ export default function CommentBox(props) {
 
     getComments(`comments`, id)
       .then((ans) => {
-        console.log(ans.data);
         setComents(ans.data);
         setCommentsAreLoading(false);
       })

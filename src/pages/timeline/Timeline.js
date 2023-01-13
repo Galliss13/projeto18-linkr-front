@@ -78,7 +78,7 @@ export default function Timeline() {
           )}
           {!isLoading && <HeaderContainer>{header}</HeaderContainer>}
           <TimelineContainer>
-            {!id && <PostBar />}
+            {!id && <PostBar reload={reload} setReload={setReload}/>}
             {isLoading && (
               <ThreeDots
                 height="80"

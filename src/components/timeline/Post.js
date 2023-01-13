@@ -12,7 +12,6 @@ import CommentBox from "./CommentBox";
 import { useAuth } from "../../context/Context";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaRegCommentDots } from "react-icons/fa";
 
 export default function Post(props) {
   const {
