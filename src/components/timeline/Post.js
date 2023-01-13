@@ -115,7 +115,7 @@ export default function Post(props) {
 
 const Container = styled.div`
   position: relative;
-  height: fit-content;
+  height: max-content;
   display: flex;
   flex-direction: column;
   background-color: #1e1e1e;
@@ -141,7 +141,6 @@ const CommentContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 50px;
   margin-bottom: 25px;
   background-color: #1e1e1e;
   border-radius: 16px;

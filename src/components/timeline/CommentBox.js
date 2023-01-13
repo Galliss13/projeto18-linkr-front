@@ -109,19 +109,17 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 100px;
-  margin-top: 20px;
+  height: fit-content;
   background-color: #1e1e1e;
   border-radius: 16px;
 `;
 
 const CommentsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  background-color: #1e1e1e;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
 `;
 
 const CommentBar = styled.div`
@@ -129,7 +127,8 @@ const CommentBar = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-around;
-    height: 83px;
+    margin-top: 25px;
+    height: 25px;
 `;
 
 const FormComment = styled.form`
