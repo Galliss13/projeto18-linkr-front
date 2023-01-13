@@ -10,8 +10,6 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../../context/Context";
 import { ThreeDots } from "react-loader-spinner";
 import FollowButton from "../../components/FollowButton/FollowButton";
-import { useInterval } from "usehooks-ts";
-import { getNewPosts } from "../../service/Service";
 
 export default function Timeline() {
   /* Criar estados e chamadas de contexto */
@@ -19,29 +17,28 @@ export default function Timeline() {
   const [header, setHeader] = useState("");
   const [reload, setReload] = useState(true);
   const [error, setError] = useState();
-  const [lastPostDate, setLastPostDate] = useState("");
-  const [newPosts, setNewPosts] = useState([]);
   /* Criar useEffect para fazer requisição dos posts */
   const { id } = useParams();
   const { user, refresh, isLoading, setIsLoading } = useAuth();
   const { token } = user;
+  
   useEffect(() => {
     setIsLoading(true);
     let path = urlAxios;
     if (id) {
       path = `userpost/${id}`;
     } else {
-      path = "timeline";
+      path = `timeline`;
     }
     getPersistLogin(path, token)
       .then((ans) => {
-        setPosts(ans.data);
-        const timestamp = ans.data[0].createdAt;
-        setLastPostDate(timestamp);
+        console.log((ans.data));
+        setPosts(ans.data)
+        
+        if(path === 'timeline') setPosts(ans.data.filter( (e,i) => e.followerId === user.userId || e.userId === user.userId).slice(0,20));
+
         setIsLoading(false);
         if (id) {
-          console.log(ans);
-          console.log(ans.data[0].name);
           setHeader(ans.data[0].name + "'s posts");
         } else {
           setHeader("timeline");
@@ -55,25 +52,7 @@ export default function Timeline() {
         console.log(err.response.data);
       });
   }, [id, token, reload, refresh]);
-  useInterval(() => {
-    console.log(lastPostDate);
-    const path = "timeline/newPosts";
-    getNewPosts(path, token, lastPostDate)
-      .then((ans) => {
-        console.log(ans.data);
-        if (ans.data.length > 0) {
-          setNewPosts(ans.data);
-        }
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
-  }, 15000);
-  function loadNewPosts() {
-    const arr = [...newPosts, ...posts];
-    setPosts(arr);
-    setNewPosts([]);
-  }
+  
   return (
     <Container>
       {/* Header */}
@@ -98,12 +77,7 @@ export default function Timeline() {
           )}
           {!isLoading && <HeaderContainer>{header}</HeaderContainer>}
           <TimelineContainer>
-            {!id && <PostBar reload={reload} setReload={setReload} />}
-            {typeof newPosts !== "string" && newPosts.length > 0 && (
-              <NewPostsReloader onClick={loadNewPosts}>
-                <h1>{newPosts.length} new posts, load more!</h1>
-              </NewPostsReloader>
-            )}
+            {!id && <PostBar reload={reload} setReload={setReload}/>}
             {isLoading && (
               <ThreeDots
                 height="80"
@@ -122,12 +96,7 @@ export default function Timeline() {
             {!isLoading && typeof posts !== "string" && (
               <PostContainer>
                 {posts.map((post) => (
-                  <Post
-                    key={post.id}
-                    post={post}
-                    reload={reload}
-                    setReload={setReload}
-                  />
+                  <Post key={post.id} post={post} reload={reload} setReload={setReload} />
                 ))}
               </PostContainer>
             )}
@@ -177,22 +146,6 @@ const HeaderContainer = styled.h1`
 
 const TimelineContainer = styled.div`
   margin-bottom: 29px;
-`;
-
-const NewPostsReloader = styled.button`
-  width: 611px;
-  height: 61px;
-  margin-top: 41px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  border-radius: 16px;
-  background-color: #1877f2;
-  font-family: Lato, sans-serif;
-  font-size: 16px;
-  color: #ffffff;
-  cursor: pointer;
 `;
 
 const PostContainer = styled.div`
