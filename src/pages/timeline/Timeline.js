@@ -32,13 +32,14 @@ export default function Timeline() {
     }
     getPersistLogin(path, token)
       .then((ans) => {
-        console.log((ans.data));
-        setPosts(ans.data)
         
-        if(path === 'timeline') setPosts(ans.data.filter( (e,i) => e.followerId === user.userId || e.userId === user.userId).slice(0,20));
+        if(path === 'timeline'){
+          setPosts(ans.data.filter( (e,i) => e.followerId === user.userId || e.userId === user.userId).slice(0,20));
+        } 
 
         setIsLoading(false);
         if (id) {
+          setPosts(ans.data)
           setHeader(ans.data[0].name + "'s posts");
         } else {
           setHeader("timeline");
@@ -52,7 +53,7 @@ export default function Timeline() {
         console.log(err.response.data);
       });
   }, [id, token, reload, refresh]);
-  
+
   return (
     <Container>
       {/* Header */}
@@ -90,10 +91,10 @@ export default function Timeline() {
                 visible={true}
               />
             )}
-            {!isLoading && typeof posts === "string" && (
-              <EmptyPosts>{posts}</EmptyPosts>
+            {!isLoading && typeof posts.length == 0 && (
+              <EmptyPosts>You don't follow anyone yet. Search for new friends!</EmptyPosts>
             )}
-            {!isLoading && typeof posts !== "string" && (
+            {!isLoading && typeof posts !== 'string' && (
               <PostContainer>
                 {posts.map((post) => (
                   <Post key={post.id} post={post} reload={reload} setReload={setReload} />
