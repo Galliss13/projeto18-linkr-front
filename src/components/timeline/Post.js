@@ -19,7 +19,6 @@ import { getPersistLogin } from "../../service/Service";
 import RepostPopup from "./RepostPopup";
 
 export default function Post(props) {
-  console.log(props.reload)
   const {
     id,
     imageUrl,
@@ -35,7 +34,7 @@ export default function Post(props) {
     isRepost,
     originalPostId,
     originalUserId,
-    reposts
+    reposts,
   } = props.post;
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openTextEditBox, setOpenTextEditBox] = useState(false);
@@ -50,7 +49,7 @@ export default function Post(props) {
     if (isRepost) {
       getRepostInfo();
     }
-  }, []);
+  }, [isRepost]);
 
   function verifyUserPost(userName, postOwnerName) {
     if (userName === postOwnerName) {
@@ -93,7 +92,8 @@ export default function Post(props) {
           handleToggleRepostPopup={handleToggleRepostPopup}
           id={id}
           userId={userId}
-          reload={props.reload} setReload={props.setReload}
+          reload={props.reload}
+          setReload={props.setReload}
           isRepost={isRepost}
           originalPostId={originalPostId}
         />
@@ -126,11 +126,16 @@ export default function Post(props) {
               editObject={editObject}
               handleToggleEdit={handleToggleEdit}
               handleToggleDel={handleToggleDel}
+              isRepost={isRepost}
             />
           )}
 
           {openDeleteModal && (
-            <PostDeleteModal postId={id} handleToggleDel={handleToggleDel} />
+            <PostDeleteModal
+              postId={id}
+              isRepost={isRepost}
+              handleToggleDel={handleToggleDel}
+            />
           )}
 
           {openTextEditBox && (

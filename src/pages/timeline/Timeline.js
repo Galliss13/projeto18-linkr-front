@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Post from "../../components/timeline/Post";
 import PostBar from "../../components/timeline/PostBar";
 import TopBar from "../../components/TopBar/TopBar.js";
-import axios from "axios";
 import Trending from "../../components/timeline/Trending";
 import { getPersistLogin, urlAxios } from "../../service/Service";
 import SearchBar from "../../components/TopBar/SearchBar";
@@ -75,7 +74,7 @@ export default function Timeline() {
           )}
           {!isLoading && <HeaderContainer>{header}</HeaderContainer>}
           <TimelineContainer>
-            {!id && <PostBar />}
+            {!id && <PostBar reload={reload} setReload={setReload}/>}
             {isLoading && (
               <ThreeDots
                 height="80"
@@ -102,7 +101,7 @@ export default function Timeline() {
         </Main>
         <nav></nav>
       </main>
-      <Trending />
+      <Trending reload={reload} setReload={setReload} />
       {/* Header */}
       {/* HashtagsContainer */}
     </Container>

@@ -14,7 +14,7 @@ export default function RepostCard({id, handleToggleRepostPopup, reposts, userId
             <button disabled={(userId === user.userId) ? true : false} onClick={handleClick}>
             <RepostIcon />
             </button>
-            <p><span>{reposts}</span>re-post</p>
+            <p><span>{reposts}</span>{(Number(reposts) === 1) ? 're-post' : 're-posts'}</p>
         </RepostContainer>
     )
 };
