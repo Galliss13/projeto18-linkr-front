@@ -36,7 +36,8 @@ export default function Timeline() {
     getPersistLogin(path, token)
       .then((ans) => {
         setPosts(ans.data);
-        setLastPostDate(ans.data[0].createdAt);
+        const timestamp = ans.data[0].createdAt;
+        setLastPostDate(timestamp);
         setIsLoading(false);
         if (id) {
           console.log(ans);
@@ -68,6 +69,11 @@ export default function Timeline() {
         console.log(err.response.data);
       });
   }, 15000);
+  function loadNewPosts() {
+    const arr = [...newPosts, ...posts];
+    setPosts(arr);
+    setNewPosts([]);
+  }
   return (
     <Container>
       {/* Header */}
@@ -93,6 +99,11 @@ export default function Timeline() {
           {!isLoading && <HeaderContainer>{header}</HeaderContainer>}
           <TimelineContainer>
             {!id && <PostBar reload={reload} setReload={setReload} />}
+            {typeof newPosts !== "string" && newPosts.length > 0 && (
+              <NewPostsReloader onClick={loadNewPosts}>
+                <h1>{newPosts.length} new posts, load more!</h1>
+              </NewPostsReloader>
+            )}
             {isLoading && (
               <ThreeDots
                 height="80"
@@ -166,6 +177,21 @@ const HeaderContainer = styled.h1`
 
 const TimelineContainer = styled.div`
   margin-bottom: 29px;
+`;
+
+const NewPostsReloader = styled.button`
+  width: 611px;
+  height: 61px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 16px;
+  background-color: #1877f2;
+  font-family: Lato, sans-serif;
+  font-size: 16px;
+  color: #ffffff;
+  cursor: pointer;
 `;
 
 const PostContainer = styled.div`

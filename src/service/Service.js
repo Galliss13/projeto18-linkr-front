@@ -14,8 +14,8 @@ export function postSingInSingUp(path, body) {
 export function getPersistLogin(path, token) {
   const promise = axios.get(`${urlAxios + path}`, {
     headers: {
-      Authorization: "Bearer " + token
-    }
+      Authorization: "Bearer " + token,
+    },
   });
   return promise;
 }
@@ -23,8 +23,8 @@ export function getPersistLogin(path, token) {
 export function postPost(path, submitObject, token) {
   const promise = axios.post(`${urlAxios + path}`, submitObject, {
     headers: {
-      Authorization: "Bearer " + token
-    }
+      Authorization: "Bearer " + token,
+    },
   });
   return promise;
 }
@@ -32,8 +32,8 @@ export function postPost(path, submitObject, token) {
 export function editPost(path, editObject, token) {
   const promise = axios.put(`${urlAxios + path}`, editObject, {
     headers: {
-      Authorization: "Bearer " + token
-    }
+      Authorization: "Bearer " + token,
+    },
   });
   return promise;
 }
@@ -41,8 +41,8 @@ export function editPost(path, editObject, token) {
 export function deletePost(path, token) {
   const promise = axios.delete(`${urlAxios + path}`, {
     headers: {
-      Authorization: "Bearer " + token
-    }
+      Authorization: "Bearer " + token,
+    },
   });
   return promise;
 }
@@ -62,8 +62,8 @@ export function getComments(path, postId) {
 export function postComment(path, postId, commentObject, token) {
   const promise = axios.post(`${urlAxios + path}/${postId}`, commentObject, {
     headers: {
-      Authorization: "Bearer " + token
-    }
+      Authorization: "Bearer " + token,
+    },
   });
   return promise;
 }
@@ -73,8 +73,8 @@ export function checkFollow(path, followerId, followedId, token) {
     `${urlAxios + path + "/" + followerId + "/" + followedId}`,
     {
       headers: {
-        Authorization: "Bearer " + token
-      }
+        Authorization: "Bearer " + token,
+      },
     }
   );
   return promise;
@@ -86,18 +86,26 @@ export function followOrUnfollow(path, followerId, followedId, token) {
     { followerId, followedId },
     {
       headers: {
-        Authorization: "Bearer " + token
-      }
+        Authorization: "Bearer " + token,
+      },
     }
   );
   return promise;
 }
 
 export function getNewPosts(path, token, lastPostDate) {
-  const promise = axios.get(`${urlAxios + path}`, lastPostDate, {
-    headers: {
-      Authorization: "Bearer " + token
+  const formatDate = lastPostDate.replace("T", " ").replace("Z", "");
+  console.log(formatDate);
+  const promise = axios.get(
+    `${urlAxios + path}`,
+    {
+      params: { lastPostDate: formatDate },
+    },
+    {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
     }
-  });
+  );
   return promise;
 }
