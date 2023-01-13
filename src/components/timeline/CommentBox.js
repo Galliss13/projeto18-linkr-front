@@ -4,7 +4,7 @@ import UserImage from "../elements/UserImage";
 
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/Context";
-import { getComments, postComment } from "../../service/Service";
+import { getAllUserFollows, getComments, postComment } from "../../service/Service";
 import { IconContext } from "react-icons";
 import { FaRegPaperPlane } from "react-icons/fa";
 import { RotatingLines } from "react-loader-spinner";
@@ -12,9 +12,10 @@ import { RotatingLines } from "react-loader-spinner";
 export default function CommentBox(props) {
   const { user } = useAuth();
   const { token, imageUrl, name } = user;
-  const { id } = props;
+  const { id, postOwnerName } = props;
   const [comments, setComents] = useState("");
   const [text, setText] = useState("");
+  const [follows, setFollows] = useState("")
   const [commentsAreLoading, setCommentsAreLoading] = useState(false);
   const [IsNewUserCommentLoading, setIsNewUserCommentLoading] = useState(false);
   const [renderComments, setRenderComments] = useState(false);
@@ -31,6 +32,14 @@ export default function CommentBox(props) {
         setCommentsAreLoading(false);
         console.log(err.response.data);
       });
+
+    getAllUserFollows(`follows`, user.id)
+    .then((ans) => {
+      setFollows(ans.data)
+    })
+    .catch((err) => {
+      console.log(err.response.data);
+    })
   }, [id, renderComments]);
 
   function handleSubmit(e) {
@@ -52,6 +61,17 @@ export default function CommentBox(props) {
 
   return (
     <Container>
+      {commentsAreLoading && (
+        <CommentsContainer>
+          <RotatingLines 
+          strokeColor="grey"
+          strokeWidth="5"
+          animationDuration="0.75"
+          width="36"
+          visible={true}
+          />
+      </CommentsContainer>
+      )}
       {!commentsAreLoading && typeof comments !== "string" && (
         <CommentsContainer>
           {comments.map((c) => (
@@ -59,6 +79,8 @@ export default function CommentBox(props) {
               imageUrl={imageUrl}
               userName={name}
               commentText={c.text}
+              postOwnerName={postOwnerName}
+              follows={follows}
             />
           ))}
         </CommentsContainer>
@@ -139,6 +161,8 @@ const FormComment = styled.form`
     height: 39px;
     background-color: #252525;
     border-radius: 8px;
+    color: #fff;
+
     ::placeholder {
       font-family: "Lato";
       font-style: italic;

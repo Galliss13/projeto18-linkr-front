@@ -105,7 +105,7 @@ export default function Post(props) {
             <LikesCard id={id} likes={likes} isRepost={isRepost} originalPostId={originalPostId}/>
             <CommentCard
               id={id}
-              comments={comments}
+              postComments={comments}
               handleToggleComment={handleToggleComment}
             />
             <RepostCard
@@ -158,11 +158,18 @@ export default function Post(props) {
           </PostContainer>
         </ContentContainer>
 
-        {openCommentBox && (
+        {openCommentBox && isRepost === true && (
           <CommentContainer>
-            <CommentBox id={id} imageUrl={imageUrl} />
+            <CommentBox id={originalPostId} postOwnerName={name}/>
           </CommentContainer>
         )}
+
+        {openCommentBox && isRepost === false && (
+          <CommentContainer>
+            <CommentBox id={id} postOwnerName={name}/>
+          </CommentContainer>
+        )}
+
       </Container>
     </OutsideContainer>
   );
