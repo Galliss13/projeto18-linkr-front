@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../../context/Context";
 import { ThreeDots } from "react-loader-spinner";
 import FollowButton from "../../components/FollowButton/FollowButton";
+import { useInterval } from "usehooks-ts";
 
 export default function Timeline() {
   /* Criar estados e chamadas de contexto */
