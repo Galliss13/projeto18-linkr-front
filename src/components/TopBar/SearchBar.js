@@ -3,12 +3,14 @@ import { AiOutlineSearch } from 'react-icons/ai'
 import { useState } from "react";
 import { DebounceInput } from "react-debounce-input";
 import { getSearchUsers } from "../../service/Service";
+import { useAuth } from "../../context/Context";
 import UserOption from "./UserOption";
 
 export default function SearchBar({ screen }) {
 
     const [search, setSearch] = useState('')
     const [usersGot, setUsersGot] = useState([])
+    const {user} = useAuth()
 
     function handleSearch(e) {
 
@@ -19,7 +21,7 @@ export default function SearchBar({ screen }) {
             return
         }
 
-        getSearchUsers('search-users', e.target.value).then(e => {
+        getSearchUsers('search-users', e.target.value, user.userId).then(e => {
 
             setUsersGot(e.data)
 

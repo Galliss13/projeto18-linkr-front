@@ -47,8 +47,8 @@ export function deletePost(path, token) {
   return promise;
 }
 
-export function getSearchUsers(path, params) {
-  const promise = axios.get(`${urlAxios + path}/${params}`);
+export function getSearchUsers(path, params, followerId) {
+  const promise = axios.get(`${urlAxios + path +'/' + params + '/' + followerId}`);
   return promise;
 }
 
