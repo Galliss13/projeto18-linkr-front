@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const urlAxios = "https://projeto18-linkr-back-1ssc.onrender.com/";
 
-/* http://localhost:5000/ */
+// export const urlAxios = "http://localhost:5000/";
 
 /* https://projeto18-linkr-back-1ssc.onrender.com/ */
 
@@ -48,7 +48,9 @@ export function deletePost(path, token) {
 }
 
 export function getSearchUsers(path, params, followerId) {
-  const promise = axios.get(`${urlAxios + path +'/' + params + '/' + followerId}`);
+  const promise = axios.get(
+    `${urlAxios + path + "/" + params + "/" + followerId}`
+  );
   return promise;
 }
 
@@ -82,6 +84,23 @@ export function followOrUnfollow(path, followerId, followedId, token) {
   const promise = axios.post(
     `${urlAxios + path}`,
     { followerId, followedId },
+    {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+  return promise;
+}
+
+export function getNewPosts(path, token, lastPostDate) {
+  const formatDate = lastPostDate.replace("T", " ").replace("Z", "");
+  console.log(formatDate);
+  const promise = axios.get(
+    `${urlAxios + path}`,
+    {
+      params: { lastPostDate: formatDate },
+    },
     {
       headers: {
         Authorization: "Bearer " + token,

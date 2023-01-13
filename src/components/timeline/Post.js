@@ -12,7 +12,6 @@ import CommentBox from "./CommentBox";
 import { useAuth } from "../../context/Context";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaRegCommentDots } from "react-icons/fa";
 import RepostCard from "./RepostCard";
 import RepostBox from "./RepostBox";
 import { getPersistLogin } from "../../service/Service";
@@ -102,10 +101,15 @@ export default function Post(props) {
         <ContentContainer openCommentBox={openCommentBox} key={id}>
           <ImageContainer>
             <UserImage imageUrl={isRepost ? repostInfo?.imageUrl : imageUrl} />
-            <LikesCard id={id} likes={likes} isRepost={isRepost} originalPostId={originalPostId}/>
+            <LikesCard
+              id={id}
+              likes={likes}
+              isRepost={isRepost}
+              originalPostId={originalPostId}
+            />
             <CommentCard
               id={id}
-              comments={comments}
+              postComments={comments}
               handleToggleComment={handleToggleComment}
             />
             <RepostCard
@@ -158,9 +162,15 @@ export default function Post(props) {
           </PostContainer>
         </ContentContainer>
 
-        {openCommentBox && (
+        {openCommentBox && isRepost === true && (
           <CommentContainer>
-            <CommentBox id={id} imageUrl={imageUrl} />
+            <CommentBox id={originalPostId} postOwnerName={name} />
+          </CommentContainer>
+        )}
+
+        {openCommentBox && isRepost === false && (
+          <CommentContainer>
+            <CommentBox id={id} postOwnerName={name} />
           </CommentContainer>
         )}
       </Container>

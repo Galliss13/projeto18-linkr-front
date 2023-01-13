@@ -12,7 +12,7 @@ import { RotatingLines } from "react-loader-spinner";
 export default function CommentBox(props) {
   const { user } = useAuth();
   const { token, imageUrl, name } = user;
-  const { id } = props;
+  const { id, postOwnerName } = props;
   const [comments, setComents] = useState("");
   const [text, setText] = useState("");
   const [commentsAreLoading, setCommentsAreLoading] = useState(false);
@@ -31,6 +31,7 @@ export default function CommentBox(props) {
         setCommentsAreLoading(false);
         console.log(err.response.data);
       });
+
   }, [id, renderComments]);
 
   function handleSubmit(e) {
@@ -52,13 +53,26 @@ export default function CommentBox(props) {
 
   return (
     <Container>
+      {commentsAreLoading && (
+        <CommentsContainer>
+          <RotatingLines 
+          strokeColor="grey"
+          strokeWidth="5"
+          animationDuration="0.75"
+          width="36"
+          visible={true}
+          />
+      </CommentsContainer>
+      )}
       {!commentsAreLoading && typeof comments !== "string" && (
         <CommentsContainer>
           {comments.map((c) => (
             <Comment
+              key={c.id}
               imageUrl={imageUrl}
               userName={name}
               commentText={c.text}
+              postOwnerName={postOwnerName}
             />
           ))}
         </CommentsContainer>
@@ -139,6 +153,8 @@ const FormComment = styled.form`
     height: 39px;
     background-color: #252525;
     border-radius: 8px;
+    color: #fff;
+
     ::placeholder {
       font-family: "Lato";
       font-style: italic;
