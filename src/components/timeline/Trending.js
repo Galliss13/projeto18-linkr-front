@@ -1,11 +1,10 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useAuth } from "../../context/Context.js";
 import ReactHashtag from "react-hashtag";
 import { getPersistLogin } from "../../service/Service.js";
 
-export default function Trending() {
+export default function Trending(reload, setReload) {
   const [trendingHashtags, setTrendingHashtags] = useState();
   const { user } = useAuth();
   const { token } = user;
@@ -18,7 +17,7 @@ export default function Trending() {
       .catch((err) => {
         console.log(err);
       });
-  }, [token]);
+  }, [token, reload]);
   return (
     <TrendingContainer>
       <TrendingHeader>Trending</TrendingHeader>

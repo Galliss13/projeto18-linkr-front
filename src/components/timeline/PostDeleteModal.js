@@ -4,89 +4,119 @@ import { deletePost } from "../../service/Service";
 import { useState } from "react";
 
 export default function PostDeleteModal(props) {
-  const { handleToggleDel, postId } = props;
+  const { handleToggleDel, postId, isRepost } = props;
   const [loading, setLoading] = useState(false);
   const { user, refresh, setRefresh } = useAuth();
   const { token } = user;
-  
+
   function delPost() {
     setLoading(true);
-    deletePost(`post/${postId}`, token)
+    if (!isRepost) {
+      console.log(postId)
+      deletePost(`post/${postId}`, token)
+        .then((res) => {
+          handleToggleDel();
+          setLoading(false);
+          setRefresh(!refresh);
+        })
+        .catch((err) => {
+          console.log(err.response.data)
+          handleToggleDel();
+          setLoading(false);
+          alert("Could not delete post");
+        });
+    }
+    if (isRepost) {
+      deletePost(`repost/${postId}`, token)
       .then((res) => {
         handleToggleDel();
         setLoading(false);
-        setRefresh(!refresh)
+        setRefresh(!refresh);
       })
       .catch((err) => {
+        console.log(err.response.data)
         handleToggleDel();
         setLoading(false);
-        alert("Could not delete post");
+        alert("Could not delete re-post");
       });
+    }
   }
 
   return (
-    <ContainerBackground>
-      <Container>
-        <h2>Are you sure you want delete this post?</h2>
-        <Buttons>
-          <button
-            color="#fff"
-            backgroudcolor="#1877F2"
-            onClick={() => handleToggleDel()}
-          >
-            No, go back
-          </button>
-          <button
-            color="#1877F2"
-            backgroudcolor="#FFF"
-            onClick={() => delPost()}
-            disabled={loading ? true : false}
-          >
-            {loading ? "Deleting..." : "Yes, delete it"}
-          </button>
-        </Buttons>
+    <ContainerBackground onClick={() => handleToggleDel()}>
+      <Container onClick={(e) => e.stopPropagation()}>
+        <h1>Are you sure you want delete this {isRepost ? 're-post' : 'post'}?</h1>
+        <div>
+        <Button
+          color="#1877F2"
+          background="#ffffff"
+          onClick={() => handleToggleDel()}
+        >
+          No, go back
+        </Button>
+        <Button
+          color="#ffffff"
+          background="#1877F2"
+          onClick={() => delPost()}
+          disabled={loading ? true : false}
+        >
+          {loading ? "Deleting..." : "Yes, delete it"}
+        </Button>
+        </div>
       </Container>
     </ContainerBackground>
   );
 }
 
 const ContainerBackground = styled.div`
-  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 900;
+  height: 100vh;
+  width: 100vw;
+  background-color: #ffffff90;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white;
 `;
 
 const Container = styled.div`
+  width: 500px;
+  height: 200px;
+  background-color: #333333;
+  border-radius: 20px;
+  padding: 30px 110px;
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
   align-items: center;
-  width: 597px;
-  height: 262px;
-  background-color: #333333;
-  border-radius: 50px;
-  h2 {
-    width: 338px;
-    height: 82px;
-    font-family: "Lato";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 34px;
-    line-height: 41px;
-    text-align: center;
-    color: #ffffff;
+  font-family: Lato, sans-serif;
+  font-weight: 700;
+  text-align: center;
+  h1 {
+    width: 90%;
+    color: #fff;
+    font-size: 23px;
+  }
+  div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
   }
 `;
 
-const Buttons = styled.button`
-  display: flex;
-  justify-content: space-between;
-  button {
-    width: 134px;
-    height: 37px;
-    color: ${(props) => props.color};
-    background-color: ${(props) => props.backgroudcolor};
-    border-radius: 5px;
+const Button = styled.button`
+  color: ${(props) => props.color};
+  background-color: ${(props) => props.background};
+  border: none;
+  border-radius: 5px;
+  width: 134px;
+  height: 37px;
+  font-size: 16px;
+  font-weight: 700;
+
+  :hover {
+    cursor: pointer;
   }
 `;
