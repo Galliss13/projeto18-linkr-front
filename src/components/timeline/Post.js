@@ -160,7 +160,7 @@ export default function Post(props) {
 
         {openCommentBox && (
           <CommentContainer>
-            <CommentBox id={id} imageUrl={imageUrl} />
+            <CommentBox id={id} postOwnerName={name}/>
           </CommentContainer>
         )}
       </Container>

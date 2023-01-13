@@ -1,8 +1,10 @@
 import styled from "styled-components"
+import { useAuth } from "../../context/Context"
 import UserImage from "../elements/UserImage"
 
 export default function Comment(props) {
-    const {imageUrl, userName, commentText} =  props
+    const {imageUrl, userName, commentText, postOwnerName} =  props
+    const {user} = useAuth()
     return (
         <CommentContainer> 
             <UserImage imageUrl={imageUrl} />
@@ -10,6 +12,9 @@ export default function Comment(props) {
                 <h2>{userName}</h2>
                 <h3>{commentText}</h3>
             </CommentContent>
+            {postOwnerName === userName && (
+                <h4>• post's author</h4>
+            )}
         </CommentContainer>
     )
 };
@@ -21,6 +26,17 @@ const CommentContainer = styled.div`
     padding-left: 10px;
     width: 600px;
     height: 70px;
+    h4 {
+        position: absolute;
+        left: 125px;
+        top: 18px;
+        font-family: 'Lato';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 17px;
+        color: #565656;
+    }
 `
 
 const CommentContent = styled.div`
