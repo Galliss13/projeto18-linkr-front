@@ -99,71 +99,70 @@ export default function Post(props) {
         />
       )}
       <Container key={id}>
-      <ContentContainer openCommentBox={openCommentBox} key={id}>
-        <ImageContainer>
-          <UserImage imageUrl={isRepost ? repostInfo?.imageUrl : imageUrl} />
-          <LikesCard id={id} likes={likes} />
-          <CommentCard
-            id={id}
-            comments={comments}
-            handleToggleComment={handleToggleComment}
-          />
-          <RepostCard
-            id={id}
-            reposts={reposts}
-            userId={userId}
-            handleToggleRepostPopup={handleToggleRepostPopup}
-          />
-        </ImageContainer>
-
-        <PostContainer>
-          <UserName onClick={handleUserRedirect}>
-            {isRepost ? repostInfo?.name : name}
-          </UserName>
-
-          {isUserPost && (
-            <DelEditIcons
-              postId={id}
-              editObject={editObject}
-              handleToggleEdit={handleToggleEdit}
-              handleToggleDel={handleToggleDel}
-              isRepost={isRepost}
+        <ContentContainer openCommentBox={openCommentBox} key={id}>
+          <ImageContainer>
+            <UserImage imageUrl={isRepost ? repostInfo?.imageUrl : imageUrl} />
+            <LikesCard id={id} likes={likes} />
+            <CommentCard
+              id={id}
+              comments={comments}
+              handleToggleComment={handleToggleComment}
             />
-          )}
-
-          {openDeleteModal && (
-            <PostDeleteModal
-              postId={id}
-              isRepost={isRepost}
-              handleToggleDel={handleToggleDel}
+            <RepostCard
+              id={id}
+              reposts={reposts}
+              userId={userId}
+              handleToggleRepostPopup={handleToggleRepostPopup}
             />
-          )}
+          </ImageContainer>
 
-          {openTextEditBox && (
-            <TextEditBox
-              postId={id}
-              handleToggleEdit={handleToggleEdit}
-              previousText={text}
+          <PostContainer>
+            <UserName onClick={handleUserRedirect}>
+              {isRepost ? repostInfo?.name : name}
+            </UserName>
+
+            {isUserPost && (
+              <DelEditIcons
+                postId={id}
+                editObject={editObject}
+                handleToggleEdit={handleToggleEdit}
+                handleToggleDel={handleToggleDel}
+                isRepost={isRepost}
+              />
+            )}
+
+            {openDeleteModal && (
+              <PostDeleteModal
+                postId={id}
+                isRepost={isRepost}
+                handleToggleDel={handleToggleDel}
+              />
+            )}
+
+            {openTextEditBox && (
+              <TextEditBox
+                postId={id}
+                handleToggleEdit={handleToggleEdit}
+                previousText={text}
+              />
+            )}
+
+            {!openTextEditBox && <PostDescription text={text} />}
+
+            <LinkCard
+              link={link}
+              title={title}
+              description={description}
+              image={image}
             />
-          )}
-
-          {!openTextEditBox && <PostDescription text={text} />}
-
-          <LinkCard
-            link={link}
-            title={title}
-            description={description}
-            image={image}
-          />
-
-        </PostContainer>
+          </PostContainer>
         </ContentContainer>
-        
-          {openCommentBox && (
+
+        {openCommentBox && (
           <CommentContainer>
             <CommentBox id={id} imageUrl={imageUrl} />
           </CommentContainer>
-      )}
+        )}
       </Container>
     </OutsideContainer>
   );
@@ -210,7 +209,6 @@ const CommentContainer = styled.div`
   margin-bottom: 25px;
   background-color: #1e1e1e;
   border-radius: 16px;
-
 `;
 
 const ImageContainer = styled.div`
