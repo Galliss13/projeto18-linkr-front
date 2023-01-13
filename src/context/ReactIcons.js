@@ -1,5 +1,6 @@
 import { IconContext } from "react-icons";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { FaRetweet } from "react-icons/fa";
 
 export function HeartOutline() {
   return (
@@ -20,4 +21,14 @@ export function HeartFilled() {
       </IconContext.Provider>
     );
   }
+
+export function RepostIcon() {
+  return (
+    <IconContext.Provider value={{color: 'white', size: '25px'}}>
+      <div>
+        <FaRetweet />
+      </div>
+    </IconContext.Provider>
+  )
+}
   

@@ -10,8 +10,13 @@ import CommentCard from "./CommentCard";
 import CommentBox from "./CommentBox";
 
 import { useAuth } from "../../context/Context";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaRegCommentDots } from "react-icons/fa";
+import RepostCard from "./RepostCard";
+import RepostBox from "./RepostBox";
+import { getPersistLogin } from "../../service/Service";
+import RepostPopup from "./RepostPopup";
 
 export default function Post(props) {
   const {
@@ -26,13 +31,25 @@ export default function Post(props) {
     userId,
     likes,
     comments,
+    isRepost,
+    originalPostId,
+    originalUserId,
+    reposts,
   } = props.post;
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openTextEditBox, setOpenTextEditBox] = useState(false);
   const [openCommentBox, setOpenCommentBox] = useState(false);
+  const [openRepostPopup, setOpenRepostPopup] = useState(false);
+  const [repostInfo, setRepostInfo] = useState(undefined);
   const { user } = useAuth();
+  const { token } = user;
   const editObject = { link, text };
   const navigate = useNavigate();
+  useEffect(() => {
+    if (isRepost) {
+      getRepostInfo();
+    }
+  }, [isRepost]);
 
   function verifyUserPost(userName, postOwnerName) {
     if (userName === postOwnerName) {
@@ -42,6 +59,15 @@ export default function Post(props) {
   }
   const isUserPost = verifyUserPost(user.name, name);
 
+  function getRepostInfo() {
+    getPersistLogin(`user/${originalUserId}`, token)
+      .then((ans) => {
+        setRepostInfo(ans.data);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  }
   function handleToggleDel() {
     setOpenDeleteModal(!openDeleteModal);
   }
@@ -51,25 +77,49 @@ export default function Post(props) {
   function handleToggleComment() {
     setOpenCommentBox(!openCommentBox);
   }
+  function handleToggleRepostPopup() {
+    setOpenRepostPopup(!openRepostPopup);
+  }
   function handleUserRedirect() {
     navigate(`/user/${userId}`);
   }
 
   return (
-    <Container>
+    <OutsideContainer>
+      {isRepost && <RepostBox name={name} userId={userId} />}
+      {openRepostPopup && (
+        <RepostPopup
+          handleToggleRepostPopup={handleToggleRepostPopup}
+          id={id}
+          userId={userId}
+          reload={props.reload}
+          setReload={props.setReload}
+          isRepost={isRepost}
+          originalPostId={originalPostId}
+        />
+      )}
+      <Container key={id}>
       <ContentContainer openCommentBox={openCommentBox} key={id}>
         <ImageContainer>
-          <UserImage imageUrl={imageUrl} />
+          <UserImage imageUrl={isRepost ? repostInfo?.imageUrl : imageUrl} />
           <LikesCard id={id} likes={likes} />
           <CommentCard
             id={id}
-            postComments={comments}
+            comments={comments}
             handleToggleComment={handleToggleComment}
+          />
+          <RepostCard
+            id={id}
+            reposts={reposts}
+            userId={userId}
+            handleToggleRepostPopup={handleToggleRepostPopup}
           />
         </ImageContainer>
 
         <PostContainer>
-          <UserName onClick={handleUserRedirect}>{name}</UserName>
+          <UserName onClick={handleUserRedirect}>
+            {isRepost ? repostInfo?.name : name}
+          </UserName>
 
           {isUserPost && (
             <DelEditIcons
@@ -77,11 +127,16 @@ export default function Post(props) {
               editObject={editObject}
               handleToggleEdit={handleToggleEdit}
               handleToggleDel={handleToggleDel}
+              isRepost={isRepost}
             />
           )}
 
           {openDeleteModal && (
-            <PostDeleteModal postId={id} handleToggleDel={handleToggleDel} />
+            <PostDeleteModal
+              postId={id}
+              isRepost={isRepost}
+              handleToggleDel={handleToggleDel}
+            />
           )}
 
           {openTextEditBox && (
@@ -100,17 +155,27 @@ export default function Post(props) {
             description={description}
             image={image}
           />
-        </PostContainer>
-      </ContentContainer>
 
-      {openCommentBox && (
-        <CommentContainer>
-          <CommentBox id={id} imageUrl={imageUrl} />
-        </CommentContainer>
+        </PostContainer>
+        </ContentContainer>
+        
+          {openCommentBox && (
+          <CommentContainer>
+            <CommentBox id={id} imageUrl={imageUrl} />
+          </CommentContainer>
       )}
-    </Container>
+      </Container>
+    </OutsideContainer>
   );
 }
+
+const OutsideContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+  border-radius: 16px;
+  overflow: hidden;
+`;
 
 const Container = styled.div`
   position: relative;
@@ -126,9 +191,11 @@ const Container = styled.div`
 const ContentContainer = styled.div`
   position: relative;
   width: 611px;
+  max-width: 611px;
+  min-width: 80%;
+  /* height: 200px; */
   padding: 16px 21px 16px 18px;
   display: flex;
-  border-radius: 16px;
   box-sizing: border-box;
   background-color: #171717;
 `;

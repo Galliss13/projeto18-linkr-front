@@ -25,7 +25,7 @@ export default function CommentCard(props) {
 }
 
 const CommentsContainer = styled.div`
-  margin-top: 20px;
+  margin-top: 15px;
   width: 100%;
   display: flex;
   flex-direction: column;
