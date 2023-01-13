@@ -82,7 +82,7 @@ export default function CommentBox(props) {
             strokeColor="grey"
             strokeWidth="5"
             animationDuration="0.75"
-            width="96"
+            width="36"
             visible={true}
           />
         ) : (
@@ -94,7 +94,10 @@ export default function CommentBox(props) {
             }}
           >
             <h2>
-              <FaRegPaperPlane />
+              <FaRegPaperPlane  onClick={(e) => {
+                setIsNewUserCommentLoading(!IsNewUserCommentLoading)
+                handleSubmit(e)
+              }}/>
             </h2>
           </IconContext.Provider>
         )}

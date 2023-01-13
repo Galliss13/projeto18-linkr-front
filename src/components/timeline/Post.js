@@ -64,7 +64,7 @@ export default function Post(props) {
           <LikesCard id={id} likes={likes} />
           <CommentCard
             id={id}
-            comments={comments}
+            postComments={comments}
             handleToggleComment={handleToggleComment}
           />
         </ImageContainer>
