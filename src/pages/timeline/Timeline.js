@@ -21,21 +21,24 @@ export default function Timeline() {
   const { id } = useParams();
   const { user, refresh, isLoading, setIsLoading } = useAuth();
   const { token } = user;
+  
   useEffect(() => {
     setIsLoading(true);
     let path = urlAxios;
     if (id) {
       path = `userpost/${id}`;
     } else {
-      path = "timeline";
+      path = `timeline`;
     }
     getPersistLogin(path, token)
       .then((ans) => {
-        setPosts(ans.data);
+        console.log((ans.data));
+        setPosts(ans.data)
+        
+        if(path === 'timeline') setPosts(ans.data.filter( (e,i) => e.followerId === user.userId || e.userId === user.userId).slice(0,20));
+
         setIsLoading(false);
         if (id) {
-          console.log(ans);
-          console.log(ans.data[0].name);
           setHeader(ans.data[0].name + "'s posts");
         } else {
           setHeader("timeline");
