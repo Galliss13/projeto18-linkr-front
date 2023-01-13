@@ -28,15 +28,19 @@ export default function SearchBar({ screen }) {
         }).catch(e => console.log(e))
     }
 
+    function resetList(){
+        setTimeout(()=>setUsersGot([]),100)
+    }
+
     return (
 
-        <SearchBarTop  screen={screen} onSubmit={(e) => e.preventDefault()}>
+        <SearchBarTop onBlur={resetList} screen={screen} onSubmit={(e) => e.preventDefault()}>
             <footer>
                 <DebounceInput placeholder='Search people' value={search} minLength={2} debounceTimeout={300} onChange={handleSearch} list="users" />
                 <button type='submit'>{<AiOutlineSearch />} </button>
             </footer>
-            <ul onBlur={()=>setUsersGot([])}>
-                {usersGot.map((e) => <UserOption key={e.id} data={e} setUsersGot={setUsersGot} setSearch={setSearch} />)}
+            <ul >
+                {usersGot.map((e) => <UserOption key={e.id} data={e} setUsersGot={setUsersGot} setSearch={setSearch}  />)}
             </ul>
         </SearchBarTop>
     );
