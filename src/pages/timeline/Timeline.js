@@ -4,7 +4,7 @@ import Post from "../../components/timeline/Post";
 import PostBar from "../../components/timeline/PostBar";
 import TopBar from "../../components/TopBar/TopBar.js";
 import Trending from "../../components/timeline/Trending";
-import { getPersistLogin, urlAxios } from "../../service/Service";
+import { getNewPosts, getPersistLogin, urlAxios } from "../../service/Service";
 import SearchBar from "../../components/TopBar/SearchBar";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../context/Context";
@@ -23,6 +23,7 @@ export default function Timeline() {
   const { user, refresh, isLoading, setIsLoading } = useAuth();
   const { token } = user;
   const [path, setPath] = useState("");
+  const [lastPostDate, setLastPostDate] = useState("");
   useEffect(() => {
     setIsLoading(true);
     if (id) {
@@ -33,8 +34,8 @@ export default function Timeline() {
     /* this is a comment */
     getPersistLogin(path, token)
       .then((ans) => {
-        ;
         setPosts(ans.data);
+        setLastPostDate(ans.data[0].createdAt);
         setIsLoading(false);
         if (id) {
           console.log(ans);
@@ -45,6 +46,7 @@ export default function Timeline() {
         }
       })
       .catch((err) => {
+        console.log(err);
         setIsLoading(false);
         if (err.response.status === 404) {
           setError("User " + err.response.data);
@@ -52,9 +54,11 @@ export default function Timeline() {
         console.log(err.response.data);
       });
   }, [id, token, reload, refresh]);
-    useInterval(() => {
-    getPersistLogin(path, token)
+  useInterval(() => {
+    console.log(lastPostDate);
+    getNewPosts(path, token, lastPostDate)
       .then((ans) => {
+        console.log(ans.data);
         /* se houver novos posts, renderiza o componente do botão */
         // pegar lista nova de posts
         // se houver uma lista de posts novos, adicionar no estado de posts
@@ -71,7 +75,7 @@ export default function Timeline() {
       <TopBar />
       {/* SearchBar shows when width from page is less then 800px */}
       <SearchBar screen={"<800"} />
-      { (id && id != user.userId) && <FollowButton/>}
+      {id && id != user.userId && <FollowButton />}
       <main>
         <Main>
           {error && <HeaderContainer>{error}</HeaderContainer>}
