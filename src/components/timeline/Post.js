@@ -102,7 +102,7 @@ export default function Post(props) {
         <ContentContainer openCommentBox={openCommentBox} key={id}>
           <ImageContainer>
             <UserImage imageUrl={isRepost ? repostInfo?.imageUrl : imageUrl} />
-            <LikesCard id={id} likes={likes} />
+            <LikesCard id={id} likes={likes} isRepost={isRepost} originalPostId={originalPostId}/>
             <CommentCard
               id={id}
               comments={comments}
@@ -183,8 +183,6 @@ const Container = styled.div`
   flex-direction: column;
   background-color: #1e1e1e;
   border-radius: 16px;
-
-  margin-top: 20px;
 `;
 
 const ContentContainer = styled.div`
