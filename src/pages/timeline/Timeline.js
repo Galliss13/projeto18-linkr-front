@@ -182,6 +182,7 @@ const TimelineContainer = styled.div`
 const NewPostsReloader = styled.button`
   width: 611px;
   height: 61px;
+  margin-top: 41px;
   display: flex;
   justify-content: center;
   align-items: center;
