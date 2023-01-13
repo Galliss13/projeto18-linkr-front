@@ -160,6 +160,11 @@ export const UserOptionCss = styled.li`
     width: 50px;
     height: 50px;
   }
+  span{
+    font-weight: 400;
+    font-size: 19px;
+    color: #C5C5C5;
+  }
   &&:hover{
     p{
       text-decoration-line: underline;
